@@ -76,3 +76,11 @@ a {
   color: white;
 }
 
+.rs-tag-lg .rs-tag-icon-close {
+  padding: 13px 10px;
+}
+
+.rs-btn-close .rs-icon {
+  color: #515151
+}
+

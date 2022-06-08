@@ -115,7 +115,7 @@ export default function Home() {
                 </Drawer.Header>
                 <Drawer.Body style={{background: 'rgba(0, 0, 0, 1)'}}>
                     <div style={{background: 'black', padding: 32}}>
-                        <FilterBody lands={4500} filters={[]} />
+                        <FilterBody  floor={2.14} lands={4500} filters={['Buy Now', 'Anus Reaper']} />
                     </div>
                 </Drawer.Body>
             </Drawer>
