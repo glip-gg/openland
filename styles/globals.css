@@ -32,7 +32,7 @@ a {
 }
 
 .rs-drawer {
-  margin-top: 66px;
+  margin-top: 71px;
 }
 
 .rs-drawer-left.rs-drawer-sm {
@@ -84,3 +84,16 @@ a {
   color: #515151
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.filter-header-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}

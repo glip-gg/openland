@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
@@ -11,7 +12,7 @@ import {
 } from '@nextui-org/react';
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
-import Drawer from 'rsuite/Drawer'
+import { Drawer, Popover, Whisper } from 'rsuite'
 import styled from 'styled-components';
 import FilterBody from '../components/filterTab/filterBody';
 import land from '../assets/filter/land.svg';
@@ -64,23 +65,47 @@ export default function Home() {
       };
 
     const selectFilterHeadItem = (filterType: any) => {
-        setActiveFilterHeaderItem(filterType);
+        // setActiveFilterHeaderItem(filterType);
         //TODO add other stuff to handle filter selection
     }
 
+    // eslint-disable-next-line react/display-name
+    const DefaultPopover = React.forwardRef(({ content, title, ...props }: any, ref) => {
+        return (
+          <Popover
+            arrow={false}
+            style={{background: 'black', color: '#fff'}}
+            ref={ref} title={title} {...props}>
+                <p>This is a Popover </p>
+                <p>{content}</p>
+          </Popover>
+        );
+    });
 
     const filterHeader: any = filterTypes.map((item, index) => {
         return (
-            <FilterHeaderItem
-                onClick={() => selectFilterHeadItem(item.type)}
-                className='hover'
+            <Whisper
                 key={`filter-header-item-${index}`}
-                active={activeFilterHeaderItem == item.type}
-                style={{minWidth: 104}}
-                >
-                <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} type={item.type} />
-                <FilterHeaderItemLabel style={{color: '#fff', marginTop: 10}}>{item.label}</FilterHeaderItemLabel>
-            </FilterHeaderItem>
+                trigger="click"
+                placement={'autoVerticalEnd'}
+                controlId={`control-id-autoVerticalEnd`}
+                speaker={(                
+                    <DefaultPopover content={`I am positioned to the autoVerticalEnd`} title={item.label}/>
+                )}
+            >
+                <FilterHeaderItem
+                        onClick={() => selectFilterHeadItem(item.type)}
+                        className='hover filter-header-item'                        
+                        active={activeFilterHeaderItem == item.type}
+                        style={{minWidth: 104}}
+                        onMouseEnter={() => console.log('asdff')}
+                        onMouseLeave={() => console.log('laeve')}
+                        >
+                        <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} type={item.type} />
+                        <FilterHeaderItemLabel style={{color: '#fff', marginTop: 10}}>{item.label}</FilterHeaderItemLabel>
+                    </FilterHeaderItem>
+            </Whisper>
+            
         );
     });
 

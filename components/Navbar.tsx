@@ -8,7 +8,8 @@ import {
   Spacer,
   Text,
   Link
-} from '@nextui-org/react';;
+} from '@nextui-org/react';
+
 
 
 export default function Navbar() {
@@ -23,7 +24,7 @@ export default function Navbar() {
         direction="row"
         justify="space-between"
         alignItems="center"
-        style={{ width: '100%', marginTop: 8 }}
+        style={{ width: '100%', marginTop: 8}}
       >
         <Text h1 className={styles.navbar}>         
           <Link
@@ -35,6 +36,7 @@ export default function Navbar() {
             Openland
           </Link>          
         </Text>
+        <Input placeholder="Search" />
         <Text h1 className={styles.navbar_sub}> 
             <Link
                 color
@@ -43,7 +45,16 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 style={{marginRight: 8}}
             >
-                NextUI
+                Twitter
+            </Link>
+            <Link
+                color
+                href="https://openland.gg"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{marginRight: 8}}
+                >
+                Discord
             </Link>
             <Link
                 color
@@ -51,7 +62,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 >
-                NextUI
+                About
             </Link>
         </Text>        
       </Container>
