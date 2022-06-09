@@ -75,7 +75,7 @@ export default function Home() {
           <Popover
             arrow={false}
             style={{background: 'black', color: '#fff'}}
-            ref={ref} title={title} {...props}>
+            ref={ref} title={''} {...props}>
                 <p>This is a Popover </p>
                 <p>{content}</p>
           </Popover>
@@ -83,12 +83,20 @@ export default function Home() {
     });
 
     const filterHeader: any = filterTypes.map((item, index) => {
+        let placement: string;
+        if(item.type == 'land') placement = 'bottomStart';
+        if(item.type == 'artifact') placement = 'bottomStart';
+        if(item.type == 'koda') placement = 'bottomStart';
+        if(item.type == 'resource') placement = 'bottomEnd';
+        if(item.type == 'price') placement = 'bottomEnd';
+        if(item.type == 'rank') placement = 'bottomEnd';
         return (
             <Whisper
                 key={`filter-header-item-${index}`}
                 trigger="click"
-                placement={'autoVerticalEnd'}
-                controlId={`control-id-autoVerticalEnd`}
+                placement={placement}
+                controlId={`control-id-${placement}`}
+                enterable
                 speaker={(                
                     <DefaultPopover content={`I am positioned to the autoVerticalEnd`} title={item.label}/>
                 )}
@@ -98,8 +106,8 @@ export default function Home() {
                         className='hover filter-header-item'                        
                         active={activeFilterHeaderItem == item.type}
                         style={{minWidth: 104}}
-                        onMouseEnter={() => console.log('asdff')}
-                        onMouseLeave={() => console.log('laeve')}
+                        // onMouseEnter={() => console.log('asdff')}
+                        // onMouseLeave={() => console.log('laeve')}
                         >
                         <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} type={item.type} />
                         <FilterHeaderItemLabel style={{color: '#fff', marginTop: 10}}>{item.label}</FilterHeaderItemLabel>

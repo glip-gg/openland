@@ -97,3 +97,10 @@ a {
 .filter-header-item:hover {
   background: rgba(255, 255, 255, 0.06);
 }
+
+
+.rs-popover {
+  padding: 24px;
+  background: rgba(18, 18, 18, 1)!important;
+  color: white;
+}
