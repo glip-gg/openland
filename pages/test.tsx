@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import FilterBody from '../components/filterTab/filterBody';
 import land from '../assets/filter/land.svg';
 import SortingDropDown from '../components/filterTab/sortingDropDown';
+import { DefaultPopover } from '../components/filterModals/parent_popover';
 
 
 const FilterHeaderItem = styled.div`
@@ -69,21 +70,10 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
-    // eslint-disable-next-line react/display-name
-    const DefaultPopover = React.forwardRef(({ content, title, ...props }: any, ref) => {
-        return (
-          <Popover
-            arrow={false}
-            style={{background: 'black', color: '#fff'}}
-            ref={ref} title={''} {...props}>
-                <p>This is a Popover </p>
-                <p>{content}</p>
-          </Popover>
-        );
-    });
+   
 
     const filterHeader: any = filterTypes.map((item, index) => {
-        let placement: string;
+        let placement: string = 'bottomStart';
         if(item.type == 'land') placement = 'bottomStart';
         if(item.type == 'artifact') placement = 'bottomStart';
         if(item.type == 'koda') placement = 'bottomStart';
@@ -98,7 +88,7 @@ export default function Home() {
                 controlId={`control-id-${placement}`}
                 enterable
                 speaker={(                
-                    <DefaultPopover content={`I am positioned to the autoVerticalEnd`} title={item.label}/>
+                    <DefaultPopover type={item.type} title={item.label}/>
                 )}
             >
                 <FilterHeaderItem
@@ -121,7 +111,7 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>Openland | Supedup search for Otherside</title>
+                <title>Openland | Suped-up search for Otherside</title>
                 <meta
                 name="description"
                 content="Navigate the otherside in a blazing fast experience"

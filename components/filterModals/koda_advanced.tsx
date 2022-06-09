@@ -39,7 +39,7 @@ const Floor = styled.div`
         - tier
         - enviorment
 */ 
-export default function LandFilterModal(props: any) {    
+export default function KodaAdvancedFilterModal(props: any) {    
 
     const clearFilters = () => {
 

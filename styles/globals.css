@@ -36,7 +36,7 @@ a {
 }
 
 .rs-drawer-left.rs-drawer-sm {
-  width: 624px;
+  width: 626px;
 }
 
 .rs-drawer-body {
@@ -84,14 +84,16 @@ a {
   color: #515151
 }
 
-*::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar {
+  width: 1px;
 }
-
-/* Hide scrollbar for IE, Edge and Firefox */
-* {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
 }
 
 .filter-header-item:hover {
@@ -100,7 +102,11 @@ a {
 
 
 .rs-popover {
-  padding: 24px;
   background: rgba(18, 18, 18, 1)!important;
   color: white;
+}
+
+.rs-popover[class*=placement-bottom].rs-anim-in {
+  padding: 0px;
+  border-radius: 12px;
 }
