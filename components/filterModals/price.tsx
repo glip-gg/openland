@@ -1,33 +1,20 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
+import ModalContainer from './ModalContainer';
+import FilterSectionTitle from '../ui/FilterSectionTitle';
+import FlexWrapWrapper from '../ui/FlexWrapWrapper';
+import Chip from '../ui/chip';
+import FilterBottomTab from '../ui/FilterBottomTab';
 
-const FilterTitle = styled.div`
-    font-family: 'Chakra Petch';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 28px;
-    line-height: 90.1%;
-    /* or 25px */
 
-    text-transform: uppercase;
+const currency_data: Array<String> = ['All', 'ETH', 'wETH', 'APE'];
+const currency_chips = currency_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
-    color: #FFFFFF;
-`;
 
-const Floor = styled.div`
-    font-family: 'Chakra Petch';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 21px;
-    /* identical to box height */
+const status_data: Array<String> = ['All', 'Buy now', 'Auction'];
+const status_chips = status_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
-    display: flex;
-    align-items: center;
-
-    color: rgba(255, 255, 255, 0.4);   
-`;
 
 /*
     5 items to be filterd, need  getter and setter for all 5
@@ -50,8 +37,30 @@ export default function PriceFilterModal(props: any) {
     };
 
     return (
-        <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
+        <ModalContainer>
 
-        </div>
+            <FilterSectionTitle>Price</FilterSectionTitle>
+            
+            
+            
+            <FilterSectionTitle>TODO SLIDER</FilterSectionTitle>
+
+            
+
+            <FilterSectionTitle>Currency</FilterSectionTitle>
+            <FlexWrapWrapper type={'chip'}>
+                {currency_chips}
+            </FlexWrapWrapper>
+
+            <FilterSectionTitle>Status</FilterSectionTitle>
+            <FlexWrapWrapper type={'chip'}>
+                {status_chips}
+            </FlexWrapWrapper>
+
+
+            <FilterBottomTab />
+
+
+        </ModalContainer>
     );
 }

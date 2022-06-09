@@ -1,21 +1,33 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
+import ModalContainer from './ModalContainer';
+import FilterSectionTitle from '../ui/FilterSectionTitle';
+import FlexWrapWrapper from '../ui/FlexWrapWrapper';
+import Chip from '../ui/chip';
+import FilterBottomTab from '../ui/FilterBottomTab';
+import {
+    Input, 
+  } from '@nextui-org/react';
 
-const FilterTitle = styled.div`
-    font-family: 'Chakra Petch';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 28px;
-    line-height: 90.1%;
-    /* or 25px */
 
-    text-transform: uppercase;
+const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon', 'ID'];
+const koda_properties_chips = koda_properties_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
-    color: #FFFFFF;
+
+
+const CardDesign = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 24px 11px 16px;
+    background: #1A1A1A;
+    border-radius: 12px;
+    margin: 6px;
 `;
 
-const Floor = styled.div`
+const Title = styled.div`
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 500;
@@ -26,7 +38,24 @@ const Floor = styled.div`
     display: flex;
     align-items: center;
 
-    color: rgba(255, 255, 255, 0.4);   
+    color: #FFFFFF;
+    justify-content: flex-start;
+`;
+
+const Subtitle = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    color: rgba(255, 255, 255, 0.4);
+
 `;
 
 /*
@@ -49,9 +78,43 @@ export default function KodaFilterModal(props: any) {
         
     };
 
-    return (
-        <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
 
-        </div>
+    const Card = ({title, subtitle}: any) => {
+        return (
+            <CardDesign>
+                <Title>{title}</Title>
+                <Subtitle>{subtitle}</Subtitle>
+            </CardDesign>
+        );
+    }
+
+    return (
+        <ModalContainer>
+
+            <FilterSectionTitle>Koda</FilterSectionTitle>
+
+            <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+                <Card className='hover' title={'Koda only'} subtitle={'4.34Ξ (4,000)'} />
+                <Card className='hover' title={'Exclude Koda'} subtitle={'4.34Ξ (4,000)'} />
+            </div>
+
+            <Input
+                clearable
+                contentRightStyling={false}
+                placeholder="Search"                
+            />           
+
+            <FilterSectionTitle>Type</FilterSectionTitle>
+            <FlexWrapWrapper type={'chip'}>
+                {koda_properties_chips}
+            </FlexWrapWrapper>
+
+            
+
+
+            <FilterBottomTab />
+
+
+        </ModalContainer>
     );
 }

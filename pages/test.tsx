@@ -77,7 +77,7 @@ export default function Home() {
         if(item.type == 'land') placement = 'bottomStart';
         if(item.type == 'artifact') placement = 'bottomStart';
         if(item.type == 'koda') placement = 'bottomStart';
-        if(item.type == 'resource') placement = 'bottomEnd';
+        if(item.type == 'resource') placement = 'bottomStart';
         if(item.type == 'price') placement = 'bottomEnd';
         if(item.type == 'rank') placement = 'bottomEnd';
         return (

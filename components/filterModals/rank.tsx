@@ -2,32 +2,15 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
 
-const FilterTitle = styled.div`
-    font-family: 'Chakra Petch';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 28px;
-    line-height: 90.1%;
-    /* or 25px */
+import ModalContainer from './ModalContainer';
+import FilterSectionTitle from '../ui/FilterSectionTitle';
+import FlexWrapWrapper from '../ui/FlexWrapWrapper';
+import Chip from '../ui/chip';
+import FilterBottomTab from '../ui/FilterBottomTab';
 
-    text-transform: uppercase;
 
-    color: #FFFFFF;
-`;
-
-const Floor = styled.div`
-    font-family: 'Chakra Petch';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 21px;
-    /* identical to box height */
-
-    display: flex;
-    align-items: center;
-
-    color: rgba(255, 255, 255, 0.4);   
-`;
+const type_data: Array<String> = ['Top 1%', 'Top 5%', 'Top 10%', 'Top 25%'];
+const type_chips = type_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
 /*
     5 items to be filterd, need  getter and setter for all 5
@@ -50,8 +33,17 @@ export default function RankFilterModal(props: any) {
     };
 
     return (
-        <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
+        <ModalContainer>
 
-        </div>
+            <FilterSectionTitle>Rank</FilterSectionTitle>
+                                    
+            <FilterSectionTitle>TODO SLIDER</FilterSectionTitle>
+            
+            <FlexWrapWrapper type={'chip'}>
+                {type_chips}
+            </FlexWrapWrapper>
+            
+            <FilterBottomTab />
+        </ModalContainer>
     );
 }
