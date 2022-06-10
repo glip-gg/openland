@@ -7,6 +7,7 @@ import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
 import FilterBottomTab from '../ui/FilterBottomTab';
+import Slider from '../ui/slider';
 
 
 const type_data: Array<String> = ['Top 1%', 'Top 5%', 'Top 10%', 'Top 25%'];
@@ -37,7 +38,7 @@ export default function RankFilterModal(props: any) {
 
             <FilterSectionTitle>Rank</FilterSectionTitle>
                                     
-            <FilterSectionTitle>TODO SLIDER</FilterSectionTitle>
+            <Slider start={10} end={100} min={2} max={200}/> 
             
             <FlexWrapWrapper type={'chip'}>
                 {type_chips}

@@ -5,6 +5,7 @@ import ModalContainer from './ModalContainer';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
+import FilterCard from '../ui/filterCard';
 import FilterBottomTab from '../ui/FilterBottomTab';
 import {
     Input, 
@@ -12,9 +13,9 @@ import {
 
 
 const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon', 'ID'];
-const koda_properties_chips = koda_properties_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
-
-
+const koda_properties_chips = koda_properties_data.map((item: any, index: any) => <Chip key={`koda_properties_chips-chip-${index}`} title={item} active={false}/>);
+const koda_data: Array<any> = [{title: 'Mega koda', subtitle: '40.34Ξ (30,000)'}, {title: 'Weapon Koda', subtitle: '40.34Ξ (30,000)'}];
+const koda_chips = koda_data.map((item: any, index: any) => <FilterCard key={`koda_chips-${index}`} title={item.title} subtitle={item.subtitle} active={false}/>);
 
 const CardDesign = styled.div`
     display: flex;
@@ -68,7 +69,9 @@ const Subtitle = styled.div`
         - tier
         - enviorment
 */ 
-export default function KodaFilterModal(props: any) {    
+export default function KodaFilterModal(props: any) {   
+    
+    const [showAdvanced, setShowAdvanced] = useState(false);
 
     const clearFilters = () => {
 
@@ -98,19 +101,28 @@ export default function KodaFilterModal(props: any) {
                 <Card className='hover' title={'Exclude Koda'} subtitle={'4.34Ξ (4,000)'} />
             </div>
 
-            <Input
-                clearable
-                contentRightStyling={false}
-                placeholder="Search"                
-            />           
-
-            <FilterSectionTitle>Type</FilterSectionTitle>
-            <FlexWrapWrapper type={'chip'}>
-                {koda_properties_chips}
+            <FlexWrapWrapper type={'card'}>
+                {koda_chips}
+                <div onClick={() => setShowAdvanced(!showAdvanced)}>
+                    <FilterCard  title={'Koda Advanced filters'} active={false} />
+                </div>
             </FlexWrapWrapper>
 
-            
+            {showAdvanced && <>
+                <Spacer y={1} />
 
+                <Input
+                    clearable
+                    contentRightStyling={false}
+                    placeholder="Search"                
+                />           
+
+                <FilterSectionTitle>Type</FilterSectionTitle>
+                <FlexWrapWrapper type={'chip'}>
+                    {koda_properties_chips}                
+                </FlexWrapWrapper>
+            </>
+            }
 
             <FilterBottomTab />
 

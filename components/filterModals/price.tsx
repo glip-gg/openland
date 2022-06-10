@@ -5,6 +5,7 @@ import ModalContainer from './ModalContainer';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
+import Slider from '../ui/slider';
 import FilterBottomTab from '../ui/FilterBottomTab';
 
 
@@ -40,12 +41,8 @@ export default function PriceFilterModal(props: any) {
         <ModalContainer>
 
             <FilterSectionTitle>Price</FilterSectionTitle>
-            
-            
-            
-            <FilterSectionTitle>TODO SLIDER</FilterSectionTitle>
-
-            
+                                
+            <Slider start={10} end={100} min={2} max={200}/>            
 
             <FilterSectionTitle>Currency</FilterSectionTitle>
             <FlexWrapWrapper type={'chip'}>

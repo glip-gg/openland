@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Card = styled.div`
   
-    border:  ${props => props.active ? '1px solid rgba(255, 255, 255, 1)': '1px solid transparent'};
+    border:  ${props => props.active ? '1px solid rgba(255, 255, 255, 1)!important': '1px solid transparent'};
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -45,10 +45,11 @@ export default function Chip({ title, active }: any) {
 
     const cardClick = () => {
         setChipActive(!chipActive);
+        // TODO add funciton for property
     };
 
     return (
-        <Card className='hover' onClick={() => cardClick()} active={chipActive}>
+        <Card className='hover border-hover' onClick={() => cardClick()} active={chipActive}>
             {title}
         </Card>
     );

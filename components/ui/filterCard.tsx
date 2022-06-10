@@ -12,7 +12,8 @@ const Card = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 21px 0px 9px 0px;
+    flex-direction: column;
+    padding: 21px 19px 9px 19px;
     margin: 4px;
     user-select: none; /* Standard */
 
@@ -83,10 +84,10 @@ export default function FilterCard({icon, title, subtitle, active}: any) {
     };
 
     return (
-        <Card className='hover' onClick={() => cardClick()} active={chipActive}>
-            <Icon icon={icon} />
-            <Title>{title}</Title>
-            <SubTitle>{subtitle}</SubTitle>
+        <Card className='hover border-hover' onClick={() => cardClick()} active={chipActive}>
+            {icon && <Icon icon={icon} />}
+            {title && <Title>{title}</Title>}
+            {subtitle && <SubTitle>{subtitle}</SubTitle>}
         </Card>
     );
 }

@@ -100,6 +100,10 @@ a {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.filter-header-item {
+  transition: 0.5s ease;
+}
+
 
 .rs-popover {
   background: rgba(18, 18, 18, 1)!important;
@@ -109,4 +113,12 @@ a {
 .rs-popover[class*=placement-bottom].rs-anim-in {
   padding: 0px;
   border-radius: 12px;
+}
+
+.border-hover:hover{
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.border-hover{
+  transition:.3s ease;
 }
