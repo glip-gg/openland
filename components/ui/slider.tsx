@@ -113,7 +113,7 @@ export default function Slider({start, end, min, max}: any) {
                     setValue([nextValue, end]);
                     }}
                 />
-                <InputGroup.Addon className='rs-theme-dark'>to</InputGroup.Addon>
+                <InputGroup.Addon className='rs-theme-dark'>-</InputGroup.Addon>
                 <InputNumber
                     className='rs-theme-dark'
                     min={0}

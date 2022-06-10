@@ -38,7 +38,8 @@ export default function RankFilterModal(props: any) {
 
             <FilterSectionTitle>Rank</FilterSectionTitle>
                                     
-            <Slider start={10} end={100} min={2} max={200}/> 
+            <Slider start={10} end={100} min={2} max={200}/>
+            <Spacer />
             
             <FlexWrapWrapper type={'chip'}>
                 {type_chips}
