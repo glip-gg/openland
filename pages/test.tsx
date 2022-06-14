@@ -22,20 +22,6 @@ import Script from 'next/script'
 import mapLoad from '../utils/map';
 
 
-// import * as d3 from 'd3';
-// import * as d3 from 'https://unpkg.com/d3?module'
-// import * as fc from 'https://unpkg.com/d3fc@14.2.3/build/d3fc.js';
-// import * as fc from 'd3fc';
-import {
-    distance,
-    trunc,
-    hashCode,
-    webglColor,
-    iterateElements
-  } from "../utils/util";
-  import { seriesSvgAnnotation } from "../utils/annotation-series.js";
-
-
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
     background:  ${props => props.active ? 'rgba(255, 255, 255, 0.06)': 'transparent'};
@@ -90,7 +76,7 @@ export default function Home() {
     useEffect(() => {
         setTimeout(() => {
             try {
-                fc &&  mapLoad();
+                fc && fc.webglFillColor && d3 && d3.annotation && d3.scaleLinear && mapLoad();
             } catch {
                 console.log('catch shit')
                 setCheck(!check);
@@ -150,18 +136,9 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             
-            <Script strategy="afterInteractive" src="//unpkg.com/d3@5.15.0/dist/d3.min.js" />
-            <Script strategy="afterInteractive" src="//unpkg.com/d3fc@14.2.3/build/d3fc.js" />
-            <Script strategy="afterInteractive" src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js" />
-            <Script
-                id="mapjs"
-                dangerouslySetInnerHTML={{
-                __html: `
-                
-                `,
-                }}
-            />
-
+            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3" />
+            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js" />
+            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3fc" />
 
             <Navbar />
 
@@ -172,7 +149,7 @@ export default function Home() {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                style={{ height: '100vh' }}
+                style={{ height: '100vh', margin: 0 }}
             >                
                 <div id="chart-container">
                     <div id="chart"></div>
