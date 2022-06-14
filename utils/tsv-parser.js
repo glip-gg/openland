@@ -1,4 +1,3 @@
-// a TSV parser that parses the data incrementally in chunks
 const tsvChunkedParser = () => {
     const textDecoder = new TextDecoder("utf-8");
     let columnHeadings;

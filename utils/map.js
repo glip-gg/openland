@@ -23,7 +23,7 @@ const createAnnotationData = datapoint => ({
 });
 
 // create a web worker that streams the chart data
-const streamingLoaderWorker = new Worker("map/streaming-tsv-parser.js");
+const streamingLoaderWorker = new Worker("./streaming-tsv-parser.js");
 streamingLoaderWorker.onmessage = ({
   data: { items, totalBytes, finished }
 }) => {
