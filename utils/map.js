@@ -298,3 +298,7 @@ export default function mapLoad(){
     d3.select("#chart").datum({ annotations, data }).call(chart);
   };
 }
+
+const redraw = () => {
+  d3.select("#chart").datum({ annotations, data }).call(chart);
+};
