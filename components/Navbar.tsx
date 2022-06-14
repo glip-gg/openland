@@ -15,7 +15,7 @@ import {
 export default function Navbar() {
  
   return (
-    <div className={styles.container}>
+    <div style={{position: 'fixed', top: 0, zIndex: 1000, width: '100%', background: '#000'}} className={styles.container}>
       
 
       <Container
