@@ -64,7 +64,7 @@ export default function mapLoad(){
 
     redraw();
   };
-  streamingLoaderWorker.postMessage("./coordinates.tsv");
+  streamingLoaderWorker.postMessage("/api/coordinates");
 
   const xScale = d3.scaleLinear().domain([-70, 70]);
   const yScale = d3.scaleLinear().domain([-70, 70]);

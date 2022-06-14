@@ -90,7 +90,7 @@ export default function Home() {
     useEffect(() => {
         setTimeout(() => {
             try {
-                (d3 && fc) &&  mapLoad();
+                fc &&  mapLoad();
             } catch {
                 console.log('catch shit')
                 setCheck(!check);
