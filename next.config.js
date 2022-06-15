@@ -6,4 +6,6 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+const withTM = require('next-transpile-modules')(['scatter-gl']);
+
+module.exports = withTM(nextConfig);

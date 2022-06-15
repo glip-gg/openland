@@ -18,9 +18,7 @@ import FilterBody from '../components/filterTab/filterBody';
 import land from '../assets/filter/land.svg';
 import SortingDropDown from '../components/filterTab/sortingDropDown';
 import { DefaultPopover } from '../components/filterModals/parent_popover';
-import Script from 'next/script'
-import mapLoad from '../utils/map';
-
+import Map from '../components/map/Map'
 
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -72,22 +70,6 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            try {
-                fc && fc.webglFillColor && d3 && d3.annotation && d3.scaleLinear && mapLoad();
-            } catch {
-                console.log('catch shit')
-                setCheck(!check);
-            }        
-        } , 100)       
-    }, [check]);
-
-
-    useEffect(() => {
-        setCheck(true);
-    }, []);   
-
     const filterHeader: any = filterTypes.map((item, index) => {
         let placement: string = 'bottomStart';
         if(item.type == 'land') placement = 'bottomStart';
@@ -134,10 +116,6 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3" />
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js" />
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3fc" />
 
             <Navbar />
 
@@ -150,10 +128,7 @@ export default function Home() {
                 alignItems="center"
                 style={{ height: '100vh', margin: 0 }}
             >                
-                <div id="chart-container">
-                    <div id="chart"></div>
-                    <div id="loading"><span>loading...</span></div>
-                </div>
+                <Map></Map>
                 {/* <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button> */}
             </Container>
 
