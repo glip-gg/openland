@@ -9,6 +9,10 @@ import {
 
 import { fcClickPointer } from "./d3fc-clicker.js";
 
+export default function mapLoad(){
+  
+console.log('loading map')
+
 let data = [];
 let filteredIds = [];
 let selectedId = -1;
@@ -29,20 +33,30 @@ const createAnnotationData = datapoint => ({
 });
 
 // create a web worker that streams the chart data
-const streamingLoaderWorker = new Worker("map/streaming-tsv-parser.js");
+const streamingLoaderWorker = new Worker("./api/streaming-tsv-parser");
 streamingLoaderWorker.onmessage = ({
   data: { items, totalBytes, finished }
 }) => {
+  
+  function rotatePoint(x, y, centerx, centery, degrees) {
+    var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
+    var newy = (x - centerx) * Math.sin(degrees * Math.PI / 180) + (y - centery) * Math.cos(degrees * Math.PI / 180) + centery;
+    return {x: newx, y: newy};
+}
   const rows = items
-    .map(d => ({
-      ...d,
-      x: Number(d.x),
-      y: Number(d.y),
-      A: Number(d.A)
-    }))
+    .map(d => {
+      let adjustedCoorddinate = rotatePoint(d.y, d.x, 0, 0, -90)
+      return {
+        ...d,
+        x: Number(adjustedCoorddinate.x),
+        y: Number(adjustedCoorddinate.y),
+        A: Number(d.A)
+    }})
+  
   data = data.concat(rows);
 
   if (finished) {
+
     document.getElementById("loading").style.display = "none";
 
     recolor()
@@ -62,7 +76,7 @@ streamingLoaderWorker.onmessage = ({
 
   redraw();
 };
-streamingLoaderWorker.postMessage("coordinates.tsv");
+streamingLoaderWorker.postMessage("/api/coordinates");
 
 const xScale = d3.scaleLinear().domain([-70, 70]);
 const yScale = d3.scaleLinear().domain([-70, 70]);
@@ -404,3 +418,5 @@ function drawCircles() {
 const redraw = () => {
   d3.select("#chart").datum({ annotations, data }).call(chart);
 };
+
+}

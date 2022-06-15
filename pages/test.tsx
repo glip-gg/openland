@@ -44,7 +44,6 @@ const FilterHeaderItemLabel = styled.div`
 `;
 
 
-
 const FilterHeaderItemImage = (active: any, imageType: any) => {
     if(imageType == 'land')
         return (<Image alt='land' src={land} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);

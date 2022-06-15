@@ -37,13 +37,22 @@ const streamingLoaderWorker = new Worker("./api/streaming-tsv-parser");
 streamingLoaderWorker.onmessage = ({
   data: { items, totalBytes, finished }
 }) => {
+  
+  function rotatePoint(x, y, centerx, centery, degrees) {
+    var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
+    var newy = (x - centerx) * Math.sin(degrees * Math.PI / 180) + (y - centery) * Math.cos(degrees * Math.PI / 180) + centery;
+    return {x: newx, y: newy};
+}
   const rows = items
-    .map(d => ({
-      ...d,
-      x: Number(d.x),
-      y: Number(d.y),
-      A: Number(d.A)
-    }))
+    .map(d => {
+      let adjustedCoorddinate = rotatePoint(d.y, d.x, 0, 0, -90)
+      return {
+        ...d,
+        x: Number(adjustedCoorddinate.x),
+        y: Number(adjustedCoorddinate.y),
+        A: Number(d.A)
+    }})
+  
   data = data.concat(rows);
 
   if (finished) {
