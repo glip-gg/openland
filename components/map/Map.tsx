@@ -52,9 +52,7 @@ let scatterplot: any
 const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
 const pointSizes = [100, 85, 70, 55, 40, 120]
 
-const minZoomExtent = 0.8
-const maxZoomExtent = 16
-const highlightColorsZoomCutoff = maxZoomExtent / 2
+const highlightColorsZoomCutoff = 35
 
 var currentSteppedZoom = 1
 var currentZoomLevel = 1
