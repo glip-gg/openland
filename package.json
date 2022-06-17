@@ -16,8 +16,11 @@
     "d3-svg-annotation": "^2.5.1",
     "d3fc": "^15.2.5",
     "next": "12.1.6",
+    "pub-sub-es": "^2.0.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "regl": "^2.1.0",
+    "regl-scatterplot": "^1.2.3",
     "rsuite": "^5.14.0",
     "styled-components": "^5.3.5",
     "worker-loader": "^3.0.8"
