@@ -53,7 +53,7 @@ const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#24
 
 const minZoomExtent = 0.8
 const maxZoomExtent = 16
-const highlightColorsZoomCutoff = maxZoomExtent / 3
+const highlightColorsZoomCutoff = maxZoomExtent / 2
 
 var currentSteppedZoom = 1
 var currentZoomLevel = 1
@@ -74,11 +74,11 @@ function setupMap(createScatterplot) {
       pointColor: pointColors,
       colorBy: 'valueA',
     });
-    
-    const points = data.map((d: any) =>  [d.x, d.y, '#6380FC'])
-    scatterplot.draw(points);
 
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
+    
+    const points = data.map((d: any) =>  [d.x, d.y, 0, pointColorIndex(d)])
+    scatterplot.draw(points);
 
     scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
        updateZoomState(camera.camera.distance[0])
@@ -109,12 +109,16 @@ const pointColorIndex = (d: any) => {
 }
 
 const steppedZoomChanged = (previousZoom: number, newZoom: number) => {
-    // if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
-    //    recolor()
-    // }
-    // if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
-    //    recolor()
-    // }
+    if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
+       scatterplot.set({
+        colorBy: 'valueA'
+       })
+    }
+    if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
+        scatterplot.set({
+         colorBy: 'valueB'
+        })
+    }
   }
 
 function updateZoomState(newZoomLevel: number) {
@@ -147,7 +151,6 @@ function setScoreData(scores: number[]) {
     ...d,
     R: scores[d.A]
     }))
-    recolor()
 }
 
 function recolor() {
