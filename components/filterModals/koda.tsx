@@ -103,8 +103,8 @@ export default function KodaFilterModal(props: any) {
 
             <FlexWrapWrapper type={'card'}>
                 {koda_chips}
-                <div onClick={() => setShowAdvanced(!showAdvanced)}>
-                    <FilterCard  title={'Koda Advanced filters'} active={false} />
+                <div style={{display: 'flex'}} onClick={() => setShowAdvanced(!showAdvanced)}>
+                    <FilterCard title={'Koda Advanced filters'} active={false} />
                 </div>
             </FlexWrapWrapper>
 

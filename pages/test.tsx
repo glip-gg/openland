@@ -16,6 +16,11 @@ import { Drawer, Popover, Whisper } from 'rsuite'
 import styled from 'styled-components';
 import FilterBody from '../components/filterTab/filterBody';
 import land from '../assets/filter/land.svg';
+import price from '../assets/filter/price.svg';
+import artifact from '../assets/filter/artifact.svg';
+import resource from '../assets/filter/resource.svg';
+import koda from '../assets/filter/koda.svg';
+import rank from '../assets/filter/rank.svg';
 import SortingDropDown from '../components/filterTab/sortingDropDown';
 import { DefaultPopover } from '../components/filterModals/parent_popover';
 import Script from 'next/script'
@@ -44,9 +49,19 @@ const FilterHeaderItemLabel = styled.div`
 `;
 
 
-const FilterHeaderItemImage = (active: any, imageType: any) => {
+const FilterHeaderItemImage = ({active, imageType}) => {
     if(imageType == 'land')
         return (<Image alt='land' src={land} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    if(imageType == 'price')
+        return (<Image alt='price' src={price} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    if(imageType == 'resource')
+        return (<Image alt='resource' src={resource} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    if(imageType == 'artifact')
+        return (<Image alt='artifact' src={artifact} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    if(imageType == 'rank')
+        return (<Image alt='rank' src={rank} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    if(imageType == 'koda')
+        return (<Image alt='koda' src={koda} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);    
     return (<Image alt='land' src={land} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
 }
 
@@ -77,6 +92,7 @@ export default function Home() {
             try {
                 fc && fc.webglFillColor && d3 && d3.annotation && d3.scaleLinear && mapLoad();
             } catch {
+                console.log('in catch ===> ')
                 console.log('catch shit')
                 setCheck(!check);
             }        
@@ -115,7 +131,7 @@ export default function Home() {
                         // onMouseEnter={() => console.log('asdff')}
                         // onMouseLeave={() => console.log('laeve')}
                         >
-                        <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} type={item.type} />
+                        <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} imageType={item.type} />
                         <FilterHeaderItemLabel style={{color: '#fff', marginTop: 10}}>{item.label}</FilterHeaderItemLabel>
                     </FilterHeaderItem>
             </Whisper>
@@ -154,7 +170,7 @@ export default function Home() {
                     <div id="chart"></div>
                     <div id="loading"><span>loading...</span></div>
                 </div>
-                {/* <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button> */}
+                <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button>
             </Container>
 
             <Drawer size={'sm'} placement={'left'} open={openFilterDrawer} onClose={() => setOpenFilterDrawer(false)}>
