@@ -50,6 +50,7 @@ function loadMap() {
 let scatterplot: any
 
 const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
+const pointSizes = [100, 85, 70, 55, 40, 120]
 
 const minZoomExtent = 0.8
 const maxZoomExtent = 16
@@ -68,22 +69,44 @@ function setupMap(createScatterplot) {
       canvas,
       width,
       height,
-      pointSize: 80,
       cameraTarget: [0,0],
       cameraDistance: 70,
       pointColor: pointColors,
+      pointSize: pointSizes,
       colorBy: 'valueA',
+      sizeBy: 'valueB'
     });
 
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
     
-    const points = data.map((d: any) =>  [d.x, d.y, 0, pointColorIndex(d)])
+    const points = data.map((d: any) =>  [d.x, d.y, 0, pointColorIndex(d), pointSize(d)])
     scatterplot.draw(points);
 
     scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
        updateZoomState(camera.camera.distance[0])
     })
 }
+
+let pointSize = (d: any) => {
+  
+    if (selectedId == d.A) return 5
+  
+    if (currentZoomLevel < highlightColorsZoomCutoff) return 4
+  
+    if (d.R < 1000) {
+      return 0
+    }
+    if (d.R < 10000) {
+      return 1
+    }
+    if (d.R < 25000) {
+      return 2
+    }
+    if (d.R < 50000) {
+      return 3
+    }
+    return 4
+  }
 
 const pointColorIndex = (d: any) => {
 
