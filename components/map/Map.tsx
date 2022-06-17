@@ -52,7 +52,8 @@ let scatterplot: any
 const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
 const pointSizes = [100, 85, 70, 55, 40, 120]
 
-const highlightColorsZoomCutoff = 35
+const highlightColorsZoomCutoff = 30
+const highlightHoverZoomCutoff = 10
 
 var currentSteppedZoom = 1
 var currentZoomLevel = 1
@@ -83,6 +84,14 @@ function setupMap(createScatterplot) {
     scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
        updateZoomState(camera.camera.distance[0])
     })
+    scatterplot.subscribe('pointOver', (index) => {
+      if (currentZoomLevel < highlightHoverZoomCutoff) {
+        canvas.style["cursor"] =  "pointer"; 
+      }
+   })
+   scatterplot.subscribe('pointOut', (index) => {
+      canvas.style["cursor"] =  "default"; 
+   })
 }
 
 let pointSize = (d: any) => {
