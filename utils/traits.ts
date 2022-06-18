@@ -1,0 +1,17 @@
+const TRAITS = [
+    {name: 'Category',},
+    {name: 'Sediment',},
+    {name: 'Sediment Tier', display_type: 'number'},
+    {name: 'Environment',},
+    {name: 'Environment Tier', display_type: 'number'},
+    {name: 'Western Resource'},
+    {name: 'Western Resource Tier', display_type: 'number'},
+    {name: 'Northern Resource'},
+    {name: 'Northern Resource Tier', display_type: 'number'},
+    {name: 'Eastern Resource'},
+    {name: 'Eastern Resource Tier', display_type: 'number'},
+    {name: 'Southern Resource'},
+    {name: 'Southern Resource Tier', display_type: 'number'},
+    {name: 'Plot', display_type: 'number'},
+    {name: 'Artifact'},
+];

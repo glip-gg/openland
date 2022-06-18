@@ -34,16 +34,17 @@ const Card = styled.div`
 
 
 /*
-    2 params
-        Params:
-        - title
-        - active
-        # no redux so onclick function will be a param mostly
-*/ 
-export default function Chip({ title, active }: any) {      
+   2 params
+   Params:
+   - title
+   - active
+   # no redux so onclick function will be a param mostly
+ */ 
+export default function Chip({ title, active, mainElemName, onChange=()=>{} }: any) {      
     const [chipActive, setChipActive] = useState(active);
 
     const cardClick = () => {
+        onChange(mainElemName, title, !chipActive);
         setChipActive(!chipActive);
         // TODO add funciton for property
     };

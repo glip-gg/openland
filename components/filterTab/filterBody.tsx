@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
+
 import styled from 'styled-components';
 import { useState } from 'react';
 import SortingDropDown from './sortingDropDown';
 import ChipFilterDisplay from './ChipFilterDisplay';
 import { Spacer } from '@nextui-org/react';
 import OtherCard from './OtherCard';
+import eventBus from '../../utils/eventBus';
+import globalApeFilter from '../../utils/globalFilter';
+import {PaginatedList} from  'react-paginated-list';
 
 const FilterTitle = styled.div`
     font-family: 'Chakra Petch';
@@ -32,56 +37,84 @@ const Floor = styled.div`
     color: rgba(255, 255, 255, 0.4);   
 `;
 
+const PaginatedListContainer = styled.div`
+    display: flex;
+    width:100%;
+    flex-wrap: wrap;
+`
 
+const oldCardData =  [{
+    id: 1241,
+    price: 2.41,
+    name: 'Splinter - Cosmic Dream',
+    rank: '58 top 100%',
+    tier: 1,
+    koda: true,
+    resource: false,
+    artifact: true
+}, {
+        id: 1241,
+        price: 2.41,
+        name: 'Splinter - Cosmic Dream',
+        rank: '58 top 100%',
+        tier: 1,
+        koda: true,
+        resource: false,
+        artifact: true
+    }, {
+        id: 1241,
+        price: 2.41,
+        name: 'Splinter - Cosmic Dream',
+        rank: '58 top 100%',
+        tier: 1,
+        koda: true,
+        resource: false,
+        artifact: true
+}]
 export default function FilterBody({lands, filters, floor}: any) {
+
+    const [cards, setCards] = useState([]);
     
-
-    const cards = [{
-        id: 1241,
-        price: 2.41,
-        name: 'Splinter - Cosmic Dream',
-        rank: '58 top 100%',
-        tier: 1,
-        koda: true,
-        resource: false,
-        artifact: true
-    }, {
-        id: 1241,
-        price: 2.41,
-        name: 'Splinter - Cosmic Dream',
-        rank: '58 top 100%',
-        tier: 1,
-        koda: true,
-        resource: false,
-        artifact: true
-    }, {
-        id: 1241,
-        price: 2.41,
-        name: 'Splinter - Cosmic Dream',
-        rank: '58 top 100%',
-        tier: 1,
-        koda: true,
-        resource: false,
-        artifact: true
-    }].map((item: any, index: any) => <OtherCard key={`othercard-${index}`} data={item} />);
-
+    useEffect(()=>{
+        eventBus.on("filter-applied", async (data:any)=>{
+            let newData:any = await globalApeFilter.applyFilter();
+            console.log('newData', newData);
+            setCards(newData);
+        });
+        return ()=>{
+            eventBus.remove("filter-applied", undefined);
+        }
+    },[]);
+    
 
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
-                <FilterTitle>{lands} LANDS</FilterTitle>
-                <SortingDropDown  />
-            </div>
+          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
+            <FilterTitle>{lands} LANDS</FilterTitle>
+            <SortingDropDown  />
+          </div>
 
-            <Floor>Floor: {floor} eth</Floor>
+          <Floor>Floor: {floor} eth</Floor>
 
-            <Spacer />
+          <Spacer />
 
-            <ChipFilterDisplay rounded filters={filters} />
-            <div style={{display: 'flex', flexWrap: 'wrap', marginLeft: -20, marginRight: -20}}>
-                {cards}
-            </div>
-            <Spacer y={4} />
+          <ChipFilterDisplay rounded filters={filters} />
+            <PaginatedList
+                list={cards}
+                itemsPerPage={6}
+                loopAround={true}
+                PaginatedListContainer={PaginatedListContainer}
+                renderList={(list) => (
+                    <>
+                      {list.map((item, id) => {
+                          return (
+                              <OtherCard key={`othercard-${id}`} data={item} />
+                          );
+                      })}
+                    </>
+                )}
+            />
+          <Spacer y={4} />
         </div>
     );
 }

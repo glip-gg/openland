@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
 import Image from 'next/image';
 
+import globalApeFilter from '../../utils/globalFilter';
+import eventBus from '../../utils/eventBus';
+
 const Card = styled.div`
     font-family: 'Chakra Petch';
     font-style: normal;
@@ -77,13 +80,13 @@ export default function FilterBottomTab(props: any) {
     };
 
     const applyFilters = () => {
-        props.applyFilters();
+        eventBus.dispatch('filter-applied',{});
     };
 
     return (
         <Card>
-            <Title className='hover' onClick={() => clearFilters()}>Clear filters</Title>
-            <Button className='hover' onClick={() => applyFilters()}>Apply filter</Button>
+          <Title className='hover' onClick={() => clearFilters()}>Clear filters</Title>
+          <Button className='hover' onClick={() => applyFilters()}>Apply filter</Button>
         </Card>
-        );
+    );
     }

@@ -1,3 +1,4 @@
+import {useState} from  'react';
 import styled from 'styled-components';
 import ModalContainer from './ModalContainer';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
@@ -53,7 +54,8 @@ const Subtitle = styled.div`
 `;
 
 
-const type_data: Array<String> = [];
+const type_data: Array<String> = ["Forged Pickaxe","Red Orb","Rugged Pickaxe","Fire Sale Scroll","Celestial Tear","Whim","Cryptid","Forged Hammer","Vivec","Banana Peel","Rugged Hammer","Mystic Triangles","Koda Hammer","Glass Eye","Ancient Coin","Rugged Shovel","Jar of Koda Farts","Sticky Cauldron","Koda Axe","Sooper Box","Monkey Barrel","Rugged Axe","Sands of Time","Knight's Pail","Sloth Juice","Mystical Crown","Slime Juice","Card from a Deck","Relic Card","Whale Statue","Daniel","Tazer","Camp Fire","Celestial Orb","Celestial Heart","Blue Orb","Chomps","Tavo","Anthony","Magic Powder","Toto","Santiago","Z","Marcin","Forged Shovel","Forged Axe","Koda Shovel","Fairy in a Jar","Lovans","Chest of Holding","Koda Pickaxe","Unknown Map","Lapis","Yellow Orb","Leo","Mia","Yellow Obelisk","Romain","Jules","Mecha Piece","Raven","Pandora's Box","Mirror Mirror","Sword of Chosen","Portal Piece","Foretelling Scroll","Relic Book Page","Red Obelisk","Green Obelisk","Blade of Eternum","Archway","Celestial Egg","Mystery Potion","Archway Keystone"];
+
 const type_cards = type_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
 /*
@@ -64,10 +66,15 @@ const type_cards = type_data.map((item: any, index: any) => <Chip key={`sediment
         - sediment
         - category
         - tier
-        - enviorment
-*/ 
+   - enviorment
+ */
+
 export default function ArtifactFilterModal(props: any) {    
 
+    const [filteredCards, setFilteredCards] = useState(type_data);
+    
+    const [name, setName] = useState('');
+    
     const clearFilters = () => {
 
     };
@@ -76,38 +83,57 @@ export default function ArtifactFilterModal(props: any) {
         
     };
 
+    const textFilter = (e) => {
+        const keyword = e.target.value;
+        
+        if (keyword !== '') {
+            const results = type_data.filter((user) => {
+                return user.toLowerCase().startsWith(keyword.toLowerCase());
+                // Use the toLowerCase() method to make it case-insensitive
+            });
+            setFilteredCards(results);
+        } else {
+            setFilteredCards(type_data);
+            // If the text field is empty, show all users
+        }
+        
+        setName(keyword);
+    };
+
+    const type_cards = filteredCards.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${item}`} title={item} active={false}/>);
+    
     const Card = ({title, subtitle}: any) => {
         return (
             <CardDesign>
-                <Title>{title}</Title>
-                <Subtitle>{subtitle}</Subtitle>
+              <Title>{title}</Title>
+              <Subtitle>{subtitle}</Subtitle>
             </CardDesign>
         );
     }
 
     return (
         <ModalContainer>
+          <FilterSectionTitle>Artifacts</FilterSectionTitle>
+          <Input
+              clearable
+              onChange={textFilter}
+              value={name}
+              contentRightStyling={false}
+              placeholder="Search"
+          />
 
-            <FilterSectionTitle>Artifacts</FilterSectionTitle>
-
-            <Input
-                clearable
-                contentRightStyling={false}
-                placeholder="Search"                
-            />
-
-            <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-                <Card className='hover' title={'Artifacts only'} subtitle={'4.34Ξ (4,000)'} />
-                <Card className='hover' title={'Exclude artifacts'} subtitle={'4.34Ξ (4,000)'} />
-            </div>
-
-
-            <FlexWrapWrapper type={'card'}>
-                {type_cards}
-            </FlexWrapWrapper>
+          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+            <Card className='hover' title={'Artifacts only'} subtitle={'4.34Ξ (4,000)'} />
+            <Card className='hover' title={'Exclude artifacts'} subtitle={'4.34Ξ (4,000)'} />
+          </div>
 
 
-            <FilterBottomTab />
+          <FlexWrapWrapper type={'card'}>
+            {type_cards}
+          </FlexWrapWrapper>
+
+
+          <FilterBottomTab />
 
 
         </ModalContainer>

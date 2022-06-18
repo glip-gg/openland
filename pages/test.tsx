@@ -15,10 +15,16 @@ import { useState } from 'react';
 import { Drawer, Popover, Whisper } from 'rsuite'
 import styled from 'styled-components';
 import FilterBody from '../components/filterTab/filterBody';
-import land from '../assets/filter/land.svg';
+
 import SortingDropDown from '../components/filterTab/sortingDropDown';
 import { DefaultPopover } from '../components/filterModals/parent_popover';
 
+import LandImage from '../assets/filter/land.svg';
+import ArtifactImage from '../assets/top_level_filter/artifacts.svg';
+import KodaImage from '../assets/top_level_filter/koda.svg';
+import ResourcesImage from '../assets/top_level_filter/resources.svg';
+import RankImage from '../assets/top_level_filter/rank.svg';
+import PriceImage from '../assets/top_level_filter/price.svg';
 
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -41,19 +47,29 @@ const FilterHeaderItemLabel = styled.div`
     color: #FFFFFF;
 `;
 
+const mainFilterImageDict = {
+    'land': LandImage,
+    'artifact': ArtifactImage,
+    'koda': KodaImage,
+    'resource': ResourcesImage,
+    'rank': RankImage,
+    'price': PriceImage
+}
 
 
-const FilterHeaderItemImage = (active: any, imageType: any) => {
+const FilterHeaderItemImage = ({active, imageType}) => {
     if(imageType == 'land')
-        return (<Image alt='land' src={land} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
-    return (<Image alt='land' src={land} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+        return (<Image alt='land' src={LandImage} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
+    console.log('imageType', imageType);
+    return (<Image alt='land' src={mainFilterImageDict[imageType]} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
 }
 
 export default function Home() {
-    const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
-    const [filterTypes, setFilterTypes] = useState([
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  
+  const [filterTypes, setFilterTypes] = useState([
         {type: 'land', label: 'Land type'},
-        {type: 'artifact', label: 'Atifact'},
+        {type: 'artifact', label: 'Artifact'},
         {type: 'koda', label: 'Koda'},
         {type: 'resource', label: 'Resource'},
         {type: 'rank', label: 'Rank'},
@@ -73,6 +89,7 @@ export default function Home() {
    
 
     const filterHeader: any = filterTypes.map((item, index) => {
+        
         let placement: string = 'bottomStart';
         if(item.type == 'land') placement = 'bottomStart';
         if(item.type == 'artifact') placement = 'bottomStart';
@@ -80,6 +97,7 @@ export default function Home() {
         if(item.type == 'resource') placement = 'bottomStart';
         if(item.type == 'price') placement = 'bottomEnd';
         if(item.type == 'rank') placement = 'bottomEnd';
+        
         return (
             <Whisper
                 key={`filter-header-item-${index}`}
@@ -99,7 +117,7 @@ export default function Home() {
                         // onMouseEnter={() => console.log('asdff')}
                         // onMouseLeave={() => console.log('laeve')}
                         >
-                        <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} type={item.type} />
+                        <FilterHeaderItemImage active={activeFilterHeaderItem == item.type} imageType={item.type} />
                         <FilterHeaderItemLabel style={{color: '#fff', marginTop: 10}}>{item.label}</FilterHeaderItemLabel>
                     </FilterHeaderItem>
             </Whisper>
