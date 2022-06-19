@@ -10,9 +10,9 @@ export default function Map(props: any) {
     loadMap()
 
     return (
-    <div id="canvas-wrapper" style={{width: "100vw", height: "100vw"}}>
-      <canvas id='chart-container' width="100vw" height="100vw"></canvas>
-      <h3 id='map-land-label' style={{color: 'white', position: 'absolute'}}></h3>
+    <div id="canvas-wrapper" style={{width: "100vw", height: "100vh"}}>
+      <canvas id='chart-container' width="100vw" height="100vh"></canvas>
+      <h3 id='map-land-label' style={{color: 'white', position: 'absolute', cursor: 'pointer'}}></h3>
     </div>
     )
 }
@@ -20,6 +20,7 @@ export default function Map(props: any) {
 let data: any = []
 let filteredIds: any = [];
 let selectedId = -1;
+let hoveredId = -1;
 var mapLoaded = false
 
 function loadMap() {
@@ -88,16 +89,18 @@ function setupMap(createScatterplot) {
 
     scatterplot = createScatterplot({
       canvas,
-      width,
-      height,
+      width: 'auto',
+      height: 'auto',
+      aspectRatio: 1.0,
       cameraTarget: [0, 0],
       cameraDistance: 70,
       pointColor: pointColors,
-      pointSize: pointSizes,
+      pointSize: pointSizes.map((p: number) => p / 1.5),
       colorBy: 'valueA',
       sizeBy: 'valueB',
       xScale: xScale,
       yScale: yScale,
+      pointOutlineWidth: 8
     });
 
     let camera = scatterplot.get('camera')
@@ -116,6 +119,9 @@ function setupMap(createScatterplot) {
     })
 
     scatterplot.subscribe('pointOver', (index) => {
+      if (hoveredId == data[index].A) return
+      hoveredId = data[index].A
+
       if (currentZoomLevel < highlightHoverZoomCutoff) {
         canvas.style["cursor"] =  "pointer"; 
 
@@ -131,6 +137,8 @@ function setupMap(createScatterplot) {
    })
 
    scatterplot.subscribe('pointOut', (index) => {
+     if (data[index].A == hoveredId) return
+      hoveredId = -1
       canvas.style["cursor"] =  "default"; 
       textLabel.style['visibility'] = 'hidden'
    })
