@@ -10,7 +10,7 @@ export default function Map(props: any) {
     loadMap()
 
     return (
-    <div id="canvas-wrapper" style={{width: "100vw", height: "100vh"}}>
+    <div id="canvas-wrapper" style={{width: "100vw", height: "100vh", marginLeft: "-20px"}}>
       <canvas id='chart-container' width="100vw" height="100vh"></canvas>
       <h3 id='map-land-label' style={{color: 'white', position: 'absolute', cursor: 'pointer'}}></h3>
     </div>
