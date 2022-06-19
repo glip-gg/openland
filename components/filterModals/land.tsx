@@ -75,9 +75,8 @@ const environment_data: Array<String> = ['All', "Steppes","Obsidian","Sands","Sp
 const tier_data: Array<String> = ['All', '1', '2', '3'];
 
 // Get actual tiers from somewhere! TODO
-const sediment_tier_chips = (onChange:any) => sediment_tier_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`}
-                                                                                                      title={item} active={false}
-                                                                                                      onChange={onChange} mainElemName="Sediment Tier" />);
+const sediment_tier_chips = (onChange:any) => sediment_tier_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`}  title={item} 
+                                                                                                      active={false} onChange={onChange} mainElemName="Sediment Tier" />);
 
 const sediment_chips = (onChange:any) => sediment_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}
                                                                                             onChange={onChange} mainElemName="Sediment"

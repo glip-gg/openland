@@ -111,11 +111,22 @@ const OtherRank = styled.div`
     margin-left: 8px;
 `;
 
+const DetailsDiv = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: white;
+    align-items: center;
+`;
+
 
 const ItemImage = (src: any) => {
     return (
         <div style={{marginRight: 20}}>
-            <Image src={src.src} alt='' />
+          <Image src={src.src} alt='' />
         </div>
     );
 }
@@ -133,33 +144,36 @@ const ItemImage = (src: any) => {
 - resource
 */
 export default function OtherCard({data}: any) {    
-
+    
+    
+    
     return (
         <div style={{display: 'flex', flexDirection: 'column', margin: 20, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, width:'40%'}}>
             <Image src={'https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600'}
-             alt='' width={260} height={363} />
-            <Spacer />
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <OtherID>#{data.Plot}</OtherID>
-                <Price>{data.price}</Price>
-            </div>
-            <Spacer />
+        alt='' width={260} height={363} />
+        <Spacer />
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <OtherID>#{data.Plot}</OtherID>
+          <Price>{data.price}</Price>
+        </div>
+        <Spacer />
 
-            <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
-                <OtherName>{data.Environment}- {data.Sediment}</OtherName>
-                <Tier>{data.tier}</Tier>
-            </div>
+        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
+          <OtherName>{data.Environment}- {data.Sediment}</OtherName>
+          <Tier>{data.tier}</Tier>
+        </div>
 
-            <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
-                <Rank>RANK</Rank>
-                <OtherRank>{data.rank}</OtherRank>
-            </div>
+        <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
+          <Rank>RANK</Rank>
+          <OtherRank>{data.rank}</OtherRank>
+        </div>
 
-            <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                {data.koda ? <ItemImage  src={koda}/> : <ItemImage src={not_koda} />}
-                {data.resource ? <ItemImage src={resource}/> : <ItemImage src={not_resource} />}
-                {data.artifact ? <ItemImage src={artifact}/> : <ItemImage src={not_artifact} />}
-            </div>
+        <div style={{display: 'flex',
+                     justifyContent: 'space-between'}}>
+          <DetailsDiv>Koda</DetailsDiv>
+          <DetailsDiv>Artifacts</DetailsDiv>
+          <DetailsDiv>0 Resources</DetailsDiv>
+        </div>
 
         </div>
     );

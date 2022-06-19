@@ -12,7 +12,10 @@ import {
 } from '@nextui-org/react';
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
-import { Drawer, Popover, Whisper } from 'rsuite'
+import { Popover, Whisper } from 'rsuite'
+import Drawer from '@mui/material/Drawer';
+import { makeStyles } from '@mui/styles';
+
 import styled from 'styled-components';
 import FilterBody from '../components/filterTab/filterBody';
 
@@ -56,6 +59,13 @@ const mainFilterImageDict = {
     'price': PriceImage
 }
 
+const useStyles = makeStyles({
+    drawerPaper: {
+        marginTop: "75px",
+        zIndex: "2 !important",
+        width:'624px',
+    }
+});
 
 const FilterHeaderItemImage = ({active, imageType}) => {
     if(imageType == 'land')
@@ -65,9 +75,10 @@ const FilterHeaderItemImage = ({active, imageType}) => {
 }
 
 export default function Home() {
-  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
-  
-  const [filterTypes, setFilterTypes] = useState([
+    const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+    const classes = useStyles();
+
+    const [filterTypes, setFilterTypes] = useState([
         {type: 'land', label: 'Land type'},
         {type: 'artifact', label: 'Artifact'},
         {type: 'koda', label: 'Koda'},
@@ -128,38 +139,49 @@ export default function Home() {
 
     return (
         <div className={styles.container}>
-            <Head>
-                <title>Openland | Suped-up search for Otherside</title>
-                <meta
+          <Head>
+            <title>Openland | Suped-up search for Otherside</title>
+            <meta
                 name="description"
                 content="Navigate the otherside in a blazing fast experience"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
 
-            <Navbar />
+          <Navbar />
 
-            <Container
-                as="main"
-                display="flex"
-                direction="column"
-                justify="center"
-                alignItems="center"
-                style={{ height: '100vh' }}
-            >                
-                <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button>
-            </Container>
+          <Container
+              as="main"
+              display="flex"
+              direction="column"
+              justify="center"
+              alignItems="center"
+              style={{ height: '100vh' }}
+          >                
+            <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button>
+          </Container>
 
-            <Drawer size={'sm'} placement={'left'} open={openFilterDrawer} onClose={() => setOpenFilterDrawer(false)}>
-                <Drawer.Header style={{background: '#000', borderBottomWidth: 1, borderColor: 'rgba(44, 44, 44, 1)'}}>
-                    {filterHeader}                    
-                </Drawer.Header>
-                <Drawer.Body style={{background: 'rgba(0, 0, 0, 1)'}}>
-                    <div style={{background: 'black', padding: 32}}>
-                        <FilterBody  floor={2.14} lands={4500} filters={['Buy Now', 'Anus Reaper']} />
-                    </div>
-                </Drawer.Body>
-            </Drawer>
+          <Drawer anchor={'left'}
+                  open={openFilterDrawer}
+                  variant={"persistent"}
+                  classes={{
+                      paper: classes.drawerPaper
+                  }}
+                  onClose={() => setOpenFilterDrawer(false)}>
+            <div style={{display: 'flex', flexDirection:'column', height: '100%'}}>
+              <div style={{background: '#000',
+                           borderBottomWidth: 1,
+                           display:'flex',
+                           borderColor: 'rgba(44, 44, 44, 1)'}}>
+                {filterHeader}                    
+              </div>
+              <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%'}}>
+                <div style={{background: 'black', padding: 32}}>
+                  <FilterBody  floor={2.14} lands={4500} filters={['Buy Now', 'Anus Reaper']} />
+                </div>
+              </div>
+            </div>
+          </Drawer>
         </div>
     );
 }

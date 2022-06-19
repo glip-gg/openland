@@ -21,11 +21,11 @@ export const DefaultPopover = React.forwardRef(({ type, title, ...props }: any, 
     console.log(content);
 
     return (
-      <Popover
-        arrow={false}
-        style={{background: 'black', color: '#fff'}}
-        ref={ref} {...props}>
-            {content()}
-      </Popover>
+        <Popover
+            arrow={false}
+            style={{background: 'black', color: '#fff', zIndex:999}}
+            ref={ref} {...props}>
+          {content()}
+        </Popover>
     );
 });

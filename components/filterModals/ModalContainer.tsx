@@ -20,9 +20,9 @@ export default function ModalContainer(props: any) {
             position: 'relative',
             padding: 24,
             paddingTop: 0,
-            paddingBottom: 75
-            }}>
-            {props.children}
+            paddingBottom: 75,
+        }}>
+          {props.children}
         </div>
     );
 }
