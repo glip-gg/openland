@@ -24,7 +24,7 @@ import rank from '../assets/filter/rank.svg';
 import SortingDropDown from '../components/filterTab/sortingDropDown';
 import { DefaultPopover } from '../components/filterModals/parent_popover';
 import Map from '../components/map/Map'
-
+import OtherCard from '../components/filterTab/OtherCard';
 
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -86,7 +86,17 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
-    const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([0, 0, 0])
+    const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([-1, 0, 0])
+    const [selectedMapLand, setSelectedMapLand] = useState({
+        id: -1,
+        price: 0,
+        name: '',
+        rank: '',
+        tier: 1,
+        koda: true,
+        resource: false,
+        artifact: true
+    })
 
     const filterHeader: any = filterTypes.map((item, index) => {
         let placement: string = 'bottomStart';
@@ -125,7 +135,17 @@ export default function Home() {
 
     const onLandSelected = (index: number, x: number, y: number) => {
         console.log('land clicked parent: ', index, x, y)
-        // setMapLandDetailPosition([index, x, y])
+        setMapLandDetailPosition([index, x, y])
+        setSelectedMapLand({
+            id: 1241,
+            price: 2.41,
+            name: 'Splinter - Cosmic Dream',
+            rank: '58 top 100%',
+            tier: 1,
+            koda: true,
+            resource: false,
+            artifact: true
+        })
     }
 
     return (
@@ -153,14 +173,18 @@ export default function Home() {
             >                
                 <Map onLandClicked={onLandSelected}></Map>
 
-                <div id="map-land-details" style={{position: 'absolute', 
-                    left:`${mapLandDetailsPosition[1]}px`, 
-                    top:`${mapLandDetailsPosition[2]}px`,
+                {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                    backgroundColor: 'black',
+                    position: 'absolute', 
+                    left:`${mapLandDetailsPosition[1] + 50}px`, 
+                    top:`80px`,
                     visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
-                    <p>Show Land details here</p>
-                </div>
+                    
+                        <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
+                                    data={selectedMapLand} />
+                </div>}
 
-                {/* <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button> */}
+                <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
                 
             </Container>
 
