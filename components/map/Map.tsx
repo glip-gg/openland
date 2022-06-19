@@ -137,7 +137,10 @@ function setupMap(createScatterplot) {
    })
 
    scatterplot.subscribe('pointOut', (index) => {
-     if (data[index].A == hoveredId) return
+     if (data[index].A == hoveredId) {
+       hoveredId = -1
+       return
+     }
       hoveredId = -1
       canvas.style["cursor"] =  "default"; 
       textLabel.style['visibility'] = 'hidden'
