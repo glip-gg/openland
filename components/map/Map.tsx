@@ -1,7 +1,14 @@
-import { scaleLinear, scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 
-export default function Map() {
+type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
+
+let onLandClickedCallback: LandSelectCallback
+
+export default function Map(props: any) {
+    console.log('loading map component')
+    onLandClickedCallback = props.onLandClicked
     loadMap()
+
     return (
     <div id="canvas-wrapper" style={{width: "100vw", height: "100vw"}}>
       <canvas id='chart-container' width="100vw" height="100vw"></canvas>
@@ -13,6 +20,7 @@ export default function Map() {
 let data: any = []
 let filteredIds: any = [];
 let selectedId = -1;
+var mapLoaded = false
 
 function loadMap() {
     (async () => {
@@ -41,7 +49,8 @@ function loadMap() {
                 ...d,
                 x: Number(adjustedCoorddinate.x),
                 y: Number(adjustedCoorddinate.y),
-                A: Number(d.A)
+                A: Number(d.A),
+                R: -1
             }})
 
         data = data.concat(rows);
@@ -93,8 +102,8 @@ function setupMap(createScatterplot) {
 
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
     
-    const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
-    scatterplot.draw(points);
+    drawMap()
+    mapLoaded = true
 
     scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
        updateZoomState(camera.camera.distance[0])
@@ -106,8 +115,10 @@ function setupMap(createScatterplot) {
     scatterplot.subscribe('pointOver', (index) => {
       if (currentZoomLevel < highlightHoverZoomCutoff) {
         canvas.style["cursor"] =  "pointer"; 
+
         let x = xScale(data[index].x)
         let y = yScale(data[index].y)
+
         textLabel.style['left'] = x.toString() + "px"
         textLabel.style['top'] = y.toString() + "px"
 
@@ -121,6 +132,18 @@ function setupMap(createScatterplot) {
       textLabel.style['visibility'] = 'hidden'
    })
 
+   scatterplot.subscribe('select', ({ points }) => {
+    let selectedPoint = data[points[0]].A
+    let x = xScale(data[points[0]].x)
+    let y = yScale(data[points[0]].y)
+    
+    onLandClickedCallback(selectedPoint, x, y)
+ })
+}
+
+function drawMap() {
+  const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
+    scatterplot.draw(points);
 }
 
 const rankingIndex = (d: any) => {
@@ -129,6 +152,10 @@ const rankingIndex = (d: any) => {
 
     let currentZoom = scatterplot.get('cameraDistance')
     if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+    if (d.R == -1) {
+        return 0
+    }
 
     if (d.R < 1000) {
         return 1
@@ -211,4 +238,7 @@ function setScoreData(scores: number[]) {
     ...d,
     R: scores[d.A]
     }))
+    if (mapLoaded) {
+      drawMap()
+    }
 }

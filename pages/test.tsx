@@ -71,6 +71,8 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
+    const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([0, 0, 0])
+
     const filterHeader: any = filterTypes.map((item, index) => {
         let placement: string = 'bottomStart';
         if(item.type == 'land') placement = 'bottomStart';
@@ -106,6 +108,10 @@ export default function Home() {
         );
     });
 
+    const onLandSelected = (index: number, x: number, y: number) => {
+        console.log('land clicked parent: ', index, x, y)
+        // setMapLandDetailPosition([index, x, y])
+    }
 
     return (
         <div className={styles.container}>
@@ -130,7 +136,15 @@ export default function Home() {
                 alignItems="center"
                 style={{ height: '100vh', margin: 0 }}
             >                
-                <Map></Map>
+                <Map onLandClicked={onLandSelected}></Map>
+
+                <div id="map-land-details" style={{position: 'absolute', 
+                    left:`${mapLandDetailsPosition[1]}px`, 
+                    top:`${mapLandDetailsPosition[2]}px`,
+                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
+                    <p>Show Land details here</p>
+                </div>
+
                 {/* <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button> */}
             </Container>
 
