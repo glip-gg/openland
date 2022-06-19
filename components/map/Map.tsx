@@ -100,6 +100,9 @@ function setupMap(createScatterplot) {
       yScale: yScale,
     });
 
+    let camera = scatterplot.get('camera')
+    camera.setScaleBounds([[0.01, 1], [0.01, 1]])
+
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
     
     drawMap()
