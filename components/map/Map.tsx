@@ -123,33 +123,12 @@ function setupMap(createScatterplot) {
 
 }
 
-let pointSize = (d: any) => {
-  
-    if (selectedId == d.A) return 5
-  
-    if (currentZoomLevel < highlightColorsZoomCutoff) return 0
-  
-    if (d.R < 1000) {
-      return 1
-    }
-    if (d.R < 10000) {
-      return 2
-    }
-    if (d.R < 25000) {
-      return 3
-    }
-    if (d.R < 50000) {
-      return 4
-    }
-    return 6
-  }
-
 const rankingIndex = (d: any) => {
 
     if (filteredIds.length != 0 && !filteredIds.includes(d.A)) return 5
 
     let currentZoom = scatterplot.get('cameraDistance')
-    if (currentZoom < highlightColorsZoomCutoff) return 0
+    if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
 
     if (d.R < 1000) {
         return 1
@@ -168,6 +147,8 @@ const rankingIndex = (d: any) => {
 }
 
 const steppedZoomChanged = (previousZoom: number, newZoom: number) => {
+    if (filteredIds.length != 0) return
+
     if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
        scatterplot.set({
         colorBy: 'valueA'
@@ -201,7 +182,27 @@ function updateZoomState(newZoomLevel: number) {
 // ids of lands to filter
 function setFilteredIds(ids: number[]) {
     filteredIds = ids
-    recolor()
+    if (filteredIds.length == 0) {
+      const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
+      let currentZoom = scatterplot.get('cameraDistance')
+
+      if (currentZoom > highlightColorsZoomCutoff) {
+        scatterplot.set({
+         colorBy: 'valueA'
+        })
+      } else {
+        scatterplot.set({
+          colorBy: 'valueB'
+         })
+      }
+      scatterplot.draw(points);
+    } else {
+      const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d)])
+      scatterplot.set({
+        colorBy: 'valueA'
+       })
+      scatterplot.draw(points);
+    }
 }
 
 // array of scores (0-99999)
@@ -211,9 +212,3 @@ function setScoreData(scores: number[]) {
     R: scores[d.A]
     }))
 }
-
-function recolor() {
-    const points = data.map((d: any) =>  [d.x, d.y, pointColorIndex(d)])
-    scatterplot.draw(points);
-}
-
