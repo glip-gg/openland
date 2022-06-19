@@ -23,8 +23,7 @@ import koda from '../assets/filter/koda.svg';
 import rank from '../assets/filter/rank.svg';
 import SortingDropDown from '../components/filterTab/sortingDropDown';
 import { DefaultPopover } from '../components/filterModals/parent_popover';
-import Script from 'next/script'
-import mapLoad from '../utils/map';
+import Map from '../components/map/Map'
 
 
 const FilterHeaderItem = styled.div`
@@ -87,22 +86,7 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            try {
-                fc && fc.webglFillColor && d3 && d3.annotation && d3.scaleLinear && mapLoad();
-            } catch {
-                console.log('in catch ===> ')
-                console.log('catch shit')
-                setCheck(!check);
-            }        
-        } , 100)       
-    }, [check]);
-
-
-    useEffect(() => {
-        setCheck(true);
-    }, []);   
+    const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([0, 0, 0])
 
     const filterHeader: any = filterTypes.map((item, index) => {
         let placement: string = 'bottomStart';
@@ -139,6 +123,10 @@ export default function Home() {
         );
     });
 
+    const onLandSelected = (index: number, x: number, y: number) => {
+        console.log('land clicked parent: ', index, x, y)
+        // setMapLandDetailPosition([index, x, y])
+    }
 
     return (
         <div className={styles.container}>
@@ -150,10 +138,7 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3" />
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js" />
-            <Script strategy="afterInteractive" async={false} src="//unpkg.com/d3fc" />
+        
 
             <Navbar />
 
@@ -166,11 +151,17 @@ export default function Home() {
                 alignItems="center"
                 style={{ height: '100vh', margin: 0 }}
             >                
-                <div id="chart-container">
-                    <div id="chart"></div>
-                    <div id="loading"><span>loading...</span></div>
+                <Map onLandClicked={onLandSelected}></Map>
+
+                <div id="map-land-details" style={{position: 'absolute', 
+                    left:`${mapLandDetailsPosition[1]}px`, 
+                    top:`${mapLandDetailsPosition[2]}px`,
+                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
+                    <p>Show Land details here</p>
                 </div>
-                <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button>
+
+                {/* <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button> */}
+                
             </Container>
 
             <Drawer size={'sm'} placement={'left'} open={openFilterDrawer} onClose={() => setOpenFilterDrawer(false)}>
