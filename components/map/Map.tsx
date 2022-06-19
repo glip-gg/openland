@@ -1,6 +1,13 @@
+import { scaleLinear, scaleLog } from 'd3-scale';
+
 export default function Map() {
     loadMap()
-    return (<canvas id='chart-container' width="100vw" height="100vw"></canvas>)
+    return (
+    <div id="canvas-wrapper" style={{width: "100vw", height: "100vw"}}>
+      <canvas id='chart-container' width="100vw" height="100vw"></canvas>
+      <h3 id='map-land-label' style={{color: 'white', position: 'absolute'}}></h3>
+    </div>
+    )
 }
 
 let data: any = []
@@ -18,6 +25,8 @@ function loadMap() {
         streamingLoaderWorker.onmessage = ({
         data: { items, totalBytes, finished }
         }) => {
+
+        function normalize(val: number, max: number, min: number) { return (val - min) / (max - min); }
 
         function rotatePoint(x: number, y: number, centerx: number, centery: number, degrees: number) {
             var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
@@ -50,7 +59,7 @@ function loadMap() {
 let scatterplot: any
 
 const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
-const pointSizes = [100, 85, 70, 55, 40, 120]
+const pointSizes = [80, 100, 85, 70, 55, 80, 60]
 
 const highlightColorsZoomCutoff = 30
 const highlightHoverZoomCutoff = 10
@@ -61,61 +70,81 @@ var currentZoomLevel = 1
 function setupMap(createScatterplot) {
     
     const canvas = document.getElementById('chart-container')!
+    const textLabel = document.getElementById('map-land-label')!
 
     const { width, height } = canvas.getBoundingClientRect();
     
+    let xScale =  scaleLinear().domain([-1, 1])
+    let yScale =  scaleLinear().domain([-1, 1])
+
     scatterplot = createScatterplot({
       canvas,
       width,
       height,
-      cameraTarget: [0,0],
+      cameraTarget: [0, 0],
       cameraDistance: 70,
       pointColor: pointColors,
       pointSize: pointSizes,
       colorBy: 'valueA',
-      sizeBy: 'valueB'
+      sizeBy: 'valueB',
+      xScale: xScale,
+      yScale: yScale,
     });
 
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
     
-    const points = data.map((d: any) =>  [d.x, d.y, 0, pointColorIndex(d), pointSize(d)])
+    const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
     scatterplot.draw(points);
 
     scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
        updateZoomState(camera.camera.distance[0])
+       if (currentZoomLevel < highlightHoverZoomCutoff) {
+          textLabel.style['visibility'] = 'hidden'
+       }
     })
+
     scatterplot.subscribe('pointOver', (index) => {
       if (currentZoomLevel < highlightHoverZoomCutoff) {
         canvas.style["cursor"] =  "pointer"; 
+        let x = xScale(data[index].x)
+        let y = yScale(data[index].y)
+        textLabel.style['left'] = x.toString() + "px"
+        textLabel.style['top'] = y.toString() + "px"
+
+        textLabel.innerHTML = data[index].A
+        textLabel.style['visibility'] = 'visible'
       }
    })
+
    scatterplot.subscribe('pointOut', (index) => {
       canvas.style["cursor"] =  "default"; 
+      textLabel.style['visibility'] = 'hidden'
    })
+
 }
 
 let pointSize = (d: any) => {
   
     if (selectedId == d.A) return 5
   
-    if (currentZoomLevel < highlightColorsZoomCutoff) return 4
+    if (currentZoomLevel < highlightColorsZoomCutoff) return 0
   
     if (d.R < 1000) {
-      return 0
-    }
-    if (d.R < 10000) {
       return 1
     }
-    if (d.R < 25000) {
+    if (d.R < 10000) {
       return 2
     }
-    if (d.R < 50000) {
+    if (d.R < 25000) {
       return 3
     }
-    return 4
+    if (d.R < 50000) {
+      return 4
+    }
+    return 6
   }
 
-const pointColorIndex = (d: any) => {
+const rankingIndex = (d: any) => {
 
     if (filteredIds.length != 0 && !filteredIds.includes(d.A)) return 5
 
@@ -156,11 +185,11 @@ function updateZoomState(newZoomLevel: number) {
   
     let newSteppedZoom = currentSteppedZoom
   
-    if (newZoomLevel >= currentSteppedZoom + 1) {
-      newSteppedZoom = currentSteppedZoom + 1
+    if (newZoomLevel >= currentSteppedZoom + 5) {
+      newSteppedZoom = currentSteppedZoom + 5
     }
-    if (newZoomLevel <= currentSteppedZoom - 1) {
-      newSteppedZoom = currentSteppedZoom - 1
+    if (newZoomLevel <= currentSteppedZoom - 5) {
+      newSteppedZoom = currentSteppedZoom - 5
     }
   
     if (newSteppedZoom != currentSteppedZoom) {
