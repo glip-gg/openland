@@ -71,8 +71,8 @@ let scatterplot: any
 const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
 const pointSizes = [80, 100, 85, 70, 55, 80, 60]
 
-const highlightColorsZoomCutoff = 30
-const highlightHoverZoomCutoff = 10
+const highlightColorsZoomCutoff = 20
+const highlightHoverZoomCutoff = 7
 
 var currentSteppedZoom = 1
 var currentZoomLevel = 1
@@ -104,7 +104,7 @@ function setupMap(createScatterplot) {
     });
 
     let camera = scatterplot.get('camera')
-    camera.setScaleBounds([[0.01, 1], [0.01, 1]])
+    camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
     setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
     
