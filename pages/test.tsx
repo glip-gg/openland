@@ -219,7 +219,7 @@ export default function Home() {
                 {filterHeader}                    
               </div>
               <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%'}}>
-                <div style={{background: 'black', padding: 32}}>
+                <div style={{background: 'black', padding: 32, paddingRight: 0}}>
                   <FilterBody filters={['Buy Now', 'Anus Reaper']} />
                 </div>
               </div>

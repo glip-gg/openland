@@ -148,7 +148,7 @@ export default function OtherCard({data}: any) {
     
     
     return (
-        <div style={{display: 'flex', flexDirection: 'column', margin: 20, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }}>
+        <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }}>
             <Image src={'https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600'}
         alt='' width={260} height={363} />
         <Spacer />

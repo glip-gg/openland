@@ -225,15 +225,20 @@ rect.annotation-note-bg {
 fill: rgba(255, 255, 255, 0);
 }
 
-.lahDPk {
-  background-color: transparent;
-  color: #fff;
+.pagination-item {
+  background-color: transparent!important;
+  background: transparent!important;
+  color: #fff!important;
 }
 
-.fFUWxT {
-  margin-left: 20px;
+.pagination {
+  margin-left: 20px!important;
 }
 
-.lahDPk.active {
+.pagination-item.active {
   background-color: rgba(255,255,255,0.3)!important;
+}
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  background-color: transparent!important;
 }
