@@ -39,8 +39,10 @@ const Floor = styled.div`
 
 const PaginatedListContainer = styled.div`
     display: flex;
-    width:100%;
+    width: 100%;
     flex-wrap: wrap;
+    margin-left: -20px;
+    margin-right: -20px;
 `
 
 const oldCardData =  [{
@@ -111,6 +113,7 @@ export default function FilterBody({filters, }: any) {
           <Spacer />
 
           <ChipFilterDisplay rounded filters={filters} />
+
           <PaginatedList
               list={cards}
               itemsPerPage={6}

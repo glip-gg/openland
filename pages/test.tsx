@@ -65,9 +65,10 @@ const mainFilterImageDict = {
 
 const useStyles = makeStyles({
     drawerPaper: {
-        marginTop: "75px",
-        zIndex: "2 !important",
-        width:'624px',
+        marginTop: "71px",
+        zIndex: "2!important",
+        width: '624px',
+        background: 'transparent'
     }
 });
 

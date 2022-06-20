@@ -224,3 +224,16 @@ stroke-linecap: round;
 rect.annotation-note-bg {
 fill: rgba(255, 255, 255, 0);
 }
+
+.lahDPk {
+  background-color: transparent;
+  color: #fff;
+}
+
+.fFUWxT {
+  margin-left: 20px;
+}
+
+.lahDPk.active {
+  background-color: rgba(255,255,255,0.3)!important;
+}
