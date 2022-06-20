@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { scaleLinear } from 'd3-scale';
+
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
 
@@ -7,13 +9,16 @@ let onLandClickedCallback: LandSelectCallback
 export default function Map(props: any) {
     console.log('loading map component')
     onLandClickedCallback = props.onLandClicked
-    loadMap()
+    useEffect(()=>{
+        loadMap()
+    },[])
+    
 
     return (
-    <div id="canvas-wrapper" style={{width: "100vw", height: "100vh", marginLeft: "-20px"}}>
-      <canvas id='chart-container' width="100vw" height="100vh"></canvas>
-      <h4 id='map-land-label' style={{color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none'}}></h4>
-    </div>
+        <div id="canvas-wrapper" style={{width: "100vw", height: "100vh", marginLeft: "-20px"}}>
+          <canvas id='chart-container' width="100vw" height="100vh"></canvas>
+          <h4 id='map-land-label' style={{color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none'}}></h4>
+        </div>
     )
 }
 

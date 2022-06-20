@@ -165,7 +165,6 @@ export default function Home() {
             artifact: true
         })
     }
-
     return (
         <div className={styles.container}>
           <Head>
