@@ -296,6 +296,21 @@ function updateZoomState(newZoomLevel: number) {
 // ids of lands to filter
 function setFilteredIds(ids: number[]) {
     filteredIds = ids
+    if (filteredIds.length == 0) {
+      scatterplot.set({
+        cameraDistance: 70
+      })
+    } else {
+      let distances: number[] = []
+      filteredIds.forEach((element: number) => {
+        var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
+        distances.push(dist)
+      });
+      let filteredRadius = distances.sort().reverse()[0]
+      scatterplot.set({
+        cameraDistance: filteredRadius
+      })
+    }
     drawMap()
 }
 
