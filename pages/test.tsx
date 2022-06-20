@@ -166,6 +166,11 @@ export default function Home() {
             artifact: true
         })
     }
+
+    const onLandUnselected = () => {
+        setMapLandDetailPosition([-1, 0, 0])
+    }
+
     return (
         <div className={styles.container}>
           <Head>
@@ -187,7 +192,7 @@ export default function Home() {
                 alignItems="center"
                 style={{ height: '100vh', margin: 0 }}
             >                
-                <Map onLandClicked={onLandSelected}></Map>
+                <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
 
                 {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
                     padding: 20,

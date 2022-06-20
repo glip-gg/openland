@@ -3,12 +3,16 @@ import { scaleLinear } from 'd3-scale';
 
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
+type LandUnselectCallback = () => void
 
-let onLandClickedCallback: LandSelectCallback
+let onLandSelectedCallback: LandSelectCallback
+let onLandUnselectedCallback: LandUnselectCallback
 
 export default function Map(props: any) {
     console.log('loading map component')
-    onLandClickedCallback = props.onLandClicked
+    onLandSelectedCallback = props.onLandSelected
+    onLandUnselectedCallback = props.onLandUnselected
+
     useEffect(()=>{
         loadMap()
     },[])
@@ -56,7 +60,8 @@ function loadMap() {
                 x: Number(adjustedCoorddinate.x),
                 y: Number(adjustedCoorddinate.y),
                 A: Number(d.A),
-                R: -1
+                R: -1,
+                T: -1
             }})
 
         data = data.concat(rows);
@@ -111,7 +116,10 @@ function setupMap(createScatterplot) {
     let camera = scatterplot.get('camera')
     camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
-    setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
+    setLandData(
+      data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
+      data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
+    )
     
     drawMap()
     mapLoaded = true
@@ -156,21 +164,25 @@ function setupMap(createScatterplot) {
     let x = xScale(data[points[0]].x)
     let y = yScale(data[points[0]].y)
     
-    onLandClickedCallback(selectedPoint, x, y)
+    onLandSelectedCallback(selectedPoint, x, y)
  })
+
+  scatterplot.subscribe('deselect', () => {
+      onLandUnselectedCallback()
+  })
 }
 
 function drawMap() {
-  const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
-    scatterplot.draw(points);
+  const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
+  scatterplot.draw(points);
 }
 
 const rankingIndex = (d: any) => {
 
     if (filteredIds.length != 0 && !filteredIds.includes(d.A)) return 5
 
-    let currentZoom = scatterplot.get('cameraDistance')
-    if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+    // let currentZoom = scatterplot.get('cameraDistance')
+    // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
 
     if (d.R == -1) {
         return 0
@@ -192,19 +204,47 @@ const rankingIndex = (d: any) => {
 
 }
 
+const sizeIndex = (d: any) => {
+
+  // let currentZoom = scatterplot.get('cameraDistance')
+  // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+  if (d.T == -1) {
+      return 0
+  }
+
+  if (d.T == 1) {
+      return 5
+  }
+  if (d.T == 2) {
+      return 4
+  }
+  if (d.T == 3) {
+      return 3
+  }
+  if (d.T == 4) {
+      return 2
+  }
+  if (d.T == 5) {
+    return 1
+  }
+  return 6
+
+}
+
 const steppedZoomChanged = (previousZoom: number, newZoom: number) => {
     if (filteredIds.length != 0) return
 
-    if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
-       scatterplot.set({
-        colorBy: 'valueA'
-       })
-    }
-    if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
-        scatterplot.set({
-         colorBy: 'valueB'
-        })
-    }
+    // if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
+    //    scatterplot.set({
+    //     colorBy: 'valueB'
+    //    })
+    // }
+    // if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
+    //     scatterplot.set({
+    //      colorBy: 'valueB'
+    //     })
+    // }
   }
 
 function updateZoomState(newZoomLevel: number) {
@@ -228,34 +268,16 @@ function updateZoomState(newZoomLevel: number) {
 // ids of lands to filter
 function setFilteredIds(ids: number[]) {
     filteredIds = ids
-    if (filteredIds.length == 0) {
-      const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
-      let currentZoom = scatterplot.get('cameraDistance')
-
-      if (currentZoom > highlightColorsZoomCutoff) {
-        scatterplot.set({
-         colorBy: 'valueA'
-        })
-      } else {
-        scatterplot.set({
-          colorBy: 'valueB'
-         })
-      }
-      scatterplot.draw(points);
-    } else {
-      const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d)])
-      scatterplot.set({
-        colorBy: 'valueA'
-       })
-      scatterplot.draw(points);
-    }
+    drawMap()
 }
 
 // array of scores (0-99999)
-function setScoreData(scores: number[]) {
+// array of land tiers (1-5) for 0-99999
+function setLandData(scores: number[], landTiers: number[]) {
     data = data.map((d: any) => ({
     ...d,
-    R: scores[d.A]
+    R: scores[d.A],
+    T: landTiers[d.A]
     }))
     if (mapLoaded) {
       drawMap()
