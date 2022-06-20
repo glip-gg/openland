@@ -87,7 +87,7 @@ export default function FilterCard(
     return (
         <Card className='hover border-hover' onClick={() => cardClick()} active={active}>
           {icon && <Icon icon={icon} />}
-          {title && <Title>{title}</Title>}
+          {title && <Title style={{marginTop: icon ? 13 : 0}}>{title}</Title>}
           {subtitle && <SubTitle>{subtitle}</SubTitle>}
         </Card>
     );

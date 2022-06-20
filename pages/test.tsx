@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
@@ -28,6 +28,10 @@ import KodaImage from '../assets/top_level_filter/koda.svg';
 import ResourcesImage from '../assets/top_level_filter/resources.svg';
 import RankImage from '../assets/top_level_filter/rank.svg';
 import PriceImage from '../assets/top_level_filter/price.svg';
+
+
+import Map from '../components/map/Map'
+import OtherCard from '../components/filterTab/OtherCard';
 
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -78,6 +82,7 @@ export default function Home() {
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const classes = useStyles();
 
+    const [check, setCheck] = useState(false);
     const [filterTypes, setFilterTypes] = useState([
         {type: 'land', label: 'Land type'},
         {type: 'artifact', label: 'Artifact'},
@@ -97,7 +102,17 @@ export default function Home() {
         //TODO add other stuff to handle filter selection
     }
 
-   
+    const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([-1, 0, 0])
+    const [selectedMapLand, setSelectedMapLand] = useState({
+        id: -1,
+        price: 0,
+        name: '',
+        rank: '',
+        tier: 1,
+        koda: true,
+        resource: false,
+        artifact: true
+    })
 
     const filterHeader: any = filterTypes.map((item, index) => {
         
@@ -136,6 +151,20 @@ export default function Home() {
         );
     });
 
+    const onLandSelected = (index: number, x: number, y: number) => {
+        console.log('land clicked parent: ', index, x, y)
+        setMapLandDetailPosition([index, x, y])
+        setSelectedMapLand({
+            id: 1241,
+            price: 2.41,
+            name: 'Splinter - Cosmic Dream',
+            rank: '58 top 100%',
+            tier: 1,
+            koda: true,
+            resource: false,
+            artifact: true
+        })
+    }
 
     return (
         <div className={styles.container}>
@@ -151,15 +180,29 @@ export default function Home() {
           <Navbar />
 
           <Container
-              as="main"
-              display="flex"
-              direction="column"
-              justify="center"
-              alignItems="center"
-              style={{ height: '100vh' }}
-          >                
-            <Button shadow onClick={() => handleOpenFilterDrawer()}>Open Drawer</Button>
-          </Container>
+                as="main"
+                display="flex"
+                direction="column"
+                justify="center"
+                alignItems="center"
+                style={{ height: '100vh', margin: 0 }}
+            >                
+                <Map onLandClicked={onLandSelected}></Map>
+
+                {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                    backgroundColor: 'black',
+                    position: 'absolute', 
+                    left:`${mapLandDetailsPosition[1] + 50}px`, 
+                    top:`80px`,
+                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
+                    
+                        <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
+                                    data={selectedMapLand} />
+                </div>}
+
+                <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
+                
+            </Container>
 
           <Drawer anchor={'left'}
                   open={openFilterDrawer}
@@ -182,6 +225,8 @@ export default function Home() {
               </div>
             </div>
           </Drawer>
+
         </div>
+       
     );
 }

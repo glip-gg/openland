@@ -2,6 +2,7 @@
 
 html,
 body {
+  overflow: hidden;
   padding: 0;
   margin: 0;
   font-family: 'Chakra Petch', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -126,4 +127,100 @@ a {
 a, a:hover, a:focus, a:active {
   text-decoration: none;
   color: inherit;
+}
+
+
+
+.annotation-note-bg {
+  fill-opacity: 0.8;
+}
+
+.annotation-note-label,
+.annotation-note-title {
+  fill: black;
+  font-size: 0.8em;
+}
+
+#chart-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+#chart-container > div {
+  position: absolute;
+  top: 0; bottom: 0; right: 0; left: 0;
+  text-align: middle;
+  vertical-align: middle;
+}
+
+#loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+#loading span {
+  flex: 1;
+  text-align: center;
+  font-size: 2em;
+}
+
+#chart d3fc-group {
+  grid-template-columns: 1em auto 1fr 1em 0;
+  grid-template-rows: 0 auto 1fr 1em 0;
+}
+
+#chart {
+  width: 100vw;
+  height: 100vw;
+}
+
+.tick text {
+  display: none;
+}
+
+:root {
+  --annotation-accent-color: #ffffff;
+  }
+
+.annotation path {
+  stroke: var(--annotation-accent-color);
+  fill: none;
+}
+
+.annotation path.connector-arrow{
+fill: var(--annotation-accent-color);
+}
+
+.annotation text {
+fill: var(--annotation-accent-color);
+}
+
+path.note-line {
+  stroke: transparent;
+}
+
+.annotation-note-title {
+font-size: medium;
+}
+
+.annotation.badge path.subject-ring {
+fill: white;
+stroke-width: 2.5px;
+}
+
+.annotation-subject{
+stroke-width: 2.5px;
+}
+
+.annotation.badge path.subject-pointer, .annotation.badge path.subject {
+fill: var(--annotation-accent-color);
+stroke-width: 2.5px;
+stroke-linecap: round;
+} 
+
+rect.annotation-note-bg {
+fill: rgba(255, 255, 255, 0);
 }
