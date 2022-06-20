@@ -32,6 +32,15 @@ let selectedId = -1;
 let hoveredId = -1;
 var mapLoaded = false
 
+const CLUB_HOUSE_ID = -1000
+data.push( {
+  x: 0,
+  y: 0,
+  A: CLUB_HOUSE_ID,
+  R: -1,
+  T: -1
+})
+
 function loadMap() {
     (async () => {
         const createScatterplot = 
@@ -78,8 +87,8 @@ function loadMap() {
 
 let scatterplot: any
 
-const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
-const pointSizes = [80, 100, 85, 70, 55, 80, 60]
+const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181', '#FFA500']
+const pointSizes = [80, 100, 85, 70, 55, 80, 60, 140]
 
 const highlightColorsZoomCutoff = 20
 const highlightHoverZoomCutoff = 7
@@ -144,7 +153,11 @@ function setupMap(createScatterplot) {
         textLabel.style['left'] = x.toString() + "px"
         textLabel.style['top'] = y.toString() + "px"
 
-        textLabel.innerHTML = data[index].A
+        if (data[index].A == CLUB_HOUSE_ID) {
+          textLabel.innerHTML = 'Clubhouse'
+        } else {
+          textLabel.innerHTML = data[index].A
+        }
         textLabel.style['visibility'] = 'visible'
       }
    })
@@ -167,6 +180,8 @@ function setupMap(createScatterplot) {
     let enoughSpaceOnRight = x + 270 < window.innerWidth
     let infoX = enoughSpaceOnRight ? x + 40 : x - 350
     let infoY = 80
+
+    if (selectedPoint == CLUB_HOUSE_ID) return
     onLandSelectedCallback(selectedPoint, infoX, infoY)
  })
 
@@ -186,6 +201,11 @@ const rankingIndex = (d: any) => {
 
     // let currentZoom = scatterplot.get('cameraDistance')
     // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+    //clubhouse at 0,0
+    if (d.A == CLUB_HOUSE_ID) {
+      return 7
+    }
 
     if (d.R == -1) {
         return 0
@@ -211,6 +231,11 @@ const sizeIndex = (d: any) => {
 
   // let currentZoom = scatterplot.get('cameraDistance')
   // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+  //clubhouse at 0,0
+  if (d.A == CLUB_HOUSE_ID) {
+    return 7
+  }
 
   if (d.T == -1) {
       return 0
