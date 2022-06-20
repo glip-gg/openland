@@ -198,8 +198,8 @@ export default function Home() {
                     padding: 20,
                     backgroundColor: 'black',
                     position: 'absolute', 
-                    left:`${mapLandDetailsPosition[1] + 50}px`, 
-                    top:`80px`,
+                    left:`${mapLandDetailsPosition[1]}px`, 
+                    top:`${mapLandDetailsPosition[2]}px`,
                     visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
                     
                         <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 

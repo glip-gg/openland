@@ -164,7 +164,10 @@ function setupMap(createScatterplot) {
     let x = xScale(data[points[0]].x)
     let y = yScale(data[points[0]].y)
     
-    onLandSelectedCallback(selectedPoint, x, y)
+    let enoughSpaceOnRight = x + 270 < window.innerWidth
+    let infoX = enoughSpaceOnRight ? x + 40 : x - 350
+    let infoY = 80
+    onLandSelectedCallback(selectedPoint, infoX, infoY)
  })
 
   scatterplot.subscribe('deselect', () => {
