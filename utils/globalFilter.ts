@@ -1,4 +1,4 @@
-import { filterApeDeeds } from './apeDeedsModelManager';
+import { filterApeDeeds, getAllApeDeeds } from './apeDeedsModelManager';
 
 let constructedFilters:{ [id: string] : ApeFilter; } = {};
 
@@ -25,10 +25,10 @@ class ApeFilter {
                 return parseInt(x, 10); 
             });
         }
-        console.log('valArr', valArr);
         if(this.filters[name]){
             console.log('nice', valArr);
-            this.filters[name].valArr = this.filters[name].valArr.concat(valArr);
+          this.filters[name].valArr = this.filters[name].valArr.concat(
+            valArr);
             this.filters[name].valArr = Array.from(
                 new Set(this.filters[name].valArr));
             // Done
@@ -60,6 +60,28 @@ class ApeFilter {
         console.log(this.filters);
         let filteredData = await filterApeDeeds(this.filters);
         return filteredData;
+    }
+
+    getAllApeDeeds(){
+        console.log(this.filters);
+        let filteredData = getAllApeDeeds();
+        return filteredData;
+    }
+
+    isValueActive(mainElemName:string, title:string|number){
+        if(!this.filters[mainElemName]){
+            if(title === 'All'){
+                return true;
+            }
+            return false;
+        }
+        if(NUMBER_TRAITS.includes(mainElemName)){
+            title = Number(title);
+        }
+        if(this.filters[mainElemName].valArr.includes(title)){
+            return true;
+        }
+        return false;
     }
 }
 

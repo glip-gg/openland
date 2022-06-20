@@ -177,7 +177,7 @@ export default function Home() {
               </div>
               <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%'}}>
                 <div style={{background: 'black', padding: 32}}>
-                  <FilterBody  floor={2.14} lands={4500} filters={['Buy Now', 'Anus Reaper']} />
+                  <FilterBody filters={['Buy Now', 'Anus Reaper']} />
                 </div>
               </div>
             </div>

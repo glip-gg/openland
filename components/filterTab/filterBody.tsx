@@ -71,18 +71,30 @@ const oldCardData =  [{
         resource: false,
         artifact: true
 }]
-export default function FilterBody({lands, filters, floor}: any) {
+export default function FilterBody({filters, }: any) {
 
     const [cards, setCards] = useState([]);
+    const [lands, setLands] = useState(4500);
+    const [floor, setFloor] = useState(1.3);
     
     useEffect(()=>{
+        let newData:any;
         eventBus.on("filter-applied", async (data:any)=>{
-            let newData:any = await globalApeFilter.applyFilter();
+            newData = await globalApeFilter.applyFilter();
             console.log('newData', newData);
             setCards(newData);
+            setLands(newData.length)
         });
+        eventBus.on("ape-deeds-added", async (data:any)=>{
+            newData = globalApeFilter.getAllApeDeeds();
+            console.log('newData', newData);
+            setLands(newData.length)
+            setCards(newData);
+        });
+
         return ()=>{
             eventBus.remove("filter-applied", undefined);
+            eventBus.remove("ape-deeds-added", undefined);
         }
     },[]);
     
@@ -99,21 +111,21 @@ export default function FilterBody({lands, filters, floor}: any) {
           <Spacer />
 
           <ChipFilterDisplay rounded filters={filters} />
-            <PaginatedList
-                list={cards}
-                itemsPerPage={6}
-                loopAround={true}
-                PaginatedListContainer={PaginatedListContainer}
-                renderList={(list) => (
-                    <>
-                      {list.map((item, id) => {
-                          return (
-                              <OtherCard key={`othercard-${id}`} data={item} />
-                          );
-                      })}
-                    </>
-                )}
-            />
+          <PaginatedList
+              list={cards}
+              itemsPerPage={6}
+              loopAround={true}
+              PaginatedListContainer={PaginatedListContainer}
+              renderList={(list) => (
+                  <>
+                    {list.map((item, id) => {
+                        return (
+                            <OtherCard key={`othercard-${id}`} data={item} />
+                        );
+                    })}
+                  </>
+              )}
+          />
           <Spacer y={4} />
         </div>
     );

@@ -9,7 +9,7 @@ import {
     Input, 
   } from '@nextui-org/react';
 import { on } from 'events';
-  
+import globalApeFilter from '../../utils/globalFilter';  
 
 const CardDesign = styled.div`
     display: flex;
@@ -100,7 +100,17 @@ export default function ArtifactFilterModal(props: any) {
         setName(keyword);
     };
 
-    const type_cards = filteredCards.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${item}`} title={item} active={false}/>);
+    const setFilters = (name:string, val:string|number, active:boolean) => {
+        if(active){
+            globalApeFilter.addFilter(name, [val], 'in');
+        }
+        else{
+            globalApeFilter.removeFilter(name, [val], 'in');
+        }
+    };
+
+    const type_cards = filteredCards.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${item}`} mainElemName="Artifact" title={item}
+                                                                          onChange={setFilters} active={false}/>);
     
     const Card = ({title, subtitle}: any) => {
         return (

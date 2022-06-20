@@ -76,18 +76,19 @@ const Icon = ({icon}: any) => {
         - active
         # no redux so onclick function will be a param mostly
 */ 
-export default function FilterCard({icon, title, subtitle, active}: any) {    
-    const [chipActive, setChipActive] = useState(active);
+export default function FilterCard(
+    {icon, title, subtitle, active, mainElemName, onChange=()=>{}}: any) {    
 
     const cardClick = () => {
-        setChipActive(!chipActive);
+        onChange(mainElemName, title, !active);
+        // TODO add funciton for property
     };
 
     return (
-        <Card className='hover border-hover' onClick={() => cardClick()} active={chipActive}>
-            {icon && <Icon icon={icon} />}
-            {title && <Title>{title}</Title>}
-            {subtitle && <SubTitle>{subtitle}</SubTitle>}
+        <Card className='hover border-hover' onClick={() => cardClick()} active={active}>
+          {icon && <Icon icon={icon} />}
+          {title && <Title>{title}</Title>}
+          {subtitle && <SubTitle>{subtitle}</SubTitle>}
         </Card>
     );
 }

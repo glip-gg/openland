@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spacer } from '@nextui-org/react';
 import Image from 'next/image';
 
+import globalApeFilter from '../../utils/globalFilter';
+
 const Card = styled.div`
-  
+    
     border:  ${props => props.active ? '1px solid rgba(255, 255, 255, 1)!important': '1px solid transparent'};
     display: flex;
     flex-direction: row;
@@ -40,17 +42,17 @@ const Card = styled.div`
    - active
    # no redux so onclick function will be a param mostly
  */ 
-export default function Chip({ title, active, mainElemName, onChange=()=>{} }: any) {      
-    const [chipActive, setChipActive] = useState(active);
-
+export default function Chip({ title, active, mainElemName,  onChange=()=>{} }: any ) {
+    
+    
     const cardClick = () => {
-        onChange(mainElemName, title, !chipActive);
-        setChipActive(!chipActive);
+        onChange(mainElemName, title, !active);
         // TODO add funciton for property
     };
 
     return (
-        <Card className='hover border-hover' onClick={() => cardClick()} active={chipActive}>
+        <Card className='hover border-hover' onClick={() => cardClick()}
+              active={active}>
             {title}
         </Card>
     );

@@ -1,9 +1,11 @@
 import _ from  'lodash';
+import eventBus from './eventBus';
 
 let gApeDeeds:any[] = [];
 
 export async function addApeDeeds(apeDeeds:any){
-  gApeDeeds = apeDeeds;
+    gApeDeeds = apeDeeds;
+    eventBus.dispatch('ape-deeds-added', gApeDeeds)
 }
 
 
@@ -21,4 +23,9 @@ export async function filterApeDeeds(filtersObj:any){
         }  
     );
     return filteredApeDeeds;
+}
+
+
+export function getAllApeDeeds(){
+    return gApeDeeds;
 }

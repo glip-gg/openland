@@ -6,7 +6,9 @@ import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 
 import Chip from '../ui/chip';
+import ChipList from '../ui/chipList';
 import FilterCard from '../ui/filterCard';
+import FilterCardList from '../ui/filterCardList';
 
 import FilterBottomTab from '../ui/FilterBottomTab';
 
@@ -61,22 +63,18 @@ const category_images_dict:any = {
     "Mineral": MineralCategoryImage,
     "Chaos": ChaosCategoryImage
 }
-const sediment_tier_data: Array<String> = ['All', '1', '2', '3'];
+const tier_data: Array<String> = ['All', '1', '2', '3'];
 
 const sediment_data: Array<String> = ['All', 'Infinite Expanse', 'Cosmic Dream', 'Chemical Goo', 'Rainbow Atmos', 'Biogenic Swamp'];
 
 const category_data: Array<String> = ['All', "Spirit","Volcanic","Harsh","Decay","Growth","Psychedelic","Mineral","Chaos"];
 
+
 const environment_data: Array<String> = ['All', "Steppes","Obsidian","Sands","Splinter","Ruins","Bog","Mystic","Thornwood","Sludge","Plague","Bone","Sulfuric","Wastes","Jungle","Mallow","Molten","Acid","Veldan","Spires","Glacia","Crimson","Biolume","Luster","Crystal","Sky","Shadow","Mycelium","Botanical","Chaos"];
 
 
-
-
-const tier_data: Array<String> = ['All', '1', '2', '3'];
-
 // Get actual tiers from somewhere! TODO
-const sediment_tier_chips = (onChange:any) => sediment_tier_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`}  title={item} 
-                                                                                                      active={false} onChange={onChange} mainElemName="Sediment Tier" />);
+const sediment_tier_chips = (onChange:any) => tier_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`}  title={item} onChange={onChange} mainElemName="Sediment Tier" />);
 
 const sediment_chips = (onChange:any) => sediment_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}
                                                                                             onChange={onChange} mainElemName="Sediment"
@@ -127,36 +125,41 @@ export default function LandFilterModal(props: any) {
           <FilterSectionTitle>Sediment tier</FilterSectionTitle>
 
           <FlexWrapWrapper type={'chip'}>
-            {sediment_tier_chips(setFilters)}
+            <ChipList data={tier_data}
+                      mainElemName="Sediment Tier"></ChipList>
           </FlexWrapWrapper>
 
           <FilterSectionTitle>Sediment</FilterSectionTitle>
 
           <FlexWrapWrapper type={'chip'}>
-            {sediment_chips(setFilters)}
+            <ChipList data={sediment_data}
+                      mainElemName="Sediment"></ChipList>
           </FlexWrapWrapper>
 
 
           <FilterSectionTitle>Category</FilterSectionTitle>
 
           <FlexWrapWrapper type={'card'}>
-            {category_cards(setFilters)}
+            <FilterCardList data={category_images_dict}
+                            mainElemName="Category"></FilterCardList>
           </FlexWrapWrapper>
 
           <FilterSectionTitle>Environment Tier</FilterSectionTitle>
 
           <FlexWrapWrapper type={'chip'}>
-            {tier_chips(setFilters)}
+            <ChipList data={tier_data}
+                      mainElemName="Environment Tier"></ChipList>
           </FlexWrapWrapper>
 
           <FilterSectionTitle>Enviorment</FilterSectionTitle>
 
           <FlexWrapWrapper type={'chip'}>
-            {environment_chips(setFilters)}
+            <ChipList data={environment_data}
+                      mainElemName="Environment"></ChipList>
           </FlexWrapWrapper>           
 
           <FilterBottomTab />
 
         </ModalContainer>
     );
-    }
+}
