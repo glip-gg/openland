@@ -190,6 +190,7 @@ export default function Home() {
                 <Map onLandClicked={onLandSelected}></Map>
 
                 {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                    padding: 20,
                     backgroundColor: 'black',
                     position: 'absolute', 
                     left:`${mapLandDetailsPosition[1] + 50}px`, 
