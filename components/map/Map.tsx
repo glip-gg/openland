@@ -3,12 +3,16 @@ import { scaleLinear } from 'd3-scale';
 
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
+type LandUnselectCallback = () => void
 
-let onLandClickedCallback: LandSelectCallback
+let onLandSelectedCallback: LandSelectCallback
+let onLandUnselectedCallback: LandUnselectCallback
 
 export default function Map(props: any) {
     console.log('loading map component')
-    onLandClickedCallback = props.onLandClicked
+    onLandSelectedCallback = props.onLandSelected
+    onLandUnselectedCallback = props.onLandUnselected
+
     useEffect(()=>{
         loadMap()
     },[])
@@ -27,6 +31,15 @@ let filteredIds: any = [];
 let selectedId = -1;
 let hoveredId = -1;
 var mapLoaded = false
+
+const CLUB_HOUSE_ID = -1000
+data.push( {
+  x: 0,
+  y: 0,
+  A: CLUB_HOUSE_ID,
+  R: -1,
+  T: -1
+})
 
 function loadMap() {
     (async () => {
@@ -56,7 +69,8 @@ function loadMap() {
                 x: Number(adjustedCoorddinate.x),
                 y: Number(adjustedCoorddinate.y),
                 A: Number(d.A),
-                R: -1
+                R: -1,
+                T: -1
             }})
 
         data = data.concat(rows);
@@ -73,8 +87,8 @@ function loadMap() {
 
 let scatterplot: any
 
-const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181']
-const pointSizes = [80, 100, 85, 70, 55, 80, 60]
+const pointColors = ['#6380FC', '#E0BE46', '#7625C2', '#2D71E6', '#2BD73D', '#242424', '#818181', '#FFA500']
+const pointSizes = [80, 100, 85, 70, 55, 80, 60, 140]
 
 const highlightColorsZoomCutoff = 20
 const highlightHoverZoomCutoff = 7
@@ -111,7 +125,10 @@ function setupMap(createScatterplot: any) {
     let camera = scatterplot.get('camera')
     camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
-    setScoreData(data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1))
+    setLandData(
+      data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
+      data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
+    )
     
     drawMap()
     mapLoaded = true
@@ -136,7 +153,11 @@ function setupMap(createScatterplot: any) {
         textLabel.style['left'] = x.toString() + "px"
         textLabel.style['top'] = y.toString() + "px"
 
-        textLabel.innerHTML = data[index].A
+        if (data[index].A == CLUB_HOUSE_ID) {
+          textLabel.innerHTML = 'Clubhouse'
+        } else {
+          textLabel.innerHTML = data[index].A
+        }
         textLabel.style['visibility'] = 'visible'
       }
    })
@@ -156,21 +177,35 @@ function setupMap(createScatterplot: any) {
     let x = xScale(data[points[0]].x)
     let y = yScale(data[points[0]].y)
     
-    onLandClickedCallback(selectedPoint, x, y)
+    let enoughSpaceOnRight = x + 270 < window.innerWidth
+    let infoX = enoughSpaceOnRight ? x + 40 : x - 350
+    let infoY = 80
+
+    if (selectedPoint == CLUB_HOUSE_ID) return
+    onLandSelectedCallback(selectedPoint, infoX, infoY)
  })
+
+  scatterplot.subscribe('deselect', () => {
+      onLandUnselectedCallback()
+  })
 }
 
 function drawMap() {
-  const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
-    scatterplot.draw(points);
+  const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
+  scatterplot.draw(points);
 }
 
 const rankingIndex = (d: any) => {
 
     if (filteredIds.length != 0 && !filteredIds.includes(d.A)) return 5
 
-    let currentZoom = scatterplot.get('cameraDistance')
-    if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+    // let currentZoom = scatterplot.get('cameraDistance')
+    // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+    //clubhouse at 0,0
+    if (d.A == CLUB_HOUSE_ID) {
+      return 7
+    }
 
     if (d.R == -1) {
         return 0
@@ -192,19 +227,52 @@ const rankingIndex = (d: any) => {
 
 }
 
+const sizeIndex = (d: any) => {
+
+  // let currentZoom = scatterplot.get('cameraDistance')
+  // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+
+  //clubhouse at 0,0
+  if (d.A == CLUB_HOUSE_ID) {
+    return 7
+  }
+
+  if (d.T == -1) {
+      return 0
+  }
+
+  if (d.T == 1) {
+      return 5
+  }
+  if (d.T == 2) {
+      return 4
+  }
+  if (d.T == 3) {
+      return 3
+  }
+  if (d.T == 4) {
+      return 2
+  }
+  if (d.T == 5) {
+    return 1
+  }
+  return 6
+
+}
+
 const steppedZoomChanged = (previousZoom: number, newZoom: number) => {
     if (filteredIds.length != 0) return
 
-    if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
-       scatterplot.set({
-        colorBy: 'valueA'
-       })
-    }
-    if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
-        scatterplot.set({
-         colorBy: 'valueB'
-        })
-    }
+    // if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
+    //    scatterplot.set({
+    //     colorBy: 'valueB'
+    //    })
+    // }
+    // if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
+    //     scatterplot.set({
+    //      colorBy: 'valueB'
+    //     })
+    // }
   }
 
 function updateZoomState(newZoomLevel: number) {
@@ -229,33 +297,30 @@ function updateZoomState(newZoomLevel: number) {
 function setFilteredIds(ids: number[]) {
     filteredIds = ids
     if (filteredIds.length == 0) {
-      const points = data.map((d: any) =>  [d.x, d.y, 0, rankingIndex(d)])
-      let currentZoom = scatterplot.get('cameraDistance')
-
-      if (currentZoom > highlightColorsZoomCutoff) {
-        scatterplot.set({
-         colorBy: 'valueA'
-        })
-      } else {
-        scatterplot.set({
-          colorBy: 'valueB'
-         })
-      }
-      scatterplot.draw(points);
-    } else {
-      const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d)])
       scatterplot.set({
-        colorBy: 'valueA'
-       })
-      scatterplot.draw(points);
+        cameraDistance: 70
+      })
+    } else {
+      let distances: number[] = []
+      filteredIds.forEach((element: number) => {
+        var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
+        distances.push(dist)
+      });
+      let filteredRadius = distances.sort().reverse()[0]
+      scatterplot.set({
+        cameraDistance: filteredRadius
+      })
     }
+    drawMap()
 }
 
 // array of scores (0-99999)
-function setScoreData(scores: number[]) {
+// array of land tiers (1-5) for 0-99999
+function setLandData(scores: number[], landTiers: number[]) {
     data = data.map((d: any) => ({
     ...d,
-    R: scores[d.A]
+    R: scores[d.A],
+    T: landTiers[d.A]
     }))
     if (mapLoaded) {
       drawMap()
