@@ -82,7 +82,7 @@ const highlightHoverZoomCutoff = 7
 var currentSteppedZoom = 1
 var currentZoomLevel = 1
 
-function setupMap(createScatterplot) {
+function setupMap(createScatterplot: any) {
     
     const canvas = document.getElementById('chart-container')!
     const textLabel = document.getElementById('map-land-label')!
@@ -116,14 +116,14 @@ function setupMap(createScatterplot) {
     drawMap()
     mapLoaded = true
 
-    scatterplot.subscribe('view', (camera, view, xScale, yScale) => {
+    scatterplot.subscribe('view', (camera: any, view: any, xScale: any, yScale: any) => {
        updateZoomState(camera.camera.distance[0])
        if (currentZoomLevel < highlightHoverZoomCutoff) {
           textLabel.style['visibility'] = 'hidden'
        }
     })
 
-    scatterplot.subscribe('pointOver', (index) => {
+    scatterplot.subscribe('pointOver', (index: any) => {
       if (hoveredId == data[index].A) return
       hoveredId = data[index].A
 
@@ -141,7 +141,7 @@ function setupMap(createScatterplot) {
       }
    })
 
-   scatterplot.subscribe('pointOut', (index) => {
+   scatterplot.subscribe('pointOut', (index: any) => {
      if (data[index].A == hoveredId) {
        hoveredId = -1
        return
@@ -151,7 +151,7 @@ function setupMap(createScatterplot) {
       textLabel.style['visibility'] = 'hidden'
    })
 
-   scatterplot.subscribe('select', ({ points }) => {
+   scatterplot.subscribe('select', ({ points }: any) => {
     let selectedPoint = data[points[0]].A
     let x = xScale(data[points[0]].x)
     let y = yScale(data[points[0]].y)

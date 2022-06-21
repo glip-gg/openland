@@ -83,7 +83,7 @@ export default function ArtifactFilterModal(props: any) {
         
     };
 
-    const textFilter = (e) => {
+    const textFilter = (e: any) => {
         const keyword = e.target.value;
         
         if (keyword !== '') {
