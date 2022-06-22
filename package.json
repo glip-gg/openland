@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "regl": "^2.1.0",
     "regl-scatterplot": "git+https://github.com/naman14/regl-scatterplot.git",
     "rsuite": "^5.14.0",
+    "sharp": "^0.30.6",
     "styled-components": "^5.3.5",
     "worker-loader": "^3.0.8"
   },

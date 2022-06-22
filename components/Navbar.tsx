@@ -28,10 +28,11 @@ export default function Navbar() {
       >
         <Text h1 className={styles.navbar}>         
           <Link
-            color
+            color={'primary'}
             href="https://openland.gg"
             target="_blank"
             rel="noopener noreferrer"
+            style={{color: '#fff'}}
           >
             Openland
           </Link>          
@@ -39,28 +40,30 @@ export default function Navbar() {
         <Input placeholder="Search" />
         <Text h1 className={styles.navbar_sub}> 
             <Link
-                color
+                color={'primary'}
                 href="https://openland.gg"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{marginRight: 8}}
+                style={{marginRight: 8, color: '#fff'}}
+                
             >
                 Twitter
             </Link>
             <Link
-                color
+                color={'primary'}
                 href="https://openland.gg"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{marginRight: 8}}
+                style={{marginRight: 8, color: '#fff'}}
                 >
                 Discord
             </Link>
             <Link
-                color
+                color={'primary'}
                 href="https://openland.gg"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{color: '#fff'}}
                 >
                 About
             </Link>

@@ -41,8 +41,6 @@ const PaginatedListContainer = styled.div`
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    margin-left: -20px;
-    margin-right: -20px;
 `
 
 const oldCardData =  [{

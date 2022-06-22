@@ -39,7 +39,7 @@ export default function ResourceFilterModal(props: any) {
     const clearFilters = () => {};
     const applyFilters = () => {};
 
-    const textFilter = (e) => {
+    const textFilter = (e: any) => {
         const keyword = e.target.value;
         
         if (keyword !== '') {
