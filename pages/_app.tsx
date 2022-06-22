@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             fetchApeDeedsData(), fetchApeDeedsPriceData()]);
 
         //let apePriceData = await fetchPriceData();
-        addApeDeeds(apeDeeds, apePriceData);
+        addApeDeeds(apeDeeds, apePriceData.data.otherdeed);
     })();
   },[]);
   

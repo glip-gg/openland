@@ -8,6 +8,7 @@ import Chip from '../ui/chip';
 import Slider from '../ui/slider';
 import FilterBottomTab from '../ui/FilterBottomTab';
 
+import globalApeFilter from '../../utils/globalFilter';
 
 const currency_data: Array<String> = ['All', 'ETH', 'wETH', 'APE'];
 const currency_chips = currency_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -26,36 +27,52 @@ const status_chips = status_data.map((item: any, index: any) => <Chip key={`sedi
         - category
         - tier
         - enviorment
-*/ 
-export default function PriceFilterModal(props: any) {    
+ */
 
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+export default function PriceFilterModal(props: any) {
+    const forceUpdate = useForceUpdate();
+    const [value, setValue] = useState([0, 1000]);
+    
     const clearFilters = () => {
-
+        globalApeFilter.clearFilter('currentListPrice', 'range')
     };
 
-    const applyFilters = () => {
-        
-    };
+
+    
+    const applyFilter = () => {
+        globalApeFilter.clearFilter('currentListPrice', 'range')
+        globalApeFilter.addFilter('currentListPrice', [
+            Number(value[0]), Number(value[1])], 'range');
+        forceUpdate();
+    }
+
 
     return (
         <ModalContainer>
 
-            <FilterSectionTitle>Price</FilterSectionTitle>
-                                
-            <Slider start={10} end={100} min={2} max={200}/>            
+          <FilterSectionTitle>Price</FilterSectionTitle>
+          
+          <Slider start={value[0]} end={value[1]}
+                  setValue={setValue} min={0}
+                  max={1000}/>
+          {/*
+              <FilterSectionTitle>Currency</FilterSectionTitle>
+              <FlexWrapWrapper type={'chip'}>
+              {currency_chips}
+              </FlexWrapWrapper>
 
-            <FilterSectionTitle>Currency</FilterSectionTitle>
-            <FlexWrapWrapper type={'chip'}>
-                {currency_chips}
-            </FlexWrapWrapper>
+              <FilterSectionTitle>Status</FilterSectionTitle>
+              <FlexWrapWrapper type={'chip'}>
+              {status_chips}
+              </FlexWrapWrapper>
+            */}
 
-            <FilterSectionTitle>Status</FilterSectionTitle>
-            <FlexWrapWrapper type={'chip'}>
-                {status_chips}
-            </FlexWrapWrapper>
-
-
-            <FilterBottomTab />
+          <FilterBottomTab clearFilters={clearFilters} applyFilters={applyFilter} />
 
 
         </ModalContainer>

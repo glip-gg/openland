@@ -77,9 +77,12 @@ export default function FilterBottomTab(props: any) {
 
     const clearFilters = () => {
         props.clearFilters();
+        eventBus.dispatch('filter-applied',{});
     };
 
     const applyFilters = () => {
+        if(props.applyFilters)
+            props.applyFilters();
         eventBus.dispatch('filter-applied',{});
     };
 

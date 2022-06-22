@@ -18,7 +18,6 @@ export const DefaultPopover = React.forwardRef(({ type, title, ...props }: any, 
     if(type == 'rank') content = RankFilterModal;
     if(type == 'koda') content = KodaFilterModal;
     if(type == 'koda_advanced') content = KodaAdvancedFilterModal;
-    console.log(content);
 
     return (
         <Popover

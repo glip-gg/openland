@@ -5,15 +5,27 @@ let gApeDeeds:any[] = [];
 
 
 function addApePriceRankData(apePriceData:any){
-    let priceObj = apePriceData.map((x:any) => {
-        return ({ [x['tokenId']]: x });
+    console.log()
+    let priceObj:any = {}
+    apePriceData.map((x:any) => {
+        priceObj[x['tokenId']]=x;
     })
+    console.log('priceObj', priceObj)
     gApeDeeds = gApeDeeds.map((obj, i) => {
-        let currPriceObj = priceObj[obj['Plot']];
+        let currPriceObj = priceObj[String(obj['Plot'])];
+        //console.log('currPriceObj', currPriceObj);
+        let currentListCurrency:any = '';
+        //if(currPriceObj.currentListPriceCurrency){
+        if(currPriceObj.lastSaleCurrency){
+            //currentListCurrency = currPriceObj.currentListPriceCurrency.name;
+            currentListCurrency = currPriceObj.lastSaleCurrency.name;
+        }
         return {
             ...obj,
-            currentListPrice: currPriceObj.currentListPrice,
-            
+            currentListPrice: (Number(currPriceObj.currentListPrice)/1000000000000000000),
+            currentListCurrency: currentListCurrency,
+            rank: Number(currPriceObj.rank),
+            score: Number(currPriceObj.score),
         }
     });
     
@@ -21,7 +33,8 @@ function addApePriceRankData(apePriceData:any){
 
 export async function addApeDeeds(apeDeeds:any, apePriceData:any){
     gApeDeeds = apeDeeds;
-    addApePriceRankData(gApeDeeds)
+    console.log(apePriceData)
+    addApePriceRankData(apePriceData)
     eventBus.dispatch('ape-deeds-added', gApeDeeds)
 }
 
@@ -30,6 +43,7 @@ const EXCLUDED_RESOURCE_FILTERS = [
 export async function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
     let processedFilterObj:any = {};
+    
     for(let filterObjKey in filtersObj){
         if(EXCLUDED_RESOURCE_FILTERS.includes(filtersObj[filterObjKey].name)){
             continue
@@ -48,6 +62,17 @@ export async function filterApeDeeds(filtersObj:any){
                     isIncluded = false;
                 }
                 
+            }
+            if(filtersObj[filterObjKey].op === 'range'){
+                let filterName = filtersObj[filterObjKey].name;
+                let filterVals = filtersObj[filterObjKey].valArr;
+                let apeDeedVal = gApeDeed[filterName];
+                if(apeDeedVal < filterVals[0] || apeDeedVal > filterVals[1] ){
+                    isIncluded = false;
+                }
+                if(!apeDeedVal && apeDeedVal != 0){
+                    isIncluded = false;
+                }
             }
             else if(filtersObj[filterObjKey].op === 'exclude'){
                 if(!gApeDeed[filtersObj[filterObjKey].name]){

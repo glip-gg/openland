@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { RangeSlider, InputGroup, InputNumber } from 'rsuite'
 
 
+
 const Card = styled.div`
     font-family: 'Chakra Petch';
     font-style: normal;
@@ -77,10 +78,12 @@ const Icon = ({icon}: any) => {
         - subtitle
         - active
         # no redux so onclick function will be a param mostly
-*/ 
-export default function Slider({start, end, min, max}: any) {    
-    const [value, setValue] = useState([start, end]);
+ */
 
+export default function Slider({start, end, min, max, setValue}: any) {
+    
+    
+    
     const cardClick = () => {
         // setChipActive(!chipActive);
     };
@@ -96,17 +99,16 @@ export default function Slider({start, end, min, max}: any) {
                 onChange={value => {
                     setValue(value);
                 }}
-                value={value}
+                value={[start, end]}
             />
             <Spacer y={1} />
             <InputGroup className='rs-theme-dark'>
                 <InputNumber
                     className='rs-theme-dark'
-                    min={0}
-                    max={100}
-                    value={value[0]}
+                    min={min}
+                    max={max}
+                    value={start}
                     onChange={nextValue => {
-                    const [start, end] = value;
                     if (nextValue > end) {
                         return;
                     }
@@ -116,11 +118,10 @@ export default function Slider({start, end, min, max}: any) {
                 <InputGroup.Addon className='rs-theme-dark'>-</InputGroup.Addon>
                 <InputNumber
                     className='rs-theme-dark'
-                    min={0}
-                    max={100}
-                    value={value[1]}
+                    min={min}
+                    max={max}
+                    value={end}
                     onChange={nextValue => {
-                    const [start, end] = value;
                     if (start > nextValue) {
                         return;
                     }
