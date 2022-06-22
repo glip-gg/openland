@@ -3,8 +3,25 @@ import eventBus from './eventBus';
 
 let gApeDeeds:any[] = [];
 
-export async function addApeDeeds(apeDeeds:any){
+
+function addApePriceRankData(apePriceData:any){
+    let priceObj = apePriceData.map((x:any) => {
+        return ({ [x['tokenId']]: x });
+    })
+    gApeDeeds = gApeDeeds.map((obj, i) => {
+        let currPriceObj = priceObj[obj['Plot']];
+        return {
+            ...obj,
+            currentListPrice: currPriceObj.currentListPrice,
+            
+        }
+    });
+    
+}
+
+export async function addApeDeeds(apeDeeds:any, apePriceData:any){
     gApeDeeds = apeDeeds;
+    addApePriceRankData(gApeDeeds)
     eventBus.dispatch('ape-deeds-added', gApeDeeds)
 }
 

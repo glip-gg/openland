@@ -14,7 +14,7 @@ export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
         console.log('data', data);
-        console.log(val);        
+        console.log(val);
         if(active){
             if(val === 'All'){
                 globalApeFilter.addFilter(name, [...(data.filter(

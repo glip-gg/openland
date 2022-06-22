@@ -34,3 +34,14 @@ export async function fetchApeDeedsData() {
   console.log('data', data[0]);
   return data;
 }
+
+export async function fetchApeDeedsPriceData() {
+    let url = `https://be.namasteapis.com/service/v1/get-otherside-prices/`;
+    let data = await fetch(url, {
+        mode: 'cors',
+        headers: {
+            'Accept-Encoding': 'gzip',
+        }
+    });
+    return (await data.json());
+}

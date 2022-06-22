@@ -1,6 +1,7 @@
 import _ from  'lodash';
 import { filterApeDeeds, getAllApeDeeds } from './apeDeedsModelManager';
 
+
 let constructedFilters:{ [id: string] : ApeFilter; } = {};
 
 interface FilterInterface {

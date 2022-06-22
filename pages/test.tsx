@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import dynamic from 'next/dynamic'
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
@@ -13,7 +14,8 @@ import {
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { Popover, Whisper } from 'rsuite'
-import Drawer from '@mui/material/Drawer';
+const Drawer = dynamic(import('@mui/material/Drawer').then(mod => mod), { ssr: false }) // disable ssr
+//import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 
 import styled from 'styled-components';
