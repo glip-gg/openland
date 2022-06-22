@@ -52,7 +52,7 @@ export default function ExcludeIncludeFilterCard(
               icon={image}
               onChange={(name:string, val:string|number, active:boolean)=> {
                   setFilters(name, val, active, 'include')}}
-              mainElemName="Artifact"
+              mainElemName={mainElemName}
               active={isActiveInclude}
           />
           {showExclude && (

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
 import ModalContainer from './ModalContainer';
+import ChipList from '../ui/chipList';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
@@ -73,7 +74,8 @@ export default function ResourceFilterModal(props: any) {
 
           <FilterSectionTitle>Direction</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>
-            {direction_chips}
+            <ChipList data={direction_data}
+                      mainElemName="Direction"></ChipList>
           </FlexWrapWrapper>
           <FilterSectionTitle>Tier</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>

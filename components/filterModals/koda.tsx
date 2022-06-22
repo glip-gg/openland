@@ -7,9 +7,11 @@ import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
 import FilterCard from '../ui/filterCard';
 import FilterBottomTab from '../ui/FilterBottomTab';
+import ExcludeIncludeFilterCard from '../ui/excludeIncludeFilterCard';
 import {
     Input, 
-  } from '@nextui-org/react';
+} from '@nextui-org/react';
+import globalApeFilter from '../../utils/globalFilter';
 
 
 const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon', 'ID'];
@@ -68,14 +70,26 @@ const Subtitle = styled.div`
         - category
         - tier
         - enviorment
-*/ 
+ */
+
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+
 export default function KodaFilterModal(props: any) {   
-    
+    const forceUpdate = useForceUpdate();
     const [showAdvanced, setShowAdvanced] = useState(false);
 
     const clearFilters = () => {
-
+        globalApeFilter.clearFilter('Koda', 'in');
+        globalApeFilter.clearFilter('Koda', 'include');
+        globalApeFilter.clearFilter('Koda', 'exclude');
+        forceUpdate()
     };
+
 
     const applyFilters = () => {
         
@@ -94,37 +108,42 @@ export default function KodaFilterModal(props: any) {
     return (
         <ModalContainer>
 
-            <FilterSectionTitle>Koda</FilterSectionTitle>
+          <FilterSectionTitle>Koda</FilterSectionTitle>
 
-            <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-                <Card className='hover' title={'Koda only'} subtitle={'4.34Ξ (4,000)'} />
-                <Card className='hover' title={'Exclude Koda'} subtitle={'4.34Ξ (4,000)'} />
-            </div>
+          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+            <ExcludeIncludeFilterCard
+                mainElemName="Koda"
+                title="Kodas"
+                showExclude={true}
+            >
+            </ExcludeIncludeFilterCard>
+          </div>
 
+          {showAdvanced && <>
             <FlexWrapWrapper type={'card'}>
-                {koda_chips}
-                <div style={{display: 'flex'}} onClick={() => setShowAdvanced(!showAdvanced)}>
-                    <FilterCard title={'Koda Advanced filters'} active={false} />
-                </div>
+              {koda_chips}
+              <div style={{display: 'flex'}} onClick={() => setShowAdvanced(!showAdvanced)}>
+                <FilterCard title={'Koda Advanced filters'} active={false} />
+              </div>
             </FlexWrapWrapper>
 
-            {showAdvanced && <>
-                <Spacer y={1} />
 
-                <Input
-                    clearable
-                    contentRightStyling={false}
-                    placeholder="Search"                
-                />           
+            <Spacer y={1} />
 
-                <FilterSectionTitle>Type</FilterSectionTitle>
-                <FlexWrapWrapper type={'chip'}>
-                    {koda_properties_chips}                
-                </FlexWrapWrapper>
-            </>
-            }
+            <Input
+                clearable
+                contentRightStyling={false}
+                placeholder="Search"                
+            />           
 
-            <FilterBottomTab />
+            <FilterSectionTitle>Type</FilterSectionTitle>
+            <FlexWrapWrapper type={'chip'}>
+              {koda_properties_chips}                
+            </FlexWrapWrapper>
+          </>
+          }
+
+          <FilterBottomTab clearFilters={clearFilters}/>
 
 
         </ModalContainer>

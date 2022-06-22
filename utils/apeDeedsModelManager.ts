@@ -11,28 +11,35 @@ export async function addApeDeeds(apeDeeds:any){
 
 export async function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
-    let filteredApeDeeds = _.filter(
-        gApeDeeds, function(gApeDeed:any) {
-            for(let filterObjKey in filtersObj){
-                if(filtersObj[filterObjKey].op === 'include'){
-                    if(gApeDeed[filtersObj[filterObjKey].name]){
-                        return true;
-                    }
-                    return false;
+    let filteredApeDeeds = _.filter(gApeDeeds, function(gApeDeed:any){
+        let isIncluded = true;
+        for(let filterObjKey in filtersObj){
+            if(filtersObj[filterObjKey].op === 'include'){
+                if(gApeDeed[filtersObj[filterObjKey].name]){
+                        isIncluded = true;
                 }
-                if(filtersObj[filterObjKey].op === 'exclude'){
-                    if(!gApeDeed[filtersObj[filterObjKey].name]){
-                        return true;
-                    }
-                    return false;
+                else{
+                    isIncluded = false;
                 }
-                if(!filtersObj[filterObjKey].valArr.includes(
-                    gApeDeed[filtersObj[filterObjKey].name])){
-                    return false
+                
+            }
+            else if(filtersObj[filterObjKey].op === 'exclude'){
+                if(!gApeDeed[filtersObj[filterObjKey].name]){
+                    isIncluded = true;
+                }
+                else{
+                    isIncluded = false;
                 }
             }
-            return true;
-        }  
+            else if(filtersObj[filterObjKey].op === 'in'){
+                if(!filtersObj[filterObjKey].valArr.includes(
+                    gApeDeed[filtersObj[filterObjKey].name])){
+                    isIncluded = false;;
+                }
+            }
+        }
+        return isIncluded;
+    }  
     );
     return filteredApeDeeds;
 }

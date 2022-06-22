@@ -26,8 +26,9 @@ class ApeFilter {
     public filters:{ [id: string] : FilterInterface; } = {};
     public constructor(){ }
 
-    public clearFilter(name:string){
-        delete this.filters[name];
+    public clearFilter(name:string, op='in'){
+        let key = this.getKey(name, op);
+        delete this.filters[key];
     }
 
     getKey(name:string, op:string){
@@ -69,7 +70,10 @@ class ApeFilter {
         this.filters[key].valArr = this.filters[key].valArr.filter(
             function( el:any ) {
             return !valArr.includes( el );
-        } );
+            });
+        if(this.filters[key].valArr.length === 0){
+            delete this.filters[key]
+        }
     }
     
     public fetchCurrFilterResults(){

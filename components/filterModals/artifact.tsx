@@ -4,6 +4,7 @@ import ModalContainer from './ModalContainer';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
+import ChipList from '../ui/chipList';
 import FilterBottomTab from '../ui/FilterBottomTab';
 
 import ExcludeIncludeFilterCard from '../ui/excludeIncludeFilterCard';
@@ -73,15 +74,27 @@ const type_cards = type_data.map((item: any, index: any) => <Chip key={`sediment
    - enviorment
  */
 
-export default function ArtifactFilterModal(props: any) {    
 
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+
+export default function ArtifactFilterModal(props: any) {    
+    const forceUpdate = useForceUpdate();
     const [filteredCards, setFilteredCards] = useState(type_data);
     
     const [name, setName] = useState('');
     
+        
     const clearFilters = () => {
-
+        globalApeFilter.clearFilter('Artifact', 'in');
+        globalApeFilter.clearFilter('Artifact', 'include');
+        globalApeFilter.clearFilter('Artifact', 'exclude');
+        forceUpdate()
     };
+
 
     const applyFilters = () => {
         
@@ -136,7 +149,9 @@ export default function ArtifactFilterModal(props: any) {
               placeholder="Search"
           />
 
-          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+          <div style={{
+              display: 'flex', marginTop: 8,
+              marginBottom: 8, marginLeft: -6, marginRight: -6}}>
             <ExcludeIncludeFilterCard
                 mainElemName="Artifact"
                 title="Artifacts"
@@ -147,11 +162,13 @@ export default function ArtifactFilterModal(props: any) {
 
 
           <FlexWrapWrapper type={'card'}>
-            {type_cards}
+
+            <ChipList data={filteredCards}
+                      mainElemName="Artifact"></ChipList>
           </FlexWrapWrapper>
 
 
-          <FilterBottomTab />
+          <FilterBottomTab clearFilters={clearFilters} />
 
 
         </ModalContainer>
