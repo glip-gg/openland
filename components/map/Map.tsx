@@ -315,8 +315,8 @@ function setFilteredIds(ids: number[]) {
     drawMap()
 }
 
-function setFocusedId(id: number) {
-  scatterplot.select([id], {
+function setFocusedIds(ids: number[]) {
+  scatterplot.select(ids, {
     preventEvent: true
   })
 }
