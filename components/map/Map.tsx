@@ -188,6 +188,7 @@ function setupMap(createScatterplot: any) {
   scatterplot.subscribe('deselect', () => {
       onLandUnselectedCallback()
   })
+
 }
 
 function drawMap() {
@@ -312,6 +313,12 @@ function setFilteredIds(ids: number[]) {
       })
     }
     drawMap()
+}
+
+function setFocusedIds(ids: number[]) {
+  scatterplot.select(ids, {
+    preventEvent: true
+  })
 }
 
 // array of scores (0-99999)
