@@ -127,10 +127,10 @@ function setupMap(createScatterplot: any) {
 
     // first rank data
     // environment tier
-    setLandData(
-      data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
-      data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
-    )
+    /* setLandData(
+     *   data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
+     *   data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
+     * ) */
     
     drawMap()
     mapLoaded = true
@@ -297,7 +297,8 @@ function updateZoomState(newZoomLevel: number) {
   }
 
 // ids of lands to filter
-function setFilteredIds(ids: number[]) {
+export function setFilteredIds(ids: number[]) {
+    console.log('namannnnnnn', ids);
     filteredIds = ids
     if (filteredIds.length == 0) {
       scatterplot.set({
