@@ -327,7 +327,7 @@ export function setFocusedIds(ids: number[]) {
 
 // array of scores (0-99999)
 // array of land tiers (1-5) for 0-99999
-function setLandData(scores: number[], landTiers: number[]) {
+export function setLandData(scores: number[], landTiers: number[]) {
     data = data.map((d: any) => ({
     ...d,
     R: scores[d.A],
