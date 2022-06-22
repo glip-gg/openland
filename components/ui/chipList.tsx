@@ -9,7 +9,7 @@ function useForceUpdate(){
     return () => setValue(value => value + 1); // update the state to force render
 }
 
-export default function ChipList({ mainElemName, data, }: any ) {
+export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
     const forceUpdate = useForceUpdate();
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
@@ -30,6 +30,9 @@ export default function ChipList({ mainElemName, data, }: any ) {
                 return;
             }
             globalApeFilter.removeFilter(name, [val], 'in');
+        }
+        if(setFiltersCB){
+            setFiltersCB(name, val, active);
         }
         forceUpdate();
     };

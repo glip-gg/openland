@@ -9,8 +9,9 @@ import Chip from '../ui/chip';
 import FilterBottomTab from '../ui/FilterBottomTab';
 import {
     Input, 
-  } from '@nextui-org/react';
+} from '@nextui-org/react';
 
+import globalApeFilter from '../../utils/globalFilter';
 
 const direction_data: Array<String> = ['All', 'S', 'W', 'E', 'N'];
 const direction_chips = direction_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -31,15 +32,78 @@ const tier_chips = tier_data.map((item: any, index: any) => <Chip key={`sediment
 const resource_data: Array<String> = ['All', "Whisper","Bonestone","Spikeweed","Lunarian","Lumileaf","Oblivion","Nether","Duskia","Runa","Coralia","Brimstone","Luster","Chlorocite","Psychosilk","Tantalite","Moldium","Petrified","Fossica","Luminite","Kinsoul","Durinia","Ragnarock","Stonecrop","Sulfirica","Fortuna","Glowpod","Steppesalt","Degradia","Mossmoon","Fragmentia","Amberskull","Omni","Hollowcine","Thermodite","Etheria","Bubonium","Gloomia","Opalia","Sporicite","Galactica","Shatterfrost","Tanglevine","Claymer","Slushia","Maltosia","Slaglia","Void","Scumbria","Element 115","Vaporhaze","Spiritseep","Nocturna","Nebula","Rotworth","Scholara","Prysmatica","Abyssia","Onyx","Aurelian","Magentia","Pyrum","Geopillar","Dimensional","Pricklia","Senticybia","Entropy","Mallo","Nucleod","Obsilica","Brineslime","Chroma","Entradium","Lapidite","Phantom"];
 
 
+const RESOUCE_FILTER_LIST = [
+    'Eastern Resource Tier', 'Eastern Resource',
+    'Northern Resource Tier', 'Northern Resource',
+    'Southern Resource Tier', 'Southern Resource',
+    'Western Resource Tier', 'Western Resource',
+]
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+const RESOURCE_SHORTHAND_DICT:any  = {
+    'N' : 'Northern Resource',
+    'E' : 'Eastern Resource',
+    'W' : 'Western Resource',
+    'S' : 'Southern Resource'
+};
+
+const getResourceDirections = (resourceDirectionValues:any[])=>{
+    let resourceDirections = []
+    for(let resourceDirectValue of resourceDirectionValues){
+        resourceDirections.push(RESOURCE_SHORTHAND_DICT[resourceDirectValue]);
+    }
+    return resourceDirections
+}
 
 export default function ResourceFilterModal(props: any) {
-
+    const forceUpdate = useForceUpdate();
     const [filteredCards, setFilteredCards] = useState(resource_data);
     const [name, setName] = useState('');
     
-    const clearFilters = () => {};
-    const applyFilters = () => {};
-
+    const clearFilters = () => {
+        for(let resourceFilter of RESOUCE_FILTER_LIST){
+            globalApeFilter.clearFilter(resourceFilter, 'in');
+        }
+        globalApeFilter.clearFilter('Resource Direction', 'in');
+        globalApeFilter.clearFilter('Resource Tier', 'in');
+        globalApeFilter.clearFilter('Resource Type', 'in');
+        forceUpdate()
+    };
+    
+    const setFilters = (name:string, val:string|number, active:boolean) => {
+        for(let resourceFilter of RESOUCE_FILTER_LIST){
+            globalApeFilter.clearFilter(resourceFilter, 'in');
+        }
+        let resourceDirectionFilter = globalApeFilter.getFilterValue(
+            'Resource Direction', 'in');
+        let resourceTierFilter = globalApeFilter.getFilterValue(
+            'Resource Tier', 'in');
+        let resourceTypeFilter = globalApeFilter.getFilterValue(
+            'Resource Type', 'in');
+        let resourceDirections = ['Northern', 'Western', 'Southern', 'Eastern']
+        if(resourceDirectionFilter){
+            resourceDirections = getResourceDirections(resourceDirectionFilter);
+        }
+        if(resourceTierFilter){
+            for(let resourceDirection of resourceDirections){
+                for(let resourceTier of resourceTierFilter){
+                    globalApeFilter.addFilter(resourceDirection + ' Tier', [resourceTier], 'in')
+                }
+            }
+        }
+        if(resourceTypeFilter){
+            for(let resourceDirection of resourceDirections){
+                for(let resourceType of resourceTypeFilter){
+                    globalApeFilter.addFilter(resourceDirection, [resourceType], 'in')
+                }
+            }
+        }
+    }
+    
     const textFilter = (e: any) => {
         const keyword = e.target.value;
         
@@ -56,7 +120,7 @@ export default function ResourceFilterModal(props: any) {
         
         setName(keyword);
     };
-
+    
     const type_chips = filteredCards.map((item: any, index: any) => <Chip key={`resource-tier-chip-${item}`} title={item} active={false}/>);
     
     return (
@@ -75,19 +139,29 @@ export default function ResourceFilterModal(props: any) {
           <FilterSectionTitle>Direction</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>
             <ChipList data={direction_data}
-                      mainElemName="Direction"></ChipList>
+                      mainElemName="Resource Direction"
+                      setFiltersCB={setFilters}
+            ></ChipList>
           </FlexWrapWrapper>
           <FilterSectionTitle>Tier</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>
-            {tier_chips}
+            <ChipList
+                data={tier_data}
+                mainElemName="Resource Tier"
+                setFiltersCB={setFilters}
+            >
+              
+            </ChipList>
           </FlexWrapWrapper>
           <FilterSectionTitle>Type</FilterSectionTitle>
           <FlexWrapWrapper type={'card'}>
-            {type_chips}
+            <ChipList data={filteredCards}
+                      setFiltersCB={setFilters}
+                      mainElemName="Resource Type"></ChipList>
           </FlexWrapWrapper>
 
 
-          <FilterBottomTab />
+          <FilterBottomTab clearFilters={clearFilters} />
 
 
         </ModalContainer>

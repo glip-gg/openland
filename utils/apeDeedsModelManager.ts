@@ -8,9 +8,18 @@ export async function addApeDeeds(apeDeeds:any){
     eventBus.dispatch('ape-deeds-added', gApeDeeds)
 }
 
-
+const EXCLUDED_RESOURCE_FILTERS = [
+    'Resource Direction', 'Resource Tier', 'Resource Type'];
 export async function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
+    let processedFilterObj:any = {};
+    for(let filterObjKey in filtersObj){
+        if(EXCLUDED_RESOURCE_FILTERS.includes(filtersObj[filterObjKey].name)){
+            continue
+        }
+        processedFilterObj[filterObjKey] = filtersObj[filterObjKey];
+    }
+    filtersObj = processedFilterObj;
     let filteredApeDeeds = _.filter(gApeDeeds, function(gApeDeed:any){
         let isIncluded = true;
         for(let filterObjKey in filtersObj){

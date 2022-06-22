@@ -34,6 +34,14 @@ class ApeFilter {
     getKey(name:string, op:string){
         return name+op;
     }
+
+    public getFilterValue(name, op){
+        let key = this.getKey(name, op);
+        if(this.filters[key]){
+            return this.filters[key].valArr;
+        }
+        return [];
+    }
     public addFilter(name:string, valArr: (string|number)[], op='in'){
         if(NUMBER_TRAITS.includes(name)){
             valArr = valArr.map(function(x:any) { 
