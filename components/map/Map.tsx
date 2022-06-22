@@ -125,6 +125,8 @@ function setupMap(createScatterplot: any) {
     let camera = scatterplot.get('camera')
     camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
+    // first rank data
+    // environment tier
     setLandData(
       data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
       data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
@@ -312,10 +314,12 @@ function setFilteredIds(ids: number[]) {
         cameraDistance: filteredRadius
       })
     }
-    drawMap()
+    drawMap();
 }
 
-function setFocusedIds(ids: number[]) {
+//Onclick on therdeed
+export function setFocusedIds(ids: number[]) {
+    console.log('naman ids', ids);
   scatterplot.select(ids, {
     preventEvent: true
   })

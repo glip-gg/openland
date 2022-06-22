@@ -9,6 +9,7 @@ import OtherCard from './OtherCard';
 import eventBus from '../../utils/eventBus';
 import globalApeFilter from '../../utils/globalFilter';
 import {PaginatedList} from  'react-paginated-list';
+import { setFocusedIds } from '../map/Map';
 
 const FilterTitle = styled.div`
     font-family: 'Chakra Petch';
@@ -84,6 +85,13 @@ export default function FilterBody({filters, }: any) {
             console.log('newData', newData);
             setCards(newData);
             setLands(newData.length)
+            if(newData.length === 1000000){
+                //return
+            }
+            let newIds = newData.map((x:any)=>(x.Plot))
+            console.log('newIds', newIds)
+            setFocusedIds(newIds)
+            
         });
         eventBus.on("ape-deeds-added", async (data:any)=>{
             newData = globalApeFilter.getAllApeDeeds();
