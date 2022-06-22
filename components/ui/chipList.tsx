@@ -14,18 +14,21 @@ export default function ChipList({ mainElemName, data, }: any ) {
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
         console.log('data', data);
-        console.log(val);
-        
+        console.log(val);        
         if(active){
             if(val === 'All'){
-                globalApeFilter.addFilter(name, [...data], 'in');
-                forceUpdate();
+                globalApeFilter.addFilter(name, [...(data.filter(
+                    (item:any) => item !== 'All') )], 'in');
+                    forceUpdate();
             }
             else{
                 globalApeFilter.addFilter(name, [val], 'in');
             }
         }
         else{
+            if(val === 'All'){
+                return;
+            }
             globalApeFilter.removeFilter(name, [val], 'in');
         }
         forceUpdate();
@@ -33,7 +36,9 @@ export default function ChipList({ mainElemName, data, }: any ) {
 
     const checkIfActive = (title:any)=>{
         let isActive = false;
-        if(globalApeFilter.isValueActive(mainElemName, title)){
+        if(globalApeFilter.isValueActive(
+            mainElemName, title, [...(data.filter(
+                (item:any) => item !== 'All') )])){
             isActive = true;
         }
         return isActive;

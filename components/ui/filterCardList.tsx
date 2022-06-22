@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Chip from '../ui/chip';;
 import FilterCard from '../ui/filterCard';
 
 import globalApeFilter from '../../utils/globalFilter';
@@ -14,13 +13,14 @@ export default function FilterCardList(
     { mainElemName, data, }: any) {    
     const forceUpdate = useForceUpdate();
     
+    
     const setFilters = (name:string, val:string|number, active:boolean) => {
         console.log('data', data);
-        console.log(val);
-        
+        console.log(val);        
         if(active){
             if(val === 'All'){
-                globalApeFilter.addFilter(name, [...Object.keys(data)], 'in');
+                globalApeFilter.addFilter(name, [...(Object.keys(data).filter(
+                    (item:any) => item !== 'All') )], 'in');
                 forceUpdate();
             }
             else{
@@ -28,6 +28,9 @@ export default function FilterCardList(
             }
         }
         else{
+            if(val === 'All'){
+                return;
+            }
             globalApeFilter.removeFilter(name, [val], 'in');
         }
         forceUpdate();
@@ -35,7 +38,9 @@ export default function FilterCardList(
 
     const checkIfActive = (title:any)=>{
         let isActive = false;
-        if(globalApeFilter.isValueActive(mainElemName, title)){
+        if(globalApeFilter.isValueActive(
+            mainElemName, title, [...(Object.keys(data).filter(
+                (item:any) => item !== 'All') )])){
             isActive = true;
         }
         return isActive;
@@ -45,7 +50,7 @@ export default function FilterCardList(
         const isActive = checkIfActive(item);
         return (
             <FilterCard 
-                key={`${mainElemName}-${index}`} title={item} active={false}
+                key={`${mainElemName}-${index}`} title={item}
                 icon={data[item]}
                 onChange={setFilters} mainElemName="Category"
                 active={isActive}

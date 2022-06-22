@@ -5,10 +5,14 @@ import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
 import FilterBottomTab from '../ui/FilterBottomTab';
+
+import ExcludeIncludeFilterCard from '../ui/excludeIncludeFilterCard';
+
 import {
     Input, 
-  } from '@nextui-org/react';
+} from '@nextui-org/react';
 import { on } from 'events';
+
 import globalApeFilter from '../../utils/globalFilter';  
 
 const CardDesign = styled.div`
@@ -133,8 +137,12 @@ export default function ArtifactFilterModal(props: any) {
           />
 
           <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-            <Card className='hover' title={'Artifacts only'} subtitle={'4.34Ξ (4,000)'} />
-            <Card className='hover' title={'Exclude artifacts'} subtitle={'4.34Ξ (4,000)'} />
+            <ExcludeIncludeFilterCard
+                mainElemName="Artifact"
+                title="Artifacts"
+                showExclude={true}
+            >
+            </ExcludeIncludeFilterCard>
           </div>
 
 

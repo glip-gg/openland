@@ -104,10 +104,25 @@ const environment_chips = (onChange:any) => environment_data.map((item: any, ind
    - category
    - tier
    - enviorment
- */ 
-export default function LandFilterModal(props: any) {
+ */
 
-    const clearFilters = () => {};
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+export default function LandFilterModal(props: any) {
+    const forceUpdate = useForceUpdate();
+    const clearFilters = () => {
+        let landFilter = [
+            'Sediment Tier', 'Sediment', 'Category',
+            'Environment Tier', 'Environment'];
+        landFilter.map((name:string)=>{
+            globalApeFilter.clearFilter(name);
+        })
+        forceUpdate()
+    };
 
     const setFilters = (name:string, val:string|number, active:boolean) => {
         if(active){
@@ -158,7 +173,7 @@ export default function LandFilterModal(props: any) {
                       mainElemName="Environment"></ChipList>
           </FlexWrapWrapper>           
 
-          <FilterBottomTab />
+          <FilterBottomTab clearFilters={clearFilters} />
 
         </ModalContainer>
     );

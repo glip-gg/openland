@@ -1,3 +1,4 @@
+import _ from  'lodash';
 import { filterApeDeeds, getAllApeDeeds } from './apeDeedsModelManager';
 
 let constructedFilters:{ [id: string] : ApeFilter; } = {};
@@ -6,6 +7,12 @@ interface FilterInterface {
     name: string;
     op:string;
     valArr:(string|number)[]
+}
+
+const EXCLUDE_INCLUDE_OPS  = ['include', 'exclude'];
+
+function areEqual(array1:any[], array2:any[]) {
+    return _.isEmpty(_.xor(array1, array2))
 }
 
 const NUMBER_TRAITS:string[] = [
@@ -19,22 +26,30 @@ class ApeFilter {
     public filters:{ [id: string] : FilterInterface; } = {};
     public constructor(){ }
 
+    public clearFilter(name:string){
+        delete this.filters[name];
+    }
+
+    getKey(name:string, op:string){
+        return name+op;
+    }
     public addFilter(name:string, valArr: (string|number)[], op='in'){
         if(NUMBER_TRAITS.includes(name)){
             valArr = valArr.map(function(x:any) { 
                 return parseInt(x, 10); 
             });
         }
-        if(this.filters[name]){
+        let key  = this.getKey(name, op);
+        if(this.filters[key]){
             console.log('nice', valArr);
-          this.filters[name].valArr = this.filters[name].valArr.concat(
+          this.filters[key].valArr = this.filters[key].valArr.concat(
             valArr);
-            this.filters[name].valArr = Array.from(
-                new Set(this.filters[name].valArr));
+            this.filters[key].valArr = Array.from(
+                new Set(this.filters[key].valArr));
             // Done
         }
         else{
-            this.filters[name] = {name, op, valArr}
+            this.filters[key] = {name, op, valArr}
         }
         console.log(this.filters);
         return true;
@@ -46,7 +61,12 @@ class ApeFilter {
                 return parseInt(x, 10); 
             });
         }
-        this.filters[name].valArr = this.filters[name].valArr.filter(
+        let key = this.getKey(name, op);
+        if(EXCLUDE_INCLUDE_OPS.includes(op)){
+            delete this.filters[key];
+            return true;
+        }
+        this.filters[key].valArr = this.filters[key].valArr.filter(
             function( el:any ) {
             return !valArr.includes( el );
         } );
@@ -68,17 +88,38 @@ class ApeFilter {
         return filteredData;
     }
 
-    isValueActive(mainElemName:string, title:string|number){
-        if(!this.filters[mainElemName]){
+    isValueActive(
+        mainElemName:string, title:string|number, data:any[], op='in'){
+        let key = this.getKey(mainElemName, op);
+        if(EXCLUDE_INCLUDE_OPS.includes(op)){
+            if(this.filters[key]){
+                return true;
+            }
+            return false;
+        }
+        if(!this.filters[key]){
             if(title === 'All'){
                 return true;
             }
             return false;
         }
+        if(title === 'All'){
+            if(NUMBER_TRAITS.includes(mainElemName)){
+                data = data.map(str => {
+                    return Number(str);
+                });
+            }
+            console.log(data, this.filters[key].valArr)
+            if(areEqual(data, this.filters[key].valArr)){
+                return true;
+            }
+            console.log('sad');
+            return false
+        }
         if(NUMBER_TRAITS.includes(mainElemName)){
             title = Number(title);
         }
-        if(this.filters[mainElemName].valArr.includes(title)){
+        if(this.filters[key].valArr.includes(title)){
             return true;
         }
         return false;

@@ -14,8 +14,20 @@ export async function filterApeDeeds(filtersObj:any){
     let filteredApeDeeds = _.filter(
         gApeDeeds, function(gApeDeed:any) {
             for(let filterObjKey in filtersObj){
+                if(filtersObj[filterObjKey].op === 'include'){
+                    if(gApeDeed[filtersObj[filterObjKey].name]){
+                        return true;
+                    }
+                    return false;
+                }
+                if(filtersObj[filterObjKey].op === 'exclude'){
+                    if(!gApeDeed[filtersObj[filterObjKey].name]){
+                        return true;
+                    }
+                    return false;
+                }
                 if(!filtersObj[filterObjKey].valArr.includes(
-                    gApeDeed[filterObjKey])){
+                    gApeDeed[filtersObj[filterObjKey].name])){
                     return false
                 }
             }
