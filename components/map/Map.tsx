@@ -311,10 +311,19 @@ export function setFilteredIds(ids: number[]) {
         }
       }
     } else {
-      let maxFilteredId = filteredIds.sort()[filteredIds.length - 1]
-      targetCameraDistance = maxFilteredId / 100000 * 70
+      let distances: number[] = []
+      filteredIds.sort().slice(-10).forEach((element: number) => {
+        if (data[element] != undefined) {
+          var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
+          distances.push(dist)
+        }
+      });
+      if (distances.length > 0) {
+        targetCameraDistance = distances.sort().reverse()[0] + 2
+      }
       scatterplot.set({
-        cameraDistance: targetCameraDistance
+        cameraDistance: targetCameraDistance,
+        cameraTarget: [0, 0]
       })
       // set greyed out colors on all points first
       for (let i=0; i< data.length; i++) {
