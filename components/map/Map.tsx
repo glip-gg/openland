@@ -195,6 +195,7 @@ function setupMap(createScatterplot: any) {
 
 function drawMap() {
   const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
+  scatterplot.clear()
   scatterplot.draw(points);
 }
 
@@ -300,22 +301,27 @@ function updateZoomState(newZoomLevel: number) {
 export function setFilteredIds(ids: number[]) {
     console.log('namannnnnnn', ids);
     filteredIds = ids
+    let targetCameraDistance = 70
     if (filteredIds.length == 0) {
       scatterplot.set({
-        cameraDistance: 70
+        cameraDistance: targetCameraDistance
       })
     } else {
-      let distances: number[] = []
-      filteredIds.forEach((element: number) => {
-        var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
-        distances.push(dist)
-      });
-      let filteredRadius = distances.sort().reverse()[0]
+      // let distances: number[] = []
+      // filteredIds.sort().slice(0, 100).forEach((element: number) => {
+      //   if (data[element] != undefined) {
+      //     var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
+      //     distances.push(dist)
+      //   }
+      // });
+      // targetCameraDistance = distances.sort().reverse()[0]
+      let maxFilteredId = filteredIds.sort()[filteredIds.length - 1]
+      targetCameraDistance = maxFilteredId / 100000 * 70
       scatterplot.set({
-        cameraDistance: filteredRadius
+        cameraDistance: targetCameraDistance
       })
     }
-    drawMap();
+   drawMap()
 }
 
 //Onclick on therdeed
