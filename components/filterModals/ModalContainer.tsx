@@ -13,7 +13,7 @@ export default function ModalContainer(props: any) {
         <div style={{
             overflow: 'auto',
             maxWidth: 584,
-            maxHeight: 696,
+            maxHeight: 596,
             display: 'flex',
             justifyContent: 'flex-start',
             flexDirection: 'column',
