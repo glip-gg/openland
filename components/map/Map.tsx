@@ -31,6 +31,7 @@ let filteredIds: any = [];
 let selectedId = -1;
 let hoveredId = -1;
 var mapLoaded = false
+let points: any = []
 
 const CLUB_HOUSE_ID = -1000
 data.push( {
@@ -194,14 +195,12 @@ function setupMap(createScatterplot: any) {
 }
 
 function drawMap() {
-  const points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
+  points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
   scatterplot.clear()
   scatterplot.draw(points);
 }
 
 const rankingIndex = (d: any) => {
-
-    if (filteredIds.length != 0 && !filteredIds.includes(d.A)) return 5
 
     // let currentZoom = scatterplot.get('cameraDistance')
     // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
@@ -299,34 +298,41 @@ function updateZoomState(newZoomLevel: number) {
 
 // ids of lands to filter
 export function setFilteredIds(ids: number[]) {
-    console.log('namannnnnnn', ids);
+  console.log('filteredIds: ' + ids.length)
     filteredIds = ids
     let targetCameraDistance = 70
     if (filteredIds.length == 0) {
       scatterplot.set({
         cameraDistance: targetCameraDistance
       })
+      for (let i=0; i< data.length; i++) {
+        if (data[i] != undefined) {
+          points[i][2] = rankingIndex(data[i])
+        }
+      }
     } else {
-      // let distances: number[] = []
-      // filteredIds.sort().slice(0, 100).forEach((element: number) => {
-      //   if (data[element] != undefined) {
-      //     var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
-      //     distances.push(dist)
-      //   }
-      // });
-      // targetCameraDistance = distances.sort().reverse()[0]
       let maxFilteredId = filteredIds.sort()[filteredIds.length - 1]
       targetCameraDistance = maxFilteredId / 100000 * 70
       scatterplot.set({
         cameraDistance: targetCameraDistance
       })
+      // set greyed out colors on all points first
+      for (let i=0; i< data.length; i++) {
+        points[i][2] = 5
+      }
+      // set actual rank colors on filtered points now
+      filteredIds.forEach((id: number) => {
+        if (data[id] != undefined) {
+          points[id][2] = rankingIndex(data[id])
+        }
+      })
     }
-   drawMap()
+  scatterplot.draw(points);
 }
 
 //Onclick on therdeed
 export function setFocusedIds(ids: number[]) {
-    console.log('naman ids', ids);
+  console.log('focused ids', ids.length);
   scatterplot.select(ids, {
     preventEvent: true
   })
