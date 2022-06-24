@@ -56,10 +56,10 @@ export async function filterApeDeeds(filtersObj:any){
         for(let filterObjKey in filtersObj){
             if(filtersObj[filterObjKey].op === 'include'){
                 if(gApeDeed[filtersObj[filterObjKey].name]){
-                        isIncluded = true;
+                    isIncluded = true;
                 }
                 else{
-                    isIncluded = false;
+                    return false;
                 }
                 
             }
@@ -71,7 +71,7 @@ export async function filterApeDeeds(filtersObj:any){
                     isIncluded = false;
                 }
                 if(!apeDeedVal && apeDeedVal != 0){
-                    isIncluded = false;
+                    return false;
                 }
             }
             else if(filtersObj[filterObjKey].op === 'exclude'){
@@ -79,13 +79,13 @@ export async function filterApeDeeds(filtersObj:any){
                     isIncluded = true;
                 }
                 else{
-                    isIncluded = false;
+                    return false;
                 }
             }
             else if(filtersObj[filterObjKey].op === 'in'){
                 if(!filtersObj[filterObjKey].valArr.includes(
                     gApeDeed[filtersObj[filterObjKey].name])){
-                    isIncluded = false;;
+                    return false;;
                 }
             }
         }
