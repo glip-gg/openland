@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import dynamic from 'next/dynamic'
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
@@ -13,7 +14,8 @@ import {
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { Popover, Whisper } from 'rsuite'
-import Drawer from '@mui/material/Drawer';
+const Drawer = dynamic(import('@mui/material/Drawer').then(mod => mod), { ssr: false }) // disable ssr
+//import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 
 import styled from 'styled-components';
@@ -166,6 +168,11 @@ export default function Home() {
             artifact: true
         })
     }
+
+    const onLandUnselected = () => {
+        setMapLandDetailPosition([-1, 0, 0])
+    }
+
     return (
         <div className={styles.container}>
           <Head>
@@ -180,33 +187,35 @@ export default function Home() {
           <Navbar />
 
           <Container
-                as="main"
-                display="flex"
-                direction="column"
-                justify="center"
-                alignItems="center"
-                style={{ height: '100vh', margin: 0 }}
-            >                
-                <Map onLandClicked={onLandSelected}></Map>
+              as="main"
+              display="flex"
+              direction="column"
+              justify="center"
+              alignItems="center"
+              style={{ height: '100vh', margin: 0 }}
+          >                
+            <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
 
-                {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
-                    padding: 20,
-                    backgroundColor: 'black',
-                    position: 'absolute', 
-                    left:`${mapLandDetailsPosition[1] + 50}px`, 
-                    top:`80px`,
-                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
-                    
-                        <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
-                                    data={selectedMapLand} />
-                </div>}
-
-                <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
-                
-            </Container>
+            {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                padding: 20,
+                backgroundColor: 'black',
+                position: 'absolute', 
+                left:`${mapLandDetailsPosition[1]}px`, 
+                top:`${mapLandDetailsPosition[2]}px`,
+                visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
+              
+              <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
+                         data={selectedMapLand} />
+            </div>}
+            {/*
+            <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
+            */}
+            
+          </Container>
 
           <Drawer anchor={'left'}
-                  open={openFilterDrawer}
+            //open={openFilterDrawer}
+                  open={true}
                   variant={"persistent"}
                   classes={{
                       paper: classes.drawerPaper
@@ -221,13 +230,13 @@ export default function Home() {
               </div>
               <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%'}}>
                 <div style={{background: 'black', padding: 32, paddingRight: 0}}>
-                  <FilterBody filters={['Buy Now', 'Anus Reaper']} />
+                  <FilterBody filters={[]} />
                 </div>
               </div>
             </div>
           </Drawer>
 
         </div>
-       
+        
     );
 }
