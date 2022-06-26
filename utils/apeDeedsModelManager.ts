@@ -40,6 +40,7 @@ export async function addApeDeeds(apeDeeds:any, apePriceData:any){
 
 const EXCLUDED_RESOURCE_FILTERS = [
     'Resource Direction', 'Resource Tier', 'Resource Type'];
+
 export async function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
     let processedFilterObj:any = {};
@@ -95,6 +96,29 @@ export async function filterApeDeeds(filtersObj:any){
     return filteredApeDeeds;
 }
 
+function _getFloor(apeDeeds:any[]){
+    let floorPrice = Number.MAX_SAFE_INTEGER;
+    for(let apeDeed of apeDeeds){
+        if(apeDeed.currentListPrice < floorPrice &&
+            apeDeed.currentListPrice !=0 && apeDeed.currentListPrice> 0.0001){
+            console.log('current price changed', apeDeed.currentListPrice);
+            floorPrice = apeDeed.currentListPrice;
+        }
+    }
+    if(floorPrice == Number.MAX_SAFE_INTEGER){
+        return 0;
+    }
+    return floorPrice;
+}
+export function getFloor(filteredApeDeeds:any[]){
+    if(!filteredApeDeeds){
+        return _getFloor(gApeDeeds);
+    }
+    if(filteredApeDeeds.length === 0){
+        return 0;
+    }
+    return _getFloor(filteredApeDeeds);
+}
 
 export function getAllApeDeeds(){
     return gApeDeeds;

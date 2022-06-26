@@ -1,5 +1,6 @@
 import _ from  'lodash';
 import { filterApeDeeds, getAllApeDeeds } from './apeDeedsModelManager';
+import eventBus from './eventBus';
 
 
 let constructedFilters:{ [id: string] : ApeFilter; } = {};
@@ -43,6 +44,7 @@ class ApeFilter {
         }
         return [];
     }
+    
     public addFilter(name:string, valArr: (string|number)[], op='in'){
         if(NUMBER_TRAITS.includes(name)){
             valArr = valArr.map(function(x:any) { 
@@ -92,6 +94,7 @@ class ApeFilter {
     async applyFilter(){
         console.log(this.filters);
         let filteredData = await filterApeDeeds(this.filters);
+        eventBus.dispatch('new-filtered-data', filteredData);
         return filteredData;
     }
 
