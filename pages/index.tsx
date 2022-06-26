@@ -34,6 +34,7 @@ import PriceImage from '../assets/top_level_filter/price.svg';
 
 import Map from '../components/map/Map'
 import OtherCard from '../components/filterTab/OtherCard';
+import {getLandData} from '../utils/apeDeedsModelManager';
 
 const FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -106,16 +107,7 @@ export default function Home() {
     }
 
     const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([-1, 0, 0])
-    const [selectedMapLand, setSelectedMapLand] = useState({
-        id: -1,
-        price: 0,
-        name: '',
-        rank: '',
-        tier: 1,
-        koda: true,
-        resource: false,
-        artifact: true
-    })
+    const [selectedMapLand, setSelectedMapLand] = useState({})
 
     const filterHeader: any = filterTypes.map((item, index) => {
         
@@ -157,16 +149,8 @@ export default function Home() {
     const onLandSelected = (index: number, x: number, y: number) => {
         console.log('land clicked parent: ', index, x, y)
         setMapLandDetailPosition([index, x, y])
-        setSelectedMapLand({
-            id: 1241,
-            price: 2.41,
-            name: 'Splinter - Cosmic Dream',
-            rank: '58 top 100%',
-            tier: 1,
-            koda: true,
-            resource: false,
-            artifact: true
-        })
+        let landData = getLandData(index);
+        setSelectedMapLand(landData);
     }
 
     const onLandUnselected = () => {

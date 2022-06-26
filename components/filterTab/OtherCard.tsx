@@ -10,6 +10,7 @@ import { Spacer } from '@nextui-org/react';
 // import resource from '../../assets/filter/resource.svg';
 // import not_resource from '../../assets/filter/not_resource.svg';
 
+import {setFocusedIds} from '../map/Map';
 import EtherSymbol from '../../assets/currency/ether.svg';
 
 
@@ -156,7 +157,10 @@ const replaceAt = (str:string, index:number, replacement:string) => {
 }
 
 export default function OtherCard({data}: any) {    
-    
+
+    const focusInMap = ()=>{
+        setFocusedIds([data.Plot]);
+    }
     const getRankPercentage = (rank:any)=>{
         let rankPercentage = Number(rank) *100/100000;
         if(rankPercentage>1){
@@ -199,7 +203,7 @@ export default function OtherCard({data}: any) {
     const numResources = getNumResources();
     
     return (
-        <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }}>
+        <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
           
           <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
                  alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />

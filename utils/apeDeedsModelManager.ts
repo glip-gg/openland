@@ -123,3 +123,7 @@ export function getFloor(filteredApeDeeds:any[]){
 export function getAllApeDeeds(){
     return gApeDeeds;
 }
+
+export function getLandData(index:number){
+    return gApeDeeds[index];
+}
