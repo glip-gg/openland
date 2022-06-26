@@ -114,33 +114,32 @@ export default function FilterBody({filters, }: any) {
 
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
-        <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
-        <FilterTitle>{lands} LANDS</FilterTitle>
-        {/*
-            <SortingDropDown  />
-          */}
-        </div>
-        {/*
-            <Floor>Floor: {floor} eth</Floor>
-          */}
-        <Spacer />
-        <ChipFilterDisplay rounded filters={filters} />
-        <PaginatedList
-            list={cards}
-            itemsPerPage={6}
-            loopAround={true}
-            PaginatedListContainer={PaginatedListContainer}
-            renderList={(list) => (
-                <>
-                  {list.map((item, id) => {
-                      return (
-                          <OtherCard key={`othercard-${id}`} data={item} />
-                      );
-                  })}
-                </>
-            )}
-        />
-        <Spacer y={4} />
+          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
+            <FilterTitle>{lands} LANDS</FilterTitle>
+            {/*
+                <SortingDropDown  />
+              */}
+          </div>
+          {/*
+              <Floor>Floor: {floor} eth</Floor>
+            */}
+          <Spacer />
+          <ChipFilterDisplay rounded filters={filters} />
+          <PaginatedList
+              list={cards}
+              itemsPerPage={6}
+              loopAround={true}
+              renderList={(list) => (
+                  <PaginatedListContainer>
+                    {list.map((item, id) => {
+                        return (
+                            <OtherCard key={`othercard-${id}`} data={item} />
+                        );
+                    })}
+                  </PaginatedListContainer>
+              )}
+          />
+          <Spacer y={4} />
         </div>
     );
 }

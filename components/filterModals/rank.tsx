@@ -38,9 +38,7 @@ export default function RankFilterModal(props: any) {
     const clearFilters = () => {
         globalApeFilter.clearFilter('rank', 'range')
     };
-
-            
-
+    
     const applyFilter = () => {
         globalApeFilter.clearFilter('rank', 'range')
         globalApeFilter.addFilter('rank', [

@@ -10,12 +10,7 @@ import { Spacer } from '@nextui-org/react';
 // import resource from '../../assets/filter/resource.svg';
 // import not_resource from '../../assets/filter/not_resource.svg';
 
-import koda from '../../assets/filter/land.svg';
-import not_koda from '../../assets/filter/land.svg';
-import artifact from '../../assets/filter/land.svg';
-import not_artifact from '../../assets/filter/land.svg';
-import resource from '../../assets/filter/land.svg';
-import not_resource from '../../assets/filter/land.svg';
+import EtherSymbol from '../../assets/currency/ether.svg';
 
 
 const OtherID = styled.div`
@@ -104,9 +99,7 @@ const OtherRank = styled.div`
 
     color: white;
     padding: 2px 4px;
-    background: rgba(255, 255, 255, 0.4);
     border-radius: 4px;
-    background: linear-gradient(96.93deg, #1563FB 11.38%, rgba(21, 99, 251, 0.31) 55.42%);
     border-radius: 4px;
     margin-left: 8px;
 `;
@@ -115,7 +108,7 @@ const DetailsDiv = styled.div`
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 21px;
     text-transform: uppercase;
     color: white;
@@ -130,50 +123,114 @@ const ItemImage = (src: any) => {
         </div>
     );
 }
+const RESOURCE_LIST = [
+    'Eastern Resource',
+    'Northern Resource',
+    'Southern Resource',
+    'Western Resource',
+]
 
 /* 
-9 properties of land card
-- image
-- id
-- price
-- name
-- tier
-- rank
-- koda
-- artifact
-- resource
-*/
+   9 properties of land card
+   - image
+   - id
+   - price
+   - name
+   - tier
+   - rank
+   - koda
+   - artifact
+   - resource
+ */
+const Icon = ({icon}: any) => {
+    return (
+    <div>
+        <Image alt='' src={icon} />
+    </div>
+    );
+}
+
+
+const replaceAt = (str:string, index:number, replacement:string) => {
+    return str.substring(0, index) + replacement + str.substring(index + replacement.length);
+}
+
 export default function OtherCard({data}: any) {    
     
+    const getRankPercentage = (rank:any)=>{
+        let rankPercentage = Number(rank) *100/100000;
+        if(rankPercentage>1){
+            rankPercentage = Math.floor( rankPercentage );
+        }
+        else{
+            rankPercentage = 1;
+        }
+        console.log(data.Plot, rankPercentage);
+        let rankPercentageString = '';
+        if(rankPercentage){
+            let rankStr = rankPercentage.toString();
+            // Replace the 0 with empty string
+            let res;
+            if(rankStr.length >1){
+                let unitStringPos = rankStr.length-1;
+                console.log(unitStringPos, rankStr);
+                res = replaceAt(rankStr, unitStringPos, '0');
+            }
+            else
+                res = rankStr;
+            rankPercentageString = `Top ${res}%`
+        }
+        return rankPercentageString;         
+    }
+
+    const getNumResources = () =>{
+        let numResources = 0;
+        for(let resource of RESOURCE_LIST){
+            if(data[resource]){
+                numResources++;
+            }
+        }
+        return numResources;
+    }
     
+    const rankPercentageString = getRankPercentage(data.rank)
+    const numKodas = data.Koda? 1: 0
+    const numArtifacts = data.Artifact? 1: 0;
+    const numResources = getNumResources();
     
     return (
         <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }}>
-            <Image src={'https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600'}
-        alt='' width={260} height={363} />
-        <Spacer />
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <OtherID>#{data.Plot}</OtherID>
-          <Price>{data.price}</Price>
-        </div>
-        <Spacer />
+          
+          <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
+                 alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />
+          <Spacer />
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <OtherID>#{data.Plot}</OtherID>
+            {(data.currentListPrice) && (
+                <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
+                  <Price style={{marginRight:10}}>{data.currentListPrice}</Price>
+                  <Icon icon={EtherSymbol} />
+                </div>
+            )}
+          </div>
+          <Spacer />
 
-        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
-          <OtherName>{data.Environment}- {data.Sediment}</OtherName>
-          <Tier>{data.tier}</Tier>
-        </div>
+          <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
+            <OtherName>{data.Environment}- {data.Sediment}</OtherName>
+            <Tier>{data.tier}</Tier>
+          </div>
 
-        <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
-          <Rank>RANK</Rank>
-          <OtherRank>{data.rank}</OtherRank>
-        </div>
+          <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
+            <Rank>RANK</Rank>
+            <OtherRank>{data.rank}-{rankPercentageString}</OtherRank>
+          </div>
 
-        <div style={{display: 'flex',
-                     justifyContent: 'space-between'}}>
-          <DetailsDiv>Koda</DetailsDiv>
-          <DetailsDiv>Artifacts</DetailsDiv>
-          <DetailsDiv>0 Resources</DetailsDiv>
-        </div>
+          <div style={{display: 'flex',
+                       justifyContent: 'space-between'}}>
+            <DetailsDiv>{numKodas} Koda</DetailsDiv>
+            <DetailsDiv>{numArtifacts} Artifacts</DetailsDiv>
+            <DetailsDiv>{numResources} Resources</DetailsDiv>
+          </div>
 
         </div>
     );
