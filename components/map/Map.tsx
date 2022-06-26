@@ -344,7 +344,7 @@ export function setFocusedIds(ids: number[]) {
   console.log('focused ids', ids.length);
   scatterplot.select(ids, {
     preventEvent: true
-  })
+  });
 }
 
 // array of scores (0-99999)
