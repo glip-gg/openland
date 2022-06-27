@@ -16,9 +16,9 @@ function addApePriceRankData(apePriceData:any){
         //console.log('currPriceObj', currPriceObj);
         let currentListCurrency:any = '';
         //if(currPriceObj.currentListPriceCurrency){
-        if(currPriceObj.lastSaleCurrency){
+        if(currPriceObj.currentListCurrency){
             //currentListCurrency = currPriceObj.currentListPriceCurrency.name;
-            currentListCurrency = currPriceObj.lastSaleCurrency.name;
+            currentListCurrency = currPriceObj.currentListCurrency.name;
         }
         return {
             ...obj,
@@ -56,7 +56,7 @@ export async function filterApeDeeds(filtersObj:any){
         let isIncluded = true;
         for(let filterObjKey in filtersObj){
             if(filtersObj[filterObjKey].op === 'include'){
-                if(gApeDeed[filtersObj[filterObjKey].name]){
+                if(gApeDeed[filtersObj[filterObjKey].name] || gApeDeed[filtersObj[filterObjKey].name] === 0){
                     isIncluded = true;
                 }
                 else{
@@ -76,7 +76,7 @@ export async function filterApeDeeds(filtersObj:any){
                 }
             }
             else if(filtersObj[filterObjKey].op === 'exclude'){
-                if(!gApeDeed[filtersObj[filterObjKey].name]){
+                if(!gApeDeed[filtersObj[filterObjKey].name] && gApeDeed[filtersObj[filterObjKey].name] != 0){
                     isIncluded = true;
                 }
                 else{
@@ -102,6 +102,9 @@ function _getFloor(apeDeeds:any[]){
         if(apeDeed.currentListPrice < floorPrice &&
             apeDeed.currentListPrice !=0 && apeDeed.currentListPrice> 0.0001){
             console.log('current price changed', apeDeed.currentListPrice);
+            console.log('current price changed', apeDeed.Plot);
+            console.log('current price changed', apeDeed.currentListCurrency);
+            
             floorPrice = apeDeed.currentListPrice;
         }
     }
