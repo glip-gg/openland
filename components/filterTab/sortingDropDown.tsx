@@ -1,28 +1,27 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Dropdown } from "rsuite";
+import { SORTING_OPTIONS } from '../../utils/apeDeedsModelManager';
 
+export default function SortingDropDown(props:any) {
+    const [title, setTitle] = useState(Object.values(props.sortingOption)[0]);
+    const [active, setActive] = useState(Object.keys(props.sortingOption)[0]);
 
-export default function SortingDropDown() {
-    const [title, setTitle] = useState('ENDING SOON');
-    const [active, setActive] = useState('ending');
-
-    const selectedComponent = (title: any, active: any) => {
+    const selectedComponent = (title: any, active: any, sortingOption:any) => {
         setTitle(title);
         setActive(active);
+        props.setSortingOption(sortingOption)
     }    
 
     return (
         <Dropdown
-                style={{background: 'transparent', color: '#fff'}}
-                trigger="click"
-                title={title}
-                placement="bottomEnd">
-            <Dropdown.Item onSelect={() => selectedComponent('RECENTLY LISTED', 'recent')} className={'dropdown-item'} active={active == 'recent'} key={`sortingdropdown-recent`}>RECENTLY LISTED</Dropdown.Item>
-            <Dropdown.Item onSelect={() => selectedComponent('ENDING SOON', 'ending')} className={'dropdown-item'} active={active == 'ending'} key={`sortingdropdown-ending`}>ENDING SOON</Dropdown.Item>
-            <Dropdown.Item onSelect={() => selectedComponent('PRICE: LOW TO HIGH', 'lth')} className={'dropdown-item'} active={active == 'lth'} key={`sortingdropdown-lth`}>PRICE: LOW TO HIGH</Dropdown.Item>
-            <Dropdown.Item onSelect={() => selectedComponent('PRICE: HIGH TO LOW', 'htl')} className={'dropdown-item'} active={active == 'htl'} key={`sortingdropdown-htl`}>PRICE: HIGH TO LOW</Dropdown.Item>
-            <Dropdown.Item onSelect={() => selectedComponent('HIGHEST LAST SALE', 'highest')} className={'dropdown-item'} active={active == 'highest'} key={`sortingdropdown-highest`}>HIGHEST LAST SALE</Dropdown.Item>
+            style={{background: 'transparent', color: '#fff'}}
+            trigger="click"
+            title={title}
+            placement="bottomEnd">
+          {SORTING_OPTIONS.map(function(d, idx){
+              return (<Dropdown.Item onSelect={() => selectedComponent(Object.values(d)[0] , Object.keys(d)[0], d)} className={'dropdown-item'} active={active == 'recent'} key={`sortingdropdown-${Object.keys(d)[0]}`}>{Object.values(d)[0]}</Dropdown.Item>)
+          })}
         </Dropdown>
     );
 }

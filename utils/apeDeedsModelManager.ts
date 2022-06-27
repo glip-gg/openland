@@ -2,6 +2,9 @@ import _ from  'lodash';
 import eventBus from './eventBus';
 
 let gApeDeeds:any[] = [];
+export const SORTING_OPTION_PRICE_LOW_TO_HIGH = 'PRICE_LOW_TO_HIGH';
+export const SORTING_OPTION_PRICE_HIGH_TO_LOW = 'PRICE_HIGH_TO_LOW';
+export const SORTING_OPTIONS = [{[SORTING_OPTION_PRICE_LOW_TO_HIGH]: 'Price: Low to High'}, {[SORTING_OPTION_PRICE_HIGH_TO_LOW]: 'Price: High to Low'}]
 
 
 function addApePriceRankData(apePriceData:any){
@@ -129,4 +132,25 @@ export function getAllApeDeeds(){
 
 export function getLandData(index:number){
     return gApeDeeds[index];
+}
+
+export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
+    console.log('sortingOption', sortingOption)
+    apeDeeds.sort((a, b) => {
+        if(!(a.currentListPrice)){
+            return 1;
+        }
+        if(!b.currentListPrice){
+            return -1;
+        }
+        if(sortingOption == SORTING_OPTION_PRICE_HIGH_TO_LOW){
+            console.log(SORTING_OPTION_PRICE_HIGH_TO_LOW, 1)
+            return(b.currentListPrice - a.currentListPrice)
+        }
+        if(sortingOption == SORTING_OPTION_PRICE_LOW_TO_HIGH){
+            console.log(SORTING_OPTION_PRICE_LOW_TO_HIGH, 1)
+            return(a.currentListPrice - b.currentListPrice)
+        }
+    })
+    return apeDeeds;
 }

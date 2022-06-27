@@ -8,6 +8,7 @@ import { Spacer } from '@nextui-org/react';
 import OtherCard from './OtherCard';
 import eventBus from '../../utils/eventBus';
 import globalApeFilter from '../../utils/globalFilter';
+import { sortApeDeeds, SORTING_OPTION_PRICE_LOW_TO_HIGH, SORTING_OPTIONS } from '../../utils/apeDeedsModelManager';
 import {PaginatedList} from  'react-paginated-list';
 import { setFilteredIds, setLandData } from '../map/Map';
 
@@ -71,19 +72,23 @@ const oldCardData =  [{
         koda: true,
         resource: false,
         artifact: true
-}]
+}];
+
+
+export const DEFAULT_SORTING_OPTION = SORTING_OPTIONS[0];
+
 export default function FilterBody({filters, }: any) {
 
-    const [cards, setCards] = useState([]);
+    const [cards, setCards] = useState([] as any[]);
+    const [sortingOption, setSortingOption] = useState(DEFAULT_SORTING_OPTION);
     const [lands, setLands] = useState(4500);
-    const [floor, setFloor] = useState(1.3);
     
     useEffect(()=>{
         let newData:any;
         eventBus.on("filter-applied", async (data:any)=>{
             newData = await globalApeFilter.applyFilter();
             console.log('newData', newData);
-            setCards(newData);
+            setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
             setLands(newData.length)
             if(newData.length === 1000000){
                 //return
@@ -102,7 +107,7 @@ export default function FilterBody({filters, }: any) {
             console.log('envTiers', envTiers);
             setLandData(ranks, envTiers);
             setLands(newData.length)
-            setCards(newData);
+            setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
         });
 
         return ()=>{
@@ -111,14 +116,16 @@ export default function FilterBody({filters, }: any) {
         }
     },[]);
     
-
+    const sortingOptionChanged = (sortingOption:any) =>{
+        setSortingOption(sortingOption);
+        setCards(sortApeDeeds(Object.keys(sortingOption)[0], cards));
+        
+    }
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
             <FilterTitle>{lands} LANDS</FilterTitle>
-            {/*
-                <SortingDropDown  />
-              */}
+            <SortingDropDown  sortingOption={sortingOption} setSortingOption={sortingOptionChanged} />
           </div>
           {/*
               <Floor>Floor: {floor} eth</Floor>
