@@ -30,7 +30,7 @@ function addApePriceRankData(apePriceData:any){
     });    
 }
 
-export async function addApeDeeds(apeDeeds:any, apePriceData:any){
+export function addApeDeeds(apeDeeds:any, apePriceData:any){
     gApeDeeds = apeDeeds;
     console.log(apePriceData)
     addApePriceRankData(apePriceData)

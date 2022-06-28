@@ -7,25 +7,12 @@ import {SSRProvider} from '@react-aria/ssr';
 import 'rsuite/dist/rsuite.min.css';
 import '../styles/globals.css'
 
-import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHelper';
-import { addApeDeeds } from '../utils/apeDeedsModelManager';
-
 const darkTheme = createTheme({
   type: 'dark',
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
   
-  useEffect(()=>{
-    (async () =>{
-        //let apeDeeds = await fetchApeDeedsData();
-        let [apeDeeds, apePriceData] = await Promise.all([
-            fetchApeDeedsData(), fetchApeDeedsPriceData()]);
-
-        //let apePriceData = await fetchPriceData();
-        addApeDeeds(apeDeeds, apePriceData.data.otherdeed);
-    })();
-  },[]);
   
   return (
     <NextUIProvider theme={darkTheme}>

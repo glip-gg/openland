@@ -98,22 +98,22 @@ export default function FilterBody({filters, }: any) {
             setFilteredIds(newIds);
             
         });
-        eventBus.on("ape-deeds-added", async (data:any)=>{
-            newData = globalApeFilter.getAllApeDeeds();
-            console.log('newData', newData);
-            let ranks = newData.map((x:any)=>(x.rank))
-            let envTiers = newData.map((x:any)=>(x['Environment Tier']))
-            console.log('ranks', ranks);
-            console.log('envTiers', envTiers);
-            setLandData(ranks, envTiers);
-            setLands(newData.length)
-            setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
-        });
-
         return ()=>{
             eventBus.remove("filter-applied", undefined);
             eventBus.remove("ape-deeds-added", undefined);
         }
+    },[]);
+
+    useEffect(()=>{
+        let newData = globalApeFilter.getAllApeDeeds();
+        console.log('newData', newData);
+        let ranks = newData.map((x:any)=>(x.rank))
+        let envTiers = newData.map((x:any)=>(x['Environment Tier']))
+        console.log('ranks', ranks);
+        console.log('envTiers', envTiers);
+        setLandData(ranks, envTiers);
+        setLands(newData.length)
+        setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
     },[]);
     
     const sortingOptionChanged = (sortingOption:any) =>{

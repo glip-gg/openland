@@ -36,9 +36,14 @@ import Map from '../components/map/Map'
 import OtherCard from '../components/filterTab/OtherCard';
 import {getLandData} from '../utils/apeDeedsModelManager';
 
+
+import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHelper';
+import { addApeDeeds } from '../utils/apeDeedsModelManager';
+import {Hearts } from 'react-loader-spinner'
+
 const FilterHeaderItem = styled.div`
-    padding: 12px 14px;
-    background:  ${props => props.active ? 'rgba(255, 255, 255, 0.06)': 'transparent'};
+padding: 12px 14px;
+background:  ${props => props.active ? 'rgba(255, 255, 255, 0.06)': 'transparent'};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,6 +89,8 @@ const FilterHeaderItemImage = ({active, imageType}) => {
 
 export default function Home() {
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    
     const classes = useStyles();
 
     const [check, setCheck] = useState(false);
@@ -108,6 +115,7 @@ export default function Home() {
 
     const [mapLandDetailsPosition, setMapLandDetailPosition] = useState([-1, 0, 0])
     const [selectedMapLand, setSelectedMapLand] = useState({})
+    
 
     const filterHeader: any = filterTypes.map((item, index) => {
         
@@ -157,6 +165,28 @@ export default function Home() {
         setMapLandDetailPosition([-1, 0, 0])
     }
 
+    useEffect(()=>{
+        (async () =>{
+            //let apeDeeds = await fetchApeDeedsData();
+            let [apeDeeds, apePriceData] = await Promise.all([
+                fetchApeDeedsData(), fetchApeDeedsPriceData()]);
+            
+            //let apePriceData = await fetchPriceData();
+            addApeDeeds(apeDeeds, apePriceData.data.otherdeed);
+            setDataLoaded(true);
+        })();
+    },[]);
+
+    if(!dataLoaded){
+        return (
+            <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+              <Hearts ariaLabel="loading-indicator" color="red" width="400" height="500" />
+              <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 30}}>
+                Loading the Otherside!
+              </div>
+            </div>
+        );
+    }
     return (
         <div className={styles.container}>
           <Head>
@@ -192,8 +222,8 @@ export default function Home() {
                          data={selectedMapLand} />
             </div>}
             {/*
-            <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
-            */}
+                <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
+              */}
             
           </Container>
 

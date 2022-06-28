@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=JetBrains+Mono:wght@200;300;400;500;600;700;800&family=Space+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
+
 
 html,
 body {
@@ -301,4 +303,24 @@ input[type=number]::-webkit-outer-spin-button {
   20%{left:100%;top:100%;}
   100%{left:100%;top:100%;}
   
+}
+
+
+.shimmer {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+    text-decoration: normal;
+    text-align: center;
+    -o-text-overflow: clip;
+     text-overflow: clip;
+     white-space: pre;
+     text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 0 30px rgba(255,255,255,1) , 0 0 40px #ff00de , 0 0 70px #ff00de , 0 0 80px #ff00de , 0 0 100px #ff00de ;
+     -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+     -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+     -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+     transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
 }
