@@ -52,7 +52,10 @@ const RESOURCE_SHORTHAND_DICT:any  = {
 };
 
 const getResourceDirections = (resourceDirectionValues:any[])=>{
-    let resourceDirections = []
+    let resourceDirections:any[] = []
+    if(!resourceDirectionValues || resourceDirectionValues.length===0){
+        resourceDirections = Object.values(RESOURCE_SHORTHAND_DICT);
+    }
     for(let resourceDirectValue of resourceDirectionValues){
         resourceDirections.push(RESOURCE_SHORTHAND_DICT[resourceDirectValue]);
     }
@@ -65,6 +68,8 @@ export const clearResourceFilters = () => {
     globalApeFilter.clearFilter('Resource Direction', 'in');
     globalApeFilter.clearFilter('Resource Tier', 'in');
     globalApeFilter.clearFilter('Resource Type', 'in');
+    globalApeFilter.clearFilter('Resource Tiers', 'or');
+    globalApeFilter.clearFilter('Resource Types', 'or');
 };
 
 
@@ -77,11 +82,13 @@ export default function ResourceFilterModal(props: any) {
         clearResourceFilters();
         forceUpdate();
     };
-    
-    const setFilters = (name:string, val:string|number, active:boolean) => {
+
+    const applyFilters=()=>{
         for(let resourceFilter of RESOUCE_FILTER_LIST){
             globalApeFilter.clearFilter(resourceFilter, 'in');
         }
+        globalApeFilter.clearFilter('Resource Tiers', 'or');
+        globalApeFilter.clearFilter('Resource Types', 'or');
         let resourceDirectionFilter = globalApeFilter.getFilterValue(
             'Resource Direction', 'in');
         let resourceTierFilter = globalApeFilter.getFilterValue(
@@ -92,21 +99,34 @@ export default function ResourceFilterModal(props: any) {
         if(resourceDirectionFilter){
             resourceDirections = getResourceDirections(resourceDirectionFilter);
         }
+        console.log('resourceTier', resourceTierFilter, 'resourceDirections', resourceDirections);
+        if(resourceDirectionFilter.length > 0 && resourceTierFilter.length === 0 ){
+            resourceTierFilter = ['1', '2', '3'];
+        }
         if(resourceTierFilter){
+            let resourceTierORFilterArr = [];
             for(let resourceDirection of resourceDirections){
                 for(let resourceTier of resourceTierFilter){
-                    globalApeFilter.addFilter(resourceDirection + ' Tier', [resourceTier], 'in')
+                    resourceTierORFilterArr.push(
+                        globalApeFilter.getFilterObj(resourceDirection + ' Tier', [resourceTier ], 'in'));
                 }
             }
+            if(resourceTierORFilterArr.length>0)
+                globalApeFilter.addOrFilter('Resource Tiers', resourceTierORFilterArr);
         }
+        let resourceTypeORFilterArr = [];
         if(resourceTypeFilter){
             for(let resourceDirection of resourceDirections){
                 for(let resourceType of resourceTypeFilter){
-                    globalApeFilter.addFilter(resourceDirection, [resourceType], 'in')
+                    resourceTypeORFilterArr.push(
+                        globalApeFilter.getFilterObj(resourceDirection, [resourceType], 'in'))
                 }
             }
+            if(resourceTypeORFilterArr.length>0)
+                globalApeFilter.addOrFilter('Resource Types', resourceTypeORFilterArr);
         }
     }
+    
     
     const textFilter = (e: any) => {
         const keyword = e.target.value;
@@ -144,7 +164,6 @@ export default function ResourceFilterModal(props: any) {
           <FlexWrapWrapper type={'chip'}>
             <ChipList data={direction_data}
                       mainElemName="Resource Direction"
-                      setFiltersCB={setFilters}
             ></ChipList>
           </FlexWrapWrapper>
           <FilterSectionTitle>Tier</FilterSectionTitle>
@@ -152,7 +171,6 @@ export default function ResourceFilterModal(props: any) {
             <ChipList
                 data={tier_data}
                 mainElemName="Resource Tier"
-                setFiltersCB={setFilters}
             >
               
             </ChipList>
@@ -160,10 +178,9 @@ export default function ResourceFilterModal(props: any) {
           <FilterSectionTitle>Type</FilterSectionTitle>
           <FlexWrapWrapper type={'card'}>
             <ChipList data={filteredCards}
-                      setFiltersCB={setFilters}
                       mainElemName="Resource Type"></ChipList>
           </FlexWrapWrapper>
-          <FilterBottomTab clearFilters={clearFilters} />
+          <FilterBottomTab applyFilters={applyFilters} clearFilters={clearFilters} />
         </ModalContainer>
     );
 }

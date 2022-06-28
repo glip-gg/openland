@@ -8,7 +8,7 @@ let constructedFilters:{ [id: string] : ApeFilter; } = {};
 interface FilterInterface {
     name: string;
     op:string;
-    valArr:(string|number)[]
+    valArr:(string|number|FilterInterface)[]
 }
 
 const EXCLUDE_INCLUDE_OPS  = ['include', 'exclude'];
@@ -37,12 +37,33 @@ class ApeFilter {
         return name+op;
     }
 
-    public getFilterValue(name, op){
+    public getFilterValue(name:string, op:string){
         let key = this.getKey(name, op);
         if(this.filters[key]){
             return this.filters[key].valArr;
         }
         return [];
+    }
+
+    public addOrFilter(name:string, filters: (FilterInterface)[], op='or'){
+        let key  = this.getKey(name, op);
+        if(this.filters[key]){
+          this.filters[key].valArr = this.filters[key].valArr.concat(filters);
+            // Done
+        }
+        else{
+            this.filters[key] = {name, op, valArr:filters}
+        }
+        return true;
+    }
+
+    public getFilterObj(name:string, valArr:(string|number|FilterInterface)[], op='in'):FilterInterface{
+        if(NUMBER_TRAITS.includes(name)){
+            valArr = valArr.map(function(x:any) { 
+                return parseInt(x, 10); 
+            });
+        }
+        return {name, op, valArr}
     }
     
     public addFilter(name:string, valArr: (string|number)[], op='in'){

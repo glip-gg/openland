@@ -178,10 +178,11 @@ export default function Home() {
     },[]);
 
     if(!dataLoaded){
+    //if(true){
         return (
             <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
               <Hearts ariaLabel="loading-indicator" color="red" width="400" height="500" />
-              <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 30}}>
+              <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 66}}>
                 Loading the Otherside!
               </div>
             </div>

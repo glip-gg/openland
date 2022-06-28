@@ -40,6 +40,45 @@ export function addApeDeeds(apeDeeds:any, apePriceData:any){
 const EXCLUDED_RESOURCE_FILTERS = [
     'Resource Direction', 'Resource Tier', 'Resource Type'];
 
+export function isIncludedByFilter(filterObj:any, gApeDeed:any){
+    let isIncluded = true;
+    if(filterObj.op === 'include'){
+        if(gApeDeed[filterObj.name] || gApeDeed[filterObj.name] === 0){
+            isIncluded = true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    if(filterObj.op === 'range'){
+        let filterName = filterObj.name;
+        let filterVals = filterObj.valArr;
+        let apeDeedVal = gApeDeed[filterName];
+        if(apeDeedVal < filterVals[0] || apeDeedVal > filterVals[1] ){
+            isIncluded = false;
+        }
+        if(!apeDeedVal && apeDeedVal != 0){
+                    return false;
+        }
+    }
+    else if(filterObj.op === 'exclude'){
+        if(!gApeDeed[filterObj.name] && gApeDeed[filterObj.name] != 0){
+            isIncluded = true;
+                }
+        else{
+            return false;
+        }
+            }
+    else if(filterObj.op === 'in'){
+        if(!filterObj.valArr.includes(
+            gApeDeed[filterObj.name])){
+            return false;;
+        }
+    }
+    return isIncluded;
+}
+
 export async function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
     let processedFilterObj:any = {};
@@ -54,39 +93,21 @@ export async function filterApeDeeds(filtersObj:any){
     let filteredApeDeeds = _.filter(gApeDeeds, function(gApeDeed:any){
         let isIncluded = true;
         for(let filterObjKey in filtersObj){
-            if(filtersObj[filterObjKey].op === 'include'){
-                if(gApeDeed[filtersObj[filterObjKey].name] || gApeDeed[filtersObj[filterObjKey].name] === 0){
-                    isIncluded = true;
+            if(filtersObj[filterObjKey].op === 'or'){
+                let orIsIncluded = false;
+                for(let orFilterObj of filtersObj[filterObjKey].valArr){
+                    if(isIncludedByFilter(orFilterObj, gApeDeed)){
+                        orIsIncluded = true;
+                        break;
+                    }
                 }
-                else{
-                    return false;
-                }
-                
+                isIncluded = orIsIncluded;
             }
-            if(filtersObj[filterObjKey].op === 'range'){
-                let filterName = filtersObj[filterObjKey].name;
-                let filterVals = filtersObj[filterObjKey].valArr;
-                let apeDeedVal = gApeDeed[filterName];
-                if(apeDeedVal < filterVals[0] || apeDeedVal > filterVals[1] ){
-                    isIncluded = false;
-                }
-                if(!apeDeedVal && apeDeedVal != 0){
-                    return false;
-                }
+            else{
+                isIncluded = isIncludedByFilter(filtersObj[filterObjKey], gApeDeed);
             }
-            else if(filtersObj[filterObjKey].op === 'exclude'){
-                if(!gApeDeed[filtersObj[filterObjKey].name] && gApeDeed[filtersObj[filterObjKey].name] != 0){
-                    isIncluded = true;
-                }
-                else{
-                    return false;
-                }
-            }
-            else if(filtersObj[filterObjKey].op === 'in'){
-                if(!filtersObj[filterObjKey].valArr.includes(
-                    gApeDeed[filtersObj[filterObjKey].name])){
-                    return false;;
-                }
+            if(!isIncluded){
+                return false;
             }
         }
         return isIncluded;
