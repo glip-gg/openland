@@ -144,8 +144,12 @@ export function getAllApeDeeds(){
     return gApeDeeds;
 }
 
-export function getLandData(index:number){
-    return gApeDeeds[index];
+export function getLandData(plot:number){
+    for(let i=0;i<gApeDeeds.length;i++){
+        if(gApeDeeds[i]['Plot'] === plot){
+            return gApeDeeds[i];
+        }
+    }
 }
 
 export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
