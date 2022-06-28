@@ -35,6 +35,7 @@ const RESOURCE_FILTERS = [
     'Northern Resource Tier', 'Northern Resource',
     'Southern Resource Tier', 'Southern Resource',
     'Western Resource Tier', 'Western Resource',
+    'Resource Tiers', 'Resource Types'
 ];
 const RANK_FILTERS = [
     'rank'
