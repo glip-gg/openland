@@ -82,7 +82,9 @@ a {
 }
 
 .rs-btn-close .rs-icon {
-  color: #515151
+    color: red;
+    width:14px;
+    height:14px;
 }
 
 ::-webkit-scrollbar {

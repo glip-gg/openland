@@ -61,18 +61,23 @@ function useForceUpdate(){
     return () => setValue(value => value + 1); // update the state to force render
 }
 
+export const clearLandFilters = () => {
+    let landFilter = [
+        'Sediment Tier', 'Sediment', 'Category',
+        'Environment Tier', 'Environment'];
+    landFilter.map((name:string)=>{
+        globalApeFilter.clearFilter(name);
+    });
+};
+
 export default function LandFilterModal(props: any) {
     const forceUpdate = useForceUpdate();
     
     const clearFilters = () => {
-        let landFilter = [
-            'Sediment Tier', 'Sediment', 'Category',
-            'Environment Tier', 'Environment'];
-        landFilter.map((name:string)=>{
-            globalApeFilter.clearFilter(name);
-        })
-        forceUpdate()
+        clearLandFilters();
+        forceUpdate();
     };
+    
     
     return (
         <ModalContainer>

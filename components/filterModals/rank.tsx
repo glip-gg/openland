@@ -29,6 +29,10 @@ function useForceUpdate(){
     const [value, setValue] = useState(0); // integer state
     return () => setValue(value => value + 1); // update the state to force render
 }
+    
+export const clearRankFilters = () => {
+    globalApeFilter.clearFilter('rank', 'range')
+};
 
 export default function RankFilterModal(props: any) {    
     const forceUpdate = useForceUpdate();
@@ -36,7 +40,8 @@ export default function RankFilterModal(props: any) {
     const [value, setValue] = useState([0, 10000]);
     
     const clearFilters = () => {
-        globalApeFilter.clearFilter('rank', 'range')
+        clearRankFilters();
+        forceUpdate();
     };
     
     const applyFilter = () => {

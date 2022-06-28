@@ -16,11 +16,8 @@ function addApePriceRankData(apePriceData:any){
     console.log('priceObj', priceObj)
     gApeDeeds = gApeDeeds.map((obj, i) => {
         let currPriceObj = priceObj[String(obj['Plot'])];
-        //console.log('currPriceObj', currPriceObj);
         let currentListCurrency:any = '';
-        //if(currPriceObj.currentListPriceCurrency){
         if(currPriceObj.currentListCurrency){
-            //currentListCurrency = currPriceObj.currentListPriceCurrency.name;
             currentListCurrency = currPriceObj.currentListCurrency.name;
         }
         return {
@@ -30,8 +27,7 @@ function addApePriceRankData(apePriceData:any){
             rank: Number(currPriceObj.rank),
             score: Number(currPriceObj.score),
         }
-    });
-    
+    });    
 }
 
 export async function addApeDeeds(apeDeeds:any, apePriceData:any){
@@ -104,10 +100,6 @@ function _getFloor(apeDeeds:any[]){
     for(let apeDeed of apeDeeds){
         if(apeDeed.currentListPrice < floorPrice &&
             apeDeed.currentListPrice !=0 && apeDeed.currentListPrice> 0.0001){
-            console.log('current price changed', apeDeed.currentListPrice);
-            console.log('current price changed', apeDeed.Plot);
-            console.log('current price changed', apeDeed.currentListCurrency);
-            
             floorPrice = apeDeed.currentListPrice;
         }
     }
@@ -116,6 +108,7 @@ function _getFloor(apeDeeds:any[]){
     }
     return floorPrice;
 }
+
 export function getFloor(filteredApeDeeds:any[]){
     if(!filteredApeDeeds){
         return _getFloor(gApeDeeds);
@@ -135,7 +128,6 @@ export function getLandData(index:number){
 }
 
 export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
-    console.log('sortingOption', sortingOption)
     apeDeeds.sort((a, b) => {
         if(!(a.currentListPrice)){
             return 1;
@@ -144,11 +136,9 @@ export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
             return -1;
         }
         if(sortingOption == SORTING_OPTION_PRICE_HIGH_TO_LOW){
-            console.log(SORTING_OPTION_PRICE_HIGH_TO_LOW, 1)
             return(b.currentListPrice - a.currentListPrice)
         }
         if(sortingOption == SORTING_OPTION_PRICE_LOW_TO_HIGH){
-            console.log(SORTING_OPTION_PRICE_LOW_TO_HIGH, 1)
             return(a.currentListPrice - b.currentListPrice)
         }
     })

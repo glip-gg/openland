@@ -33,13 +33,17 @@ function useForceUpdate(){
     const [value, setValue] = useState(0); // integer state
     return () => setValue(value => value + 1); // update the state to force render
 }
+export const clearPriceFilters = () => {
+    globalApeFilter.clearFilter('currentListPrice', 'range')
+};
 
 export default function PriceFilterModal(props: any) {
     const forceUpdate = useForceUpdate();
     const [value, setValue] = useState([0, 1000]);
     
     const clearFilters = () => {
-        globalApeFilter.clearFilter('currentListPrice', 'range')
+        clearPriceFilters();
+        forceUpdate();
     };
 
 

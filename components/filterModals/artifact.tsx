@@ -80,6 +80,11 @@ function useForceUpdate(){
     return () => setValue(value => value + 1); // update the state to force render
 }
 
+export const clearArtifactFilters = () => {
+    globalApeFilter.clearFilter('Artifact', 'in');
+    globalApeFilter.clearFilter('Artifact', 'include');
+    globalApeFilter.clearFilter('Artifact', 'exclude');
+};
 
 export default function ArtifactFilterModal(props: any) {    
     const forceUpdate = useForceUpdate();
@@ -89,10 +94,8 @@ export default function ArtifactFilterModal(props: any) {
     
         
     const clearFilters = () => {
-        globalApeFilter.clearFilter('Artifact', 'in');
-        globalApeFilter.clearFilter('Artifact', 'include');
-        globalApeFilter.clearFilter('Artifact', 'exclude');
-        forceUpdate()
+        clearArtifactFilters();
+        forceUpdate();
     };
 
 

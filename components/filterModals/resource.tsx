@@ -58,6 +58,15 @@ const getResourceDirections = (resourceDirectionValues:any[])=>{
     }
     return resourceDirections
 }
+export const clearResourceFilters = () => {
+    for(let resourceFilter of RESOUCE_FILTER_LIST){
+        globalApeFilter.clearFilter(resourceFilter, 'in');
+    }
+    globalApeFilter.clearFilter('Resource Direction', 'in');
+    globalApeFilter.clearFilter('Resource Tier', 'in');
+    globalApeFilter.clearFilter('Resource Type', 'in');
+};
+
 
 export default function ResourceFilterModal(props: any) {
     const forceUpdate = useForceUpdate();
@@ -65,13 +74,8 @@ export default function ResourceFilterModal(props: any) {
     const [name, setName] = useState('');
     
     const clearFilters = () => {
-        for(let resourceFilter of RESOUCE_FILTER_LIST){
-            globalApeFilter.clearFilter(resourceFilter, 'in');
-        }
-        globalApeFilter.clearFilter('Resource Direction', 'in');
-        globalApeFilter.clearFilter('Resource Tier', 'in');
-        globalApeFilter.clearFilter('Resource Type', 'in');
-        forceUpdate()
+        clearResourceFilters();
+        forceUpdate();
     };
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
@@ -159,11 +163,7 @@ export default function ResourceFilterModal(props: any) {
                       setFiltersCB={setFilters}
                       mainElemName="Resource Type"></ChipList>
           </FlexWrapWrapper>
-
-
           <FilterBottomTab clearFilters={clearFilters} />
-
-
         </ModalContainer>
     );
 }

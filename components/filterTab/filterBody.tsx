@@ -127,9 +127,6 @@ export default function FilterBody({filters, }: any) {
             <FilterTitle>{lands} LANDS</FilterTitle>
             <SortingDropDown  sortingOption={sortingOption} setSortingOption={sortingOptionChanged} />
           </div>
-          {/*
-              <Floor>Floor: {floor} eth</Floor>
-            */}
           <Spacer />
           <ChipFilterDisplay rounded filters={filters} />
           <PaginatedList
