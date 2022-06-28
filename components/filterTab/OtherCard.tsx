@@ -159,6 +159,7 @@ const replaceAt = (str:string, index:number, replacement:string) => {
 export default function OtherCard({data}: any) {    
 
     const focusInMap = ()=>{
+        console.log('focusing plot', data.Plot)
         setFocusedIds([data.Plot]);
     }
     const getRankPercentage = (rank:any)=>{
