@@ -41,16 +41,16 @@ import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHe
 import { addApeDeeds } from '../utils/apeDeedsModelManager';
 import {Hearts } from 'react-loader-spinner'
 
-const FilterHeaderItem = styled.div`
-padding: 12px 14px;
-background:  ${props => props.active ? 'rgba(255, 255, 255, 0.06)': 'transparent'};
+let FilterHeaderItem = styled.div`
+    padding: 12px 14px;
+    background:  ${props => props.active ? 'rgba(255, 255, 255, 0.06)': 'transparent'};
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
 
-const FilterHeaderItemLabel = styled.div`
+let FilterHeaderItemLabel = styled.div`
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 600;
@@ -76,7 +76,8 @@ const useStyles = makeStyles({
         marginTop: "71px",
         zIndex: "2!important",
         width: '624px',
-        background: 'transparent'
+        backgroundColor: 'transparent!important',
+        border: 'none',
     }
 });
 
