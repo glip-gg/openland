@@ -213,7 +213,6 @@ const rankingIndex = (d: any) => {
     if (d.R == -1) {
         return 0
     }
-
     if (d.R < 1000) {
         return 1
     }

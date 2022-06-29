@@ -132,6 +132,7 @@ function _getFloor(apeDeeds:any[]){
 
 export function getFloor(filteredApeDeeds:any[]){
     if(!filteredApeDeeds){
+        console.log('filteredapedeedsddsds',gApeDeeds);
         return _getFloor(gApeDeeds);
     }
     if(filteredApeDeeds.length === 0){

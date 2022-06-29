@@ -46,8 +46,7 @@ export default function Navbar() {
                     style={{color: '#fff'}}
                 >
                   Openland
-                </Link>
-                
+                </Link>                
               </Text>
               <div style={{
                   border: "none",
