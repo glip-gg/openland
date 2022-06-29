@@ -22,7 +22,7 @@ function addApePriceRankData(apePriceData:any){
         }
         return {
             ...obj,
-            currentListPrice: (Number(currPriceObj.currentListPrice)/1000000000000000000),
+            currentListPrice: Number(currPriceObj.currentListPrice),
             currentListCurrency: currentListCurrency,
             rank: Number(currPriceObj.rank),
             score: Number(currPriceObj.score),
