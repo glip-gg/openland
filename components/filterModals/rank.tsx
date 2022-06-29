@@ -36,9 +36,13 @@ export const clearRankFilters = () => {
 
 export default function RankFilterModal(props: any) {    
     const forceUpdate = useForceUpdate();
-    
-    const [value, setValue] = useState([0, 10000]);
-    
+
+    let initValue = [0, 10000];
+    let filterValue:any = globalApeFilter.getFilterValue('rank', 'range')
+    if(filterValue.length>0){
+        initValue = filterValue;
+    }
+    const [value, setValue] = useState(initValue);
     const clearFilters = () => {
         clearRankFilters();
         forceUpdate();

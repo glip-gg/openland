@@ -39,7 +39,13 @@ export const clearPriceFilters = () => {
 
 export default function PriceFilterModal(props: any) {
     const forceUpdate = useForceUpdate();
-    const [value, setValue] = useState([0, 1000]);
+    let initValue = [0, 1000];
+    let filterValue:any = globalApeFilter.getFilterValue('currentListPrice', 'range');
+    if(filterValue.length>0){
+        initValue = filterValue;
+    }
+    const [value, setValue] = useState(initValue);
+    
     
     const clearFilters = () => {
         clearPriceFilters();
@@ -63,7 +69,7 @@ export default function PriceFilterModal(props: any) {
           
           <Slider start={value[0]} end={value[1]}
                   setValue={setValue} min={0}
-                  max={1000}/>
+                  max={10000}/>
           {/*
               <FilterSectionTitle>Currency</FilterSectionTitle>
               <FlexWrapWrapper type={'chip'}>
