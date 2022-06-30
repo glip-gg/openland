@@ -52,31 +52,13 @@ a {
 }
 
 .dropdown-item {
-  background-color: black;
-  color: rgba(255,255,255,0.6);
+    background-color: black!important;
+    color: rgba(255,255,255,0.6);
 }
 
 .dropdown-item:hover {
   color: white;
   background-color: black;
-}
-
-.rs-dropdown-menu {
-  background-color: black;
-}
-
-.rs-dropdown-menu:hover {
-  background-color: black;
-}
-
-.rs-dropdown-item.rs-dropdown-item-active {
-  background-color: black;
-  color: white;
-}
-
-.rs-dropdown-item.rs-dropdown-item-active:hover {
-  background-color: black;
-  color: white;
 }
 
 .rs-tag-lg .rs-tag-icon-close {

@@ -16,6 +16,7 @@ export default function SortingDropDown(props:any) {
     return (
         <Dropdown
             style={{background: 'transparent', color: '#fff'}}
+            menuStyle={{backgroundColor:'black'}}
             trigger="click"
             title={title}
             placement="bottomEnd">

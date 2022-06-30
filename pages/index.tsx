@@ -118,8 +118,7 @@ export default function Home() {
     const [selectedMapLand, setSelectedMapLand] = useState({})
     
 
-    const filterHeader: any = filterTypes.map((item, index) => {
-        
+    const filterHeader: any = filterTypes.map((item, index) => {        
         let placement: string = 'bottomStart';
         if(item.type == 'land') placement = 'bottomStart';
         if(item.type == 'artifact') placement = 'bottomStart';
