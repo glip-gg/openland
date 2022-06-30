@@ -49,8 +49,7 @@ export default function Navbar({showSearch, showFloor}: any) {
                 <Text h1 className={styles.navbar}>         
                   <Link
                       color={'primary'}
-                      href="https://openland.gg"
-                      target="_blank"
+                      href="/"
                       rel="noopener noreferrer"
                       style={{color: '#fff'}}
                   >
