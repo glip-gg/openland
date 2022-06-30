@@ -39,7 +39,7 @@ import {getLandData} from '../utils/apeDeedsModelManager';
 
 import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHelper';
 import { addApeDeeds } from '../utils/apeDeedsModelManager';
-import {Hearts } from 'react-loader-spinner'
+import { BallTriangle } from 'react-loader-spinner'
 
 let FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -182,9 +182,9 @@ export default function Home() {
     //if(true){
         return (
             <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
-              <Hearts ariaLabel="loading-indicator" color="red" width="400" height="500" />
+              <BallTriangle ariaLabel="loading-indicator" color="white" width="400" height="500" />
               <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 66}}>
-                Loading the Otherside!
+                Loading Openland!
               </div>
             </div>
         );

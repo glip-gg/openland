@@ -73,9 +73,12 @@ export default function Navbar() {
                 />
                 <div className="shine-wrap">
                   <img
+                      alt='search'
                       onClick={()=>{goToMapObj()}}
+                      width='20'
+                      height='20'
                       style={{width:20, height:20, zIndex:10,
-                              cursor:'pointer'}} src={'/search.png'} />
+                            cursor:'pointer'}} src={'/search.png'} />
                 </div>
               </div>
             </div>
