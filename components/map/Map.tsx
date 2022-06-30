@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { scaleLinear } from 'd3-scale';
-import * as d3 from 'd3'
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
+import { FloatType } from 'three';
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
 type LandUnselectCallback = () => void
@@ -9,22 +10,21 @@ let onLandSelectedCallback: LandSelectCallback
 let onLandUnselectedCallback: LandUnselectCallback
 
 export default function Map(props: any) {
-    console.log('loading map component')
-    onLandSelectedCallback = props.onLandSelected
-    onLandUnselectedCallback = props.onLandUnselected
+  console.log('loading map component')
+  onLandSelectedCallback = props.onLandSelected
+  onLandUnselectedCallback = props.onLandUnselected
 
-    useEffect(()=>{
-      // coordinates()
-        loadMap()
-    },[])
-    
+  useEffect(() => {
+    loadMap()
+  }, [])
 
-    return (
-        <div id="canvas-wrapper" style={{width: "100vw", height: "100vh", marginLeft: "300px"}}>
-          <canvas id='chart-container' width="100vw" height="100vh"></canvas>
-          <h4 id='map-land-label' style={{color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none'}}></h4>
-        </div>
-    )
+
+  return (
+    <div id="canvas-wrapper" style={{ width: "100vw", height: "100vh", marginLeft: "300px" }}>
+      <canvas id='chart-container' width="100vw" height="100vh"></canvas>
+      <h4 id='map-land-label' style={{ color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none' }}></h4>
+    </div>
+  )
 }
 
 let data: any = []
@@ -36,77 +36,73 @@ let points: any = []
 
 const CLUB_HOUSE_ID = 100000
 
-function coordinates() {
-  let eJson = 
-  '{"metadata":{"version":4.5,"type":"Texture","generator":"Texture.toJSON"},"uuid":"a09e3d07-05d9-4971-8770-9b5523b599b6","name":"","image":"5973b04f-ae43-442e-bdbf-85fe905ede98","mapping":300,"repeat":[1,1],"offset":[0,0],"center":[0,0],"rotation":0,"wrap":[1001,1001],"format":1023,"type":1015,"encoding":3000,"minFilter":1006,"magFilter":1006,"anisotropy":1,"flipY":false,"premultiplyAlpha":false,"unpackAlignment":1}'
-  let e = JSON.parse(eJson)
-  let le = 138
-  var Ct = function (e: number)
-				{
-					return (2 * e - 1) * le
-				}
-        
-  console.log(e)
-  var t = e.image
-  var n = t.width 
-  var r = t.height
-  var o = t.data 
-  var a = n * r 
-  var i = r - 1
-  var u = 0
-  var l = []
-  console.log(a)
-  for (var s = 0; s < a; s += 1) {
-									var c = n * i + u;
-									l.push({
-										index: s,
-										position:
-										{
-											x: Ct(Number(o[4 * c])),
-											y: Ct(Number(o[4 * c + 1])),
-											z: Ct(Number(o[4 * c + 2]))
-										}
-									}), (u += 1) >= n && (u = 0, i -= 1)
-		}	
-}
 
 function loadMap() {
-    (async () => {
-        const createScatterplot = 
-        (await import('regl-scatterplot')).default;
+  (async () => {
+    const createScatterplot =
+      (await import('regl-scatterplot')).default;
 
-        d3.tsv('api/coordinates').then((items) => {
+  
+  let eLoader = new EXRLoader()
+  eLoader.setDataType(FloatType)
+  eLoader.load('api/finalFrame', function (e) {
+    let le = 138
+    var Ct = function (e: number) {
+      return (2 * e - 1) * le
+    }
 
-          function rotatePoint(x: number, y: number, centerx: number, centery: number, degrees: number) {
-            var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
-            var newy = (x - centerx) * Math.sin(degrees * Math.PI / 180) + (y - centery) * Math.cos(degrees * Math.PI / 180) + centery;
-            return {x: newx, y: newy};
-          }
+    var t = e.image
+    var n = t.width
+    var r = t.height
+    var o = t.data
+    var a = n * r
+    var i = r - 1
+    var u = 0
+    var l = []
+    for (var s = 0; s < a; s += 1) {
+      var c = n * i + u;
+      l.push({
+        index: s,
+        position:
+        {
+          x: Ct(Number(o[4 * c])),
+          y: Ct(Number(o[4 * c + 1])),
+          z: Ct(Number(o[4 * c + 2]))
+        }
+      }), (u += 1) >= n && (u = 0, i -= 1)
+    }
 
-          data = items
-            .map((d: any, index: number) => {
-            let adjustedCoorddinate = rotatePoint(d.y, d.x, 0, 0, -90)
-            return {
-                ...d,
-                x: Number(adjustedCoorddinate.x),
-                y: Number(adjustedCoorddinate.y),
-                A: index,
-                R: -1,
-                T: -1
-            }})
+    function rotatePoint(x: number, y: number, centerx: number, centery: number, degrees: number) {
+      var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
+      var newy = (x - centerx) * Math.sin(degrees * Math.PI / 180) + (y - centery) * Math.cos(degrees * Math.PI / 180) + centery;
+      return { x: newx, y: newy };
+    }
 
-            data.push({
-              x: 0,
-              y: 0,
-              A: CLUB_HOUSE_ID,
-              R: -1,
-              T: -1
-            })
+    data = l
+      .map((d: any, index: number) => {
+        let adjustedCoorddinate = rotatePoint(d.position.z, d.position.x, 0, 0, -90)
+        return {
+          ...d,
+          x: Number(adjustedCoorddinate.x),
+          y: Number(adjustedCoorddinate.y),
+          A: d.index,
+          R: -1,
+          T: -1
+        }
+      })
 
-            setupMap(createScatterplot)
+    data.push({
+      x: 0,
+      y: 0,
+      A: CLUB_HOUSE_ID,
+      R: -1,
+      T: -1
+    })
 
-        })        
-    })();
+    setupMap(createScatterplot)
+  })
+
+  })();
 }
 
 let scatterplot: any
@@ -121,134 +117,134 @@ var currentSteppedZoom = 1
 var currentZoomLevel = 1
 
 function setupMap(createScatterplot: any) {
-    
-    const canvas = document.getElementById('chart-container')!
-    const textLabel = document.getElementById('map-land-label')!
 
-    const { width, height } = canvas.getBoundingClientRect();
-    
-    let xScale =  scaleLinear().domain([-1, 1])
-    let yScale =  scaleLinear().domain([-1, 1])
+  const canvas = document.getElementById('chart-container')!
+  const textLabel = document.getElementById('map-land-label')!
 
-    scatterplot = createScatterplot({
-      canvas,
-      width: 'auto',
-      height: 'auto',
-      aspectRatio: 1.0,
-      cameraTarget: [0, 0],
-      cameraDistance: 70,
-      pointColor: pointColors,
-      pointSize: pointSizes.map((p: number) => p / 1.5),
-      colorBy: 'valueA',
-      sizeBy: 'valueB',
-      xScale: xScale,
-      yScale: yScale,
-      pointOutlineWidth: 8
-    });
+  const { width, height } = canvas.getBoundingClientRect();
 
-    let camera = scatterplot.get('camera')
-    camera.setScaleBounds([[0.013, 1], [0.013, 1]])
+  let xScale = scaleLinear().domain([-1, 1])
+  let yScale = scaleLinear().domain([-1, 1])
 
-    // first rank data
-    // environment tier
-    /* setLandData(
-     *   data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
-     *   data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
-     * ) */
-    
-    drawMap()
-    mapLoaded = true
+  scatterplot = createScatterplot({
+    canvas,
+    width: 'auto',
+    height: 'auto',
+    aspectRatio: 1.0,
+    cameraTarget: [0, 0],
+    cameraDistance: 70,
+    pointColor: pointColors,
+    pointSize: pointSizes.map((p: number) => p / 1.5),
+    colorBy: 'valueA',
+    sizeBy: 'valueB',
+    xScale: xScale,
+    yScale: yScale,
+    pointOutlineWidth: 8
+  });
 
-    scatterplot.subscribe('view', (camera: any, view: any, xScale: any, yScale: any) => {
-       updateZoomState(camera.camera.distance[0])
-       if (currentZoomLevel < highlightHoverZoomCutoff) {
-          textLabel.style['visibility'] = 'hidden'
-       }
-    })
+  let camera = scatterplot.get('camera')
+  camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
-    scatterplot.subscribe('pointOver', (index: any) => {
-      if (hoveredId == data[index].A) return
-      hoveredId = data[index].A
+  // first rank data
+  // environment tier
+  /* setLandData(
+   *   data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
+   *   data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
+   * ) */
 
-      if (currentZoomLevel < highlightHoverZoomCutoff) {
-        canvas.style["cursor"] =  "pointer"; 
+  drawMap()
+  mapLoaded = true
 
-        let x = xScale(data[index].x) + 300
-        let y = yScale(data[index].y)
-
-        textLabel.style['left'] = x.toString() + "px"
-        textLabel.style['top'] = y.toString() + "px"
-
-        if (data[index].A == CLUB_HOUSE_ID) {
-          textLabel.innerHTML = 'Clubhouse'
-        } else {
-          textLabel.innerHTML = data[index].A
-        }
-        textLabel.style['visibility'] = 'visible'
-      }
-   })
-
-   scatterplot.subscribe('pointOut', (index: any) => {
-     if (data[index].A == hoveredId) {
-       hoveredId = -1
-       return
-     }
-      hoveredId = -1
-      canvas.style["cursor"] =  "default"; 
+  scatterplot.subscribe('view', (camera: any, view: any, xScale: any, yScale: any) => {
+    updateZoomState(camera.camera.distance[0])
+    if (currentZoomLevel < highlightHoverZoomCutoff) {
       textLabel.style['visibility'] = 'hidden'
-   })
+    }
+  })
 
-   scatterplot.subscribe('select', ({ points }: any) => {
+  scatterplot.subscribe('pointOver', (index: any) => {
+    if (hoveredId == data[index].A) return
+    hoveredId = data[index].A
+
+    if (currentZoomLevel < highlightHoverZoomCutoff) {
+      canvas.style["cursor"] = "pointer";
+
+      let x = xScale(data[index].x) + 300
+      let y = yScale(data[index].y)
+
+      textLabel.style['left'] = x.toString() + "px"
+      textLabel.style['top'] = y.toString() + "px"
+
+      if (data[index].A == CLUB_HOUSE_ID) {
+        textLabel.innerHTML = 'Clubhouse'
+      } else {
+        textLabel.innerHTML = data[index].A
+      }
+      textLabel.style['visibility'] = 'visible'
+    }
+  })
+
+  scatterplot.subscribe('pointOut', (index: any) => {
+    if (data[index].A == hoveredId) {
+      hoveredId = -1
+      return
+    }
+    hoveredId = -1
+    canvas.style["cursor"] = "default";
+    textLabel.style['visibility'] = 'hidden'
+  })
+
+  scatterplot.subscribe('select', ({ points }: any) => {
     let selectedPoint = data[points[0]].A
     let x = xScale(data[points[0]].x) + 300
     let y = yScale(data[points[0]].y)
-    
+
     let enoughSpaceOnRight = x + 270 < window.innerWidth
     let infoX = (enoughSpaceOnRight ? x + 40 : x - 350)
     let infoY = 80
 
     if (selectedPoint == CLUB_HOUSE_ID) return
     onLandSelectedCallback(selectedPoint, infoX, infoY)
- })
+  })
 
   scatterplot.subscribe('deselect', () => {
-      onLandUnselectedCallback()
+    onLandUnselectedCallback()
   })
 
 }
 
 function drawMap() {
-  points = data.map((d: any) =>  [d.x, d.y, rankingIndex(d), sizeIndex(d)])
+  points = data.map((d: any) => [d.x, d.y, rankingIndex(d), sizeIndex(d)])
   scatterplot.clear()
   scatterplot.draw(points);
 }
 
 const rankingIndex = (d: any) => {
 
-    // let currentZoom = scatterplot.get('cameraDistance')
-    // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
+  // let currentZoom = scatterplot.get('cameraDistance')
+  // if (filteredIds.length != 0 && currentZoom < highlightColorsZoomCutoff) return 0
 
-    //clubhouse at 0,0
-    if (d.A == CLUB_HOUSE_ID) {
-      return 7
-    }
+  //clubhouse at 0,0
+  if (d.A == CLUB_HOUSE_ID) {
+    return 7
+  }
 
-    if (d.R == -1) {
-        return 0
-    }
-    if (d.R < 1000) {
-        return 1
-    }
-    if (d.R < 10000) {
-        return 2
-    }
-    if (d.R < 25000) {
-        return 3
-    }
-    if (d.R < 50000) {
-        return 4
-    }
-    return 6
+  if (d.R == -1) {
+    return 0
+  }
+  if (d.R < 1000) {
+    return 1
+  }
+  if (d.R < 10000) {
+    return 2
+  }
+  if (d.R < 25000) {
+    return 3
+  }
+  if (d.R < 50000) {
+    return 4
+  }
+  return 6
 
 }
 
@@ -263,20 +259,20 @@ const sizeIndex = (d: any) => {
   }
 
   if (d.T == -1) {
-      return 0
+    return 0
   }
 
   if (d.T == 1) {
-      return 5
+    return 5
   }
   if (d.T == 2) {
-      return 4
+    return 4
   }
   if (d.T == 3) {
-      return 3
+    return 3
   }
   if (d.T == 4) {
-      return 2
+    return 2
   }
   if (d.T == 5) {
     return 1
@@ -286,78 +282,78 @@ const sizeIndex = (d: any) => {
 }
 
 const steppedZoomChanged = (previousZoom: number, newZoom: number) => {
-    if (filteredIds.length != 0) return
+  if (filteredIds.length != 0) return
 
-    // if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
-    //    scatterplot.set({
-    //     colorBy: 'valueB'
-    //    })
-    // }
-    // if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
-    //     scatterplot.set({
-    //      colorBy: 'valueB'
-    //     })
-    // }
-  }
+  // if (newZoom >= highlightColorsZoomCutoff && previousZoom < highlightColorsZoomCutoff) {
+  //    scatterplot.set({
+  //     colorBy: 'valueB'
+  //    })
+  // }
+  // if (newZoom <= highlightColorsZoomCutoff && previousZoom > highlightColorsZoomCutoff) {
+  //     scatterplot.set({
+  //      colorBy: 'valueB'
+  //     })
+  // }
+}
 
 function updateZoomState(newZoomLevel: number) {
-    currentZoomLevel = newZoomLevel
-  
-    let newSteppedZoom = currentSteppedZoom
-  
-    if (newZoomLevel >= currentSteppedZoom + 5) {
-      newSteppedZoom = currentSteppedZoom + 5
-    }
-    if (newZoomLevel <= currentSteppedZoom - 5) {
-      newSteppedZoom = currentSteppedZoom - 5
-    }
-  
-    if (newSteppedZoom != currentSteppedZoom) {
-      steppedZoomChanged(currentSteppedZoom, newSteppedZoom)
-      currentSteppedZoom = newSteppedZoom
-    }
+  currentZoomLevel = newZoomLevel
+
+  let newSteppedZoom = currentSteppedZoom
+
+  if (newZoomLevel >= currentSteppedZoom + 5) {
+    newSteppedZoom = currentSteppedZoom + 5
   }
+  if (newZoomLevel <= currentSteppedZoom - 5) {
+    newSteppedZoom = currentSteppedZoom - 5
+  }
+
+  if (newSteppedZoom != currentSteppedZoom) {
+    steppedZoomChanged(currentSteppedZoom, newSteppedZoom)
+    currentSteppedZoom = newSteppedZoom
+  }
+}
 
 // ids of lands to filter
 export function setFilteredIds(ids: number[]) {
   console.log('filteredIds: ' + ids.length)
-    filteredIds = ids
-    let targetCameraDistance = 70
-    if (filteredIds.length == 0) {
-      scatterplot.set({
-        cameraDistance: targetCameraDistance
-      })
-      for (let i=0; i< data.length; i++) {
-        if (data[i] != undefined) {
-          points[i][2] = rankingIndex(data[i])
-        }
+  filteredIds = ids
+  let targetCameraDistance = 70
+  if (filteredIds.length == 0) {
+    scatterplot.set({
+      cameraDistance: targetCameraDistance
+    })
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] != undefined) {
+        points[i][2] = rankingIndex(data[i])
       }
-    } else {
-      let distances: number[] = []
-      filteredIds.sort().slice(-10).forEach((element: number) => {
-        if (data[element] != undefined) {
-          var dist = Math.sqrt( Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
-          distances.push(dist)
-        }
-      });
-      if (distances.length > 0) {
-        targetCameraDistance = distances.sort().reverse()[0] + 2
-      }
-      scatterplot.set({
-        cameraDistance: targetCameraDistance,
-        cameraTarget: [0, 0]
-      })
-      // set greyed out colors on all points first
-      for (let i=0; i< data.length; i++) {
-        points[i][2] = 5
-      }
-      // set actual rank colors on filtered points now
-      filteredIds.forEach((id: number) => {
-        if (data[id] != undefined) {
-          points[id][2] = rankingIndex(data[id])
-        }
-      })
     }
+  } else {
+    let distances: number[] = []
+    filteredIds.sort().slice(-10).forEach((element: number) => {
+      if (data[element] != undefined) {
+        var dist = Math.sqrt(Math.pow((data[element].x), 2) + Math.pow((data[element].y), 2));
+        distances.push(dist)
+      }
+    });
+    if (distances.length > 0) {
+      targetCameraDistance = distances.sort().reverse()[0] + 2
+    }
+    scatterplot.set({
+      cameraDistance: targetCameraDistance,
+      cameraTarget: [0, 0]
+    })
+    // set greyed out colors on all points first
+    for (let i = 0; i < data.length; i++) {
+      points[i][2] = 5
+    }
+    // set actual rank colors on filtered points now
+    filteredIds.forEach((id: number) => {
+      if (data[id] != undefined) {
+        points[id][2] = rankingIndex(data[id])
+      }
+    })
+  }
   scatterplot.draw(points);
 }
 
@@ -379,12 +375,12 @@ export function setFocusedIds(ids: number[]) {
 // array of scores (0-99999)
 // array of land tiers (1-5) for 0-99999
 export function setLandData(scores: number[], landTiers: number[]) {
-    data = data.map((d: any) => ({
+  data = data.map((d: any) => ({
     ...d,
     R: scores[d.A],
     T: landTiers[d.A]
-    }))
-    if (mapLoaded) {
-      drawMap()
-    }
+  }))
+  if (mapLoaded) {
+    drawMap()
+  }
 }
