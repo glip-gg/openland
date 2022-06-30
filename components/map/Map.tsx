@@ -362,6 +362,7 @@ export function setFocusedIds(ids: number[]) {
   console.log('focused ids', ids.length);
   let idToFocus = ids[0]
   let selectedDataPoint = data[idToFocus]
+  if (selectedDataPoint == undefined) return
   onLandUnselectedCallback()
   scatterplot.set({
     cameraDistance: 5,
