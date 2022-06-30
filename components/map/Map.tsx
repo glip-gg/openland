@@ -177,11 +177,11 @@ function setupMap(createScatterplot: any) {
 
    scatterplot.subscribe('select', ({ points }: any) => {
     let selectedPoint = data[points[0]].A
-    let x = xScale(data[points[0]].x)
+    let x = xScale(data[points[0]].x) + 300
     let y = yScale(data[points[0]].y)
     
     let enoughSpaceOnRight = x + 270 < window.innerWidth
-    let infoX = enoughSpaceOnRight ? x + 40 : x - 350
+    let infoX = (enoughSpaceOnRight ? x + 40 : x - 350)
     let infoY = 80
 
     if (selectedPoint == CLUB_HOUSE_ID) return
