@@ -199,7 +199,7 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Navbar showSearch={false} showFloor={false} />
+          <Navbar showSearch={true} showFloor={true} />
 
           <Container
               as="main"
