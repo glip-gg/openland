@@ -43,6 +43,7 @@ const PaginatedListContainer = styled.div`
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    overflow: auto;
 `
 
 const oldCardData =  [{
@@ -122,27 +123,29 @@ export default function FilterBody({filters, }: any) {
         
     }
     return (
-        <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
-          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
+        <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', }}>
+          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row',}}>
             <FilterTitle>{lands} LANDS</FilterTitle>
             <SortingDropDown  sortingOption={sortingOption} setSortingOption={sortingOptionChanged} />
           </div>
           <Spacer />
           <ChipFilterDisplay rounded filters={filters} />
-          <PaginatedList
-              list={cards}
-              itemsPerPage={6}
-              loopAround={true}
-              renderList={(list) => (
-                  <PaginatedListContainer>
-                    {list.map((item, id) => {
-                        return (
-                            <OtherCard key={`othercard-${id}`} data={item} />
-                        );
-                    })}
-                  </PaginatedListContainer>
-              )}
-          />
+          <div style={{display: 'flex', overflowY: 'auto', height: '66vh'}}>
+            <PaginatedList
+                list={cards}
+                itemsPerPage={6}
+                loopAround={true}
+                renderList={(list) => (
+                    <PaginatedListContainer>
+                        {list.map((item, id) => {
+                            return (
+                                <OtherCard key={`othercard-${id}`} data={item} />
+                            );
+                        })}
+                    </PaginatedListContainer>
+                )}
+            />
+          </div>
           <Spacer y={4} />
         </div>
     );

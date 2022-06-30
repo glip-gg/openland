@@ -241,11 +241,14 @@ export default function Home() {
               <div style={{background: '#000',
                            borderBottomWidth: 1,
                            display:'flex',
-                           borderColor: 'rgba(44, 44, 44, 1)'}}>
+                           borderColor: 'rgba(44, 44, 44, 1)',
+                        //    position: 'fixed',
+                        //    zIndex: 12                           
+                           }}>
                 {filterHeader}                    
               </div>
-              <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%'}}>
-                <div style={{background: 'black', padding: 32, paddingRight: 0}}>
+              <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
+                <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
                   <FilterBody filters={[]} />
                 </div>
               </div>
