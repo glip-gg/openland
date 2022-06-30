@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { scaleLinear } from 'd3-scale';
-
+import * as d3 from 'd3'
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
 type LandUnselectCallback = () => void
@@ -14,6 +14,7 @@ export default function Map(props: any) {
     onLandUnselectedCallback = props.onLandUnselected
 
     useEffect(()=>{
+      // coordinates()
         loadMap()
     },[])
     
@@ -35,55 +36,77 @@ let points: any = []
 
 const CLUB_HOUSE_ID = 100000
 
+function coordinates() {
+  let eJson = 
+  '{"metadata":{"version":4.5,"type":"Texture","generator":"Texture.toJSON"},"uuid":"a09e3d07-05d9-4971-8770-9b5523b599b6","name":"","image":"5973b04f-ae43-442e-bdbf-85fe905ede98","mapping":300,"repeat":[1,1],"offset":[0,0],"center":[0,0],"rotation":0,"wrap":[1001,1001],"format":1023,"type":1015,"encoding":3000,"minFilter":1006,"magFilter":1006,"anisotropy":1,"flipY":false,"premultiplyAlpha":false,"unpackAlignment":1}'
+  let e = JSON.parse(eJson)
+  let le = 138
+  var Ct = function (e: number)
+				{
+					return (2 * e - 1) * le
+				}
+        
+  console.log(e)
+  var t = e.image
+  var n = t.width 
+  var r = t.height
+  var o = t.data 
+  var a = n * r 
+  var i = r - 1
+  var u = 0
+  var l = []
+  console.log(a)
+  for (var s = 0; s < a; s += 1) {
+									var c = n * i + u;
+									l.push({
+										index: s,
+										position:
+										{
+											x: Ct(Number(o[4 * c])),
+											y: Ct(Number(o[4 * c + 1])),
+											z: Ct(Number(o[4 * c + 2]))
+										}
+									}), (u += 1) >= n && (u = 0, i -= 1)
+		}	
+}
+
 function loadMap() {
     (async () => {
         const createScatterplot = 
         (await import('regl-scatterplot')).default;
 
+        d3.tsv('api/coordinates').then((items) => {
 
-        // create a web worker that streams the chart data
-        const streamingLoaderWorker = new Worker("./api/streaming-tsv-parser");
-        streamingLoaderWorker.onmessage = ({
-        data: { items, totalBytes, finished }
-        }) => {
-
-        function normalize(val: number, max: number, min: number) { return (val - min) / (max - min); }
-
-        function rotatePoint(x: number, y: number, centerx: number, centery: number, degrees: number) {
+          function rotatePoint(x: number, y: number, centerx: number, centery: number, degrees: number) {
             var newx = (x - centerx) * Math.cos(degrees * Math.PI / 180) - (y - centery) * Math.sin(degrees * Math.PI / 180) + centerx;
             var newy = (x - centerx) * Math.sin(degrees * Math.PI / 180) + (y - centery) * Math.cos(degrees * Math.PI / 180) + centery;
             return {x: newx, y: newy};
-        }
+          }
 
-        const rows = items
-            .map((d: any) => {
+          data = items
+            .map((d: any, index: number) => {
             let adjustedCoorddinate = rotatePoint(d.y, d.x, 0, 0, -90)
             return {
                 ...d,
                 x: Number(adjustedCoorddinate.x),
                 y: Number(adjustedCoorddinate.y),
-                A: Number(d.A),
+                A: index,
                 R: -1,
                 T: -1
             }})
 
-        data = data.concat(rows);
+            data.push({
+              x: 0,
+              y: 0,
+              A: CLUB_HOUSE_ID,
+              R: -1,
+              T: -1
+            })
 
-        if (finished) {
-          data.push( {
-            x: 0,
-            y: 0,
-            A: CLUB_HOUSE_ID,
-            R: -1,
-            T: -1
-          })
-          setupMap(createScatterplot)
-        }
+            setupMap(createScatterplot)
 
-        };
-        streamingLoaderWorker.postMessage("/api/coordinates");
+        })        
     })();
-
 }
 
 let scatterplot: any
