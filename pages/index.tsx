@@ -200,7 +200,7 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Navbar />
+          <Navbar showSearch={false} showFloor={false} />
 
           <Container
               as="main"
