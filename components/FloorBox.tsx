@@ -39,13 +39,14 @@ export default function FloorBoxComponent(props:any){
             alignItems: "center",
             padding: "8px 12px",
             gap: "33px",
-            position: "absolute",
             width: "153px",
             height: "44px",
             left: "1241px",
             top: "15px",
             background: "#FFFFFF",
-            borderRadius: "12px"}}>
+            borderRadius: "12px",
+            marginRight: 12,
+            }}>
           <FloorTextSpan>
             Floor: {floor} ETH
           </FloorTextSpan>
