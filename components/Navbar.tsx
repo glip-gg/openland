@@ -73,7 +73,7 @@ export default function Navbar({showSearch, showFloor}: any) {
                         onChange={(ev)=>handleInputChange(ev) }
                         type="number"
                         value={text}
-                        placeholder="Search Plot Number"
+                        placeholder="Search Deed Number"
                         onKeyPress={event => {
                             if (event.key === 'Enter') {
                                 goToMapObj()
