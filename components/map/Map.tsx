@@ -33,14 +33,7 @@ let hoveredId = -1;
 var mapLoaded = false
 let points: any = []
 
-const CLUB_HOUSE_ID = -1000
-data.push( {
-  x: 0,
-  y: 0,
-  A: CLUB_HOUSE_ID,
-  R: -1,
-  T: -1
-})
+const CLUB_HOUSE_ID = 100000
 
 function loadMap() {
     (async () => {
@@ -77,7 +70,14 @@ function loadMap() {
         data = data.concat(rows);
 
         if (finished) {
-            setupMap(createScatterplot)
+          data.push( {
+            x: 0,
+            y: 0,
+            A: CLUB_HOUSE_ID,
+            R: -1,
+            T: -1
+          })
+          setupMap(createScatterplot)
         }
 
         };
@@ -341,6 +341,13 @@ export function setFilteredIds(ids: number[]) {
 //Onclick on therdeed
 export function setFocusedIds(ids: number[]) {
   console.log('focused ids', ids.length);
+  let idToFocus = ids[0]
+  let selectedDataPoint = data[idToFocus]
+  onLandUnselectedCallback()
+  scatterplot.set({
+    cameraDistance: 5,
+    cameraTarget: [selectedDataPoint.x, selectedDataPoint.y]
+  })
   scatterplot.select(ids, {
     preventEvent: true
   });
