@@ -150,7 +150,7 @@ function setupMap(createScatterplot: any) {
       if (currentZoomLevel < highlightHoverZoomCutoff) {
         canvas.style["cursor"] =  "pointer"; 
 
-        let x = xScale(data[index].x)
+        let x = xScale(data[index].x) + 300
         let y = yScale(data[index].y)
 
         textLabel.style['left'] = x.toString() + "px"
