@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styled from 'styled-components';
 import { useState } from 'react';
@@ -77,18 +77,29 @@ const oldCardData =  [{
 
 export const DEFAULT_SORTING_OPTION = SORTING_OPTIONS[0];
 
-export default function FilterBody({filters, }: any) {
 
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
+export default function FilterBody({filters, }: any) {
+    const forceUpdate = useForceUpdate();
     const [cards, setCards] = useState([] as any[]);
-    const [sortingOption, setSortingOption] = useState(DEFAULT_SORTING_OPTION);
+    const sortingOption = useRef(DEFAULT_SORTING_OPTION);
     const [lands, setLands] = useState(4500);
+
+    const setSortingOption = (newVal:any)=>{
+        sortingOption.current = newVal;
+        forceUpdate();
+    }
     
     useEffect(()=>{
         let newData:any;
         eventBus.on("filter-applied", async (data:any)=>{
             newData = await globalApeFilter.applyFilter();
             console.log('newData', newData);
-            setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
+            setCards(sortApeDeeds(Object.keys(sortingOption.current)[0], newData));
             setLands(newData.length)
             if(newData.length === 1000000){
                 //return
@@ -113,19 +124,19 @@ export default function FilterBody({filters, }: any) {
         console.log('envTiers', envTiers);
         setLandData(ranks, envTiers);
         setLands(newData.length)
-        setCards(sortApeDeeds(Object.keys(sortingOption)[0], newData));
+        setCards(sortApeDeeds(Object.keys(sortingOption.current)[0], newData));
     },[]);
     
-    const sortingOptionChanged = (sortingOption:any) =>{
-        setSortingOption(sortingOption);
-        setCards(sortApeDeeds(Object.keys(sortingOption)[0], cards));
+    const sortingOptionChanged = (tsortingOption:any) =>{
+        setSortingOption(tsortingOption);
+        setCards(sortApeDeeds(Object.keys(tsortingOption)[0], cards));
         
     }
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', }}>
             <FilterTitle>{lands} LANDS</FilterTitle>
-            <SortingDropDown  sortingOption={sortingOption} setSortingOption={sortingOptionChanged} />
+            <SortingDropDown  sortingOption={sortingOption.current} setSortingOption={sortingOptionChanged} />
           </div>
           <Spacer />
           <ChipFilterDisplay rounded filters={filters} />
