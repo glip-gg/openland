@@ -88,10 +88,9 @@ export default function About() {
                 <ol className='grey-list'>
                     <li> Dota 1/2 - in another metaverse Bloo would have gone Pro in Dota</li>
                     <li> WoW - his gaming keyboard is the only thing he loves more than his balanced night elf druid</li>
-                    <li> CSGO</li>
-                    <li> Valorant</li>
-                    <li> Hotline Miami</li>
-                    <li> Portal</li>
+                    <li> Limbo - arguably his favourite indie game</li>
+                    <li> GTA Vice City - he could travel the whole map with his eyes closed </li>
+                    <li> Soldier of Fortune - where bloo got his first taste for shooters</li>
                 </ol>
                 <br></br>
 
