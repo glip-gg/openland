@@ -73,7 +73,7 @@ export default function About() {
                 <p>OpenLand is a portal in the metaverse helping voyagers easily navigate the otherside.
 
                     <br></br>
-                    It was created by Bloo, a mutant who woke up lost in the otherside and decided to help fellow travellers on their voyagers by creating a map of the Otherside.
+                    It was created by Bloo, a mutant who woke up lost in the otherside and decided to help fellow travellers on their voyages by creating a map of the Otherside.
                     There is always an eerie silence in the OpenLand, but sometimes, sometimes Bloo decides to shake things up and things change in the OpenLand.
                 </p>
                 <br></br>
