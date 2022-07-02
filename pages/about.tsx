@@ -97,10 +97,12 @@ export default function About() {
                 <Title>Favourite Projects:</Title>
                 <br></br>
                 <ol className='grey-list'>
-                    <li> geth</li>
-                    <li> Lighting network</li>
-                    <li> zkSync</li>
-                    <li> web3auth</li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://github.com/Uniswap/v3-core'>Uniswap</a></li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://zksync.io/'>zkSync</a></li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://github.com/flashbots'>Flashbots</a></li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://github.com/lightningnetwork/lnd'>LND - Lighting network</a></li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://fuchsia.googlesource.com/fuchsia/+/refs/heads/main/zircon'>Fuchsia - micro kernel</a></li>
+                    <li> <a rel="noreferrer" target="_blank" href='https://tor.us/'>web3auth</a></li>
                 </ol>
             </div>
 
