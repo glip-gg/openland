@@ -56,7 +56,7 @@ export default function About() {
             flexDirection: 'column',
         }}>
              <Head>
-                <title>Openland | Suped-up search for Otherside</title>
+                <title>OpenLand | Suped-up search for Otherside</title>
                 <meta
                     name="description"
                     content="Navigate the otherside in a blazing fast experience"
@@ -68,13 +68,13 @@ export default function About() {
 
             <div style={{padding: 90, height: '100vh', overflow: 'auto'}}>
 
-                <Title>About Openland:</Title>
+                <Title>About OpenLand:</Title>
                 <br></br>
-                <p>Openland is a portal in the metaverse helping voyagers easily navigate the otherside.
+                <p>OpenLand is a portal in the metaverse helping voyagers easily navigate the otherside.
 
                     <br></br>
                     It was created by Bloo, a mutant who woke up lost in the otherside and decided to help fellow travellers on their voyagers by creating a map of the Otherside.
-                    There is always an eerie silence in the Openland, but sometimes, sometimes Bloo decides to shake things up and things change in the Openland.
+                    There is always an eerie silence in the OpenLand, but sometimes, sometimes Bloo decides to shake things up and things change in the OpenLand.
                 </p>
                 <br></br>
 

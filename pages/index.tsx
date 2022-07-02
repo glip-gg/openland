@@ -183,7 +183,7 @@ export default function Home() {
             <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
               <BallTriangle ariaLabel="loading-indicator" color="white" width="400" height="500" />
               <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 66}}>
-                Loading Openland!
+                Loading OpenLand!
               </div>
             </div>
         );
@@ -191,7 +191,7 @@ export default function Home() {
     return (
         <div className={styles.container}>
           <Head>
-            <title>Openland | Suped-up search for Otherside</title>
+            <title>OpenLand | Suped-up search for Otherside</title>
             <meta
                 name="description"
                 content="Navigate the otherside in a blazing fast experience"

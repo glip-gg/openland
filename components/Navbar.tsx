@@ -53,7 +53,7 @@ export default function Navbar({showSearch, showFloor}: any) {
                       rel="noopener noreferrer"
                       style={{color: '#fff'}}
                   >
-                    Openland
+                    OpenLand
                   </Link>                
                 </Text>
                 {showSearch && <div style={{
