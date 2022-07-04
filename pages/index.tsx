@@ -291,6 +291,7 @@ export default function Home() {
 
     useEffect(()=>{
         (async () =>{
+            //TODO do not load this on mobile
             //let apeDeeds = await fetchApeDeedsData();
             let [apeDeeds, apePriceData] = await Promise.all([
                 fetchApeDeedsData(), fetchApeDeedsPriceData()]);
