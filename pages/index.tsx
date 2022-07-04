@@ -388,9 +388,12 @@ export default function Home() {
           </Desktop>
 
           <Mobile>
+              <div style={{paddingTop: 12, paddingLeft: 24, background: 'linear-gradient(119.74deg, #1E1E1E 31.82%, #1F1F1F 122.39%)'}}>
+                  <Image layout='fill' alt='desktop-smaple-image' src='https://openland.s3.us-east-2.amazonaws.com/desktop.png' />
+              </div>
             <div style={{padding: 28}}>
               <div style={{display: 'flex', }}>
-                {/* <Image alt='logo' src={logo} /> */}
+                <Image alt='logo' src={logo} />
                 <Title style={{marginLeft: 8}}>OpenLand</Title>
               </div>
 
