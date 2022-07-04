@@ -235,9 +235,9 @@ export default function OtherCard({data}: any) {
 
               <div style={{display: 'flex',
                            justifyContent: 'space-between'}}>
-                {numKodas > 0 && <DetailsDiv>{numKodas} Koda</DetailsDiv>}
-                {numArtifacts > 0 && <DetailsDiv>{numArtifacts} Artifacts</DetailsDiv>}
-                {numResources > 0 && <DetailsDiv>{numResources} Resources</DetailsDiv>}
+                {numKodas > 0 && <DetailsDiv>{numKodas}x Koda</DetailsDiv>}
+                {numArtifacts > 0 && <DetailsDiv>{numArtifacts}x Artifact</DetailsDiv>}
+                {numResources > 0 && <DetailsDiv>{numResources}x Resource</DetailsDiv>}
               </div>
 
             </div>
