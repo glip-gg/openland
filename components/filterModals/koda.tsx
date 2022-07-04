@@ -12,7 +12,7 @@ import {
     Input, 
 } from '@nextui-org/react';
 import globalApeFilter from '../../utils/globalFilter';
-
+import eventBus from '../../utils/eventBus';
 
 const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon', 'ID'];
 const koda_properties_chips = koda_properties_data.map((item: any, index: any) => <Chip key={`koda_properties_chips-chip-${index}`} title={item} active={false}/>);
@@ -78,6 +78,8 @@ export const clearKodaFilters = () => {
     globalApeFilter.clearFilter('Koda', 'in');
     globalApeFilter.clearFilter('Koda', 'include');
     globalApeFilter.clearFilter('Koda', 'exclude');
+    globalApeFilter.applyFilter();
+    eventBus.dispatch('filter-applied',{});
 };
 
 

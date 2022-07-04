@@ -202,41 +202,44 @@ export default function OtherCard({data}: any) {
     const numKodas = data.Koda? 1: 0
     const numArtifacts = data.Artifact? 1: 0;
     const numResources = getNumResources();
-    
-    return (
-        <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
-          
-          <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
-                 alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />
-          <Spacer />
-          <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <OtherID>#{data.Plot}</OtherID>
-            {(data.currentListPrice) && (
-                <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
-                  <Price style={{marginRight:10}}>{data.currentListPrice}</Price>
-                  <Icon icon={EtherSymbol} />
-                </div>
-            )}
-          </div>
-          <Spacer />
+    let currentListPrice = data.currentListPrice;
+    if(isNaN(currentListPrice)){
+        currentListPrice = false;
+    }
+        return (
+            <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
+              
+              <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
+                     alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />
+              <Spacer />
+              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <OtherID>#{data.Plot}</OtherID>
+                {(currentListPrice) && (
+                    <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
+                      <Price style={{marginRight:10}}>{currentListPrice}</Price>
+                      <Icon icon={EtherSymbol} />
+                    </div>
+                )}
+              </div>
+              <Spacer />
 
-          <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
-            <OtherName>{data.Environment}- {data.Sediment}</OtherName>
-            <Tier>{data.tier}</Tier>
-          </div>
+              <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16, marginTop: 11}}>
+                <OtherName>{data.Environment}- {data.Sediment}</OtherName>
+                <Tier>{data.tier}</Tier>
+              </div>
 
-          <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
-            <Rank>RANK</Rank>
-            <OtherRank>{data.rank}-{rankPercentageString}</OtherRank>
-          </div>
+              <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
+                <Rank>RANK</Rank>
+                <OtherRank>{data.rank}-{rankPercentageString}</OtherRank>
+              </div>
 
-          <div style={{display: 'flex',
-                       justifyContent: 'space-between'}}>
-            <DetailsDiv>{numKodas} Koda</DetailsDiv>
-            <DetailsDiv>{numArtifacts} Artifacts</DetailsDiv>
-            <DetailsDiv>{numResources} Resources</DetailsDiv>
-          </div>
+              <div style={{display: 'flex',
+                           justifyContent: 'space-between'}}>
+                <DetailsDiv>{numKodas} Koda</DetailsDiv>
+                <DetailsDiv>{numArtifacts} Artifacts</DetailsDiv>
+                <DetailsDiv>{numResources} Resources</DetailsDiv>
+              </div>
 
-        </div>
-    );
+            </div>
+        );
 }

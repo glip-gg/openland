@@ -114,7 +114,7 @@ class ApeFilter {
 
     async applyFilter(){
         console.log(this.filters);
-        let filteredData = await filterApeDeeds(this.filters);
+        let filteredData = filterApeDeeds(this.filters);
         eventBus.dispatch('new-filtered-data', filteredData);
         return filteredData;
     }

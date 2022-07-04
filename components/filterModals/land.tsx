@@ -24,6 +24,7 @@ import PsychedelicCategoryImage from '../../assets/filter/psychedelic_category.s
 import SpiritCategoryImage from '../../assets/filter/spirit_category.svg'
 import VolcanicCategoryImage from '../../assets/filter/volcanic_category.svg'
 
+import eventBus from '../../utils/eventBus';
 
 const category_images_dict:any = {
     'All': AllCategoryImage,
@@ -68,6 +69,8 @@ export const clearLandFilters = () => {
     landFilter.map((name:string)=>{
         globalApeFilter.clearFilter(name);
     });
+    globalApeFilter.applyFilter();
+    eventBus.dispatch('filter-applied',{});
 };
 
 export default function LandFilterModal(props: any) {

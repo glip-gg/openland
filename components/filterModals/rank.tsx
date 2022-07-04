@@ -10,6 +10,7 @@ import FilterBottomTab from '../ui/FilterBottomTab';
 import Slider from '../ui/slider';
 
 import globalApeFilter from '../../utils/globalFilter';
+import eventBus from '../../utils/eventBus';
 
 const type_data: Array<String> = ['Top 1%', 'Top 5%', 'Top 10%', 'Top 25%'];
 const type_chips = type_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -32,6 +33,8 @@ function useForceUpdate(){
     
 export const clearRankFilters = () => {
     globalApeFilter.clearFilter('rank', 'range')
+    globalApeFilter.applyFilter();
+    eventBus.dispatch('filter-applied',{});
 };
 
 export default function RankFilterModal(props: any) {    

@@ -12,6 +12,7 @@ import {
 } from '@nextui-org/react';
 
 import globalApeFilter from '../../utils/globalFilter';
+import eventBus from '../../utils/eventBus';
 
 const direction_data: Array<String> = ['All', 'S', 'W', 'E', 'N'];
 const direction_chips = direction_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -70,6 +71,8 @@ export const clearResourceFilters = () => {
     globalApeFilter.clearFilter('Resource Type', 'in');
     globalApeFilter.clearFilter('Resource Tiers', 'or');
     globalApeFilter.clearFilter('Resource Types', 'or');
+    globalApeFilter.applyFilter();
+    eventBus.dispatch('filter-applied',{});
 };
 
 

@@ -322,6 +322,7 @@ export default function Home() {
                 content="Navigate the otherside in a blazing fast experience"
             />
             <link rel="icon" href="/favicon.ico" />
+
             </Head>
 
             <Desktop>
