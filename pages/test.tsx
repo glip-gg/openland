@@ -176,7 +176,7 @@ export default function Home() {
     return (
         <div className={styles.container}>
           <Head>
-            <title>Openland | Suped-up search for Otherside</title>
+            <title>OpenLand | Suped-up search for Otherside</title>
             <meta
                 name="description"
                 content="Navigate the otherside in a blazing fast experience"

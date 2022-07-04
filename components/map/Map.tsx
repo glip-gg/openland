@@ -34,6 +34,13 @@ let hoveredId = -1;
 var mapLoaded = false
 let points: any = []
 
+type LandData = {
+  scores: number[],
+  landTiers: number[]
+} | undefined
+
+let landData: LandData = undefined
+
 const CLUB_HOUSE_ID = 100000
 
 
@@ -145,12 +152,7 @@ function setupMap(createScatterplot: any) {
   let camera = scatterplot.get('camera')
   camera.setScaleBounds([[0.013, 1], [0.013, 1]])
 
-  // first rank data
-  // environment tier
-  /* setLandData(
-   *   data.map((d:any) =>  Math.floor(Math.random() * 99999) + 1),
-   *   data.map((d:any) =>  Math.floor(Math.random() * 4) + 1)
-   * ) */
+  applyLandData()
 
   drawMap()
   mapLoaded = true
@@ -376,10 +378,20 @@ export function setFocusedIds(ids: number[]) {
 // array of scores (0-99999)
 // array of land tiers (1-5) for 0-99999
 export function setLandData(scores: number[], landTiers: number[]) {
+  landData = {
+    scores,
+    landTiers
+  }
+  applyLandData()
+}
+
+function applyLandData() {
+  if (landData == undefined) return
+  if (data.length == 0) return
   data = data.map((d: any) => ({
     ...d,
-    R: scores[d.A],
-    T: landTiers[d.A]
+    R: landData!.scores[d.A],
+    T: landData!.landTiers[d.A]
   }))
   if (mapLoaded) {
     drawMap()

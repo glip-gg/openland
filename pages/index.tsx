@@ -40,6 +40,8 @@ import {getLandData} from '../utils/apeDeedsModelManager';
 import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHelper';
 import { addApeDeeds } from '../utils/apeDeedsModelManager';
 import { BallTriangle } from 'react-loader-spinner'
+import logo from '../assets/logo.svg';
+
 
 let FilterHeaderItem = styled.div`
     padding: 12px 14px;
@@ -60,6 +62,118 @@ let FilterHeaderItemLabel = styled.div`
     display: flex;
     align-items: center;
     color: #FFFFFF;
+`;
+
+const Desktop = styled.div`
+  display: none;
+  @media (min-device-width: 481px) {
+    display: flex;
+    flex-direction: column;
+    /* height: 100vh; */
+    height: 100%;
+    /* overflow: hidden; */
+  }
+`;
+
+const Mobile = styled.div`
+  display: none;
+  @media only screen and (max-device-width: 480px) {
+  display: flex;
+  flex-direction: column;
+  }
+`;
+
+const Title = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24.0705px;
+    line-height: 100%;
+    /* identical to box height, or 24px */
+
+    letter-spacing: -0.05em;
+    margin-top: 14px;
+    color: #FFFFFF;
+`;
+
+const WhiteButton = styled.a`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+
+    background: #FFFFFF;
+    border-radius: 8px;
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 21px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+`;
+
+const ATag = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+
+    opacity: 0.6;
+`;
+
+const Heading = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 90.1%;
+    /* or 29px */
+
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+    margin: 24px 0px;
+`;
+
+const Floor = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 90.1%;
+    /* or 31px */
+
+    text-align: left;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 24px;
+`;
+
+const FloorTitle = styled.div`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+    margin-top: 22px;
+    margin-bottom: 16px;
 `;
 
 const mainFilterImageDict = {
@@ -183,76 +297,101 @@ export default function Home() {
             <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
               <BallTriangle ariaLabel="loading-indicator" color="white" width="400" height="500" />
               <div className="shimmer" style={{fontFamily: `'Neucha'`, color:'white', fontSize: 66}}>
-                Loading Openland!
+                Loading!
               </div>
             </div>
         );
     }
     return (
         <div className={styles.container}>
-          <Head>
-            <title>Openland | Suped-up search for Otherside</title>
+            <Head>
+            <title>OpenLand | Suped-up search for Otherside</title>
             <meta
                 name="description"
                 content="Navigate the otherside in a blazing fast experience"
             />
             <link rel="icon" href="/favicon.ico" />
-          </Head>
 
-          <Navbar />
+            </Head>
 
-          <Container
-              as="main"
-              display="flex"
-              direction="column"
-              justify="center"
-              alignItems="center"
-              style={{ height: '100vh', margin: 0 }}
-          >                
-            <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
+            <Desktop>
+                <Navbar showSearch={true} showFloor={true} />
 
-            {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
-                padding: 20,
-                backgroundColor: 'black',
-                position: 'absolute', 
-                left:`${mapLandDetailsPosition[1]}px`, 
-                top:`${mapLandDetailsPosition[2]}px`,
-                visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
-              
-              <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
-                         data={selectedMapLand} />
-            </div>}
-            {/*
-                <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
-              */}
-            
-          </Container>
+                <Container
+                    as="main"
+                    display="flex"
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    style={{ height: '100vh', margin: 0 }}
+                >                
+                <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
 
-          <Drawer anchor={'left'}
-            //open={openFilterDrawer}
-                  open={true}
-                  variant={"persistent"}
-                  classes={{
-                      paper: classes.drawerPaper
-                  }}
-                  onClose={() => setOpenFilterDrawer(false)}>
-            <div style={{display: 'flex', flexDirection:'column', height: '100%'}}>
-              <div style={{background: '#000',
-                           borderBottomWidth: 1,
-                           display:'flex',
-                           borderColor: 'rgba(44, 44, 44, 1)',
-                        //    position: 'fixed',
-                        //    zIndex: 12                           
-                           }}>
-                {filterHeader}
-              </div>
-              <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
-                <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
-                  <FilterBody filters={[]} />
+                {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                    padding: 20,
+                    backgroundColor: 'black',
+                    position: 'absolute', 
+                    left:`${mapLandDetailsPosition[1]}px`, 
+                    top:`${mapLandDetailsPosition[2]}px`,
+                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
+                    
+                    <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
+                            data={selectedMapLand} />
+                </div>}
+                {/*
+                    <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
+                    */}
+                
+                </Container>
+
+                <Drawer anchor={'left'}
+                //open={openFilterDrawer}
+                        open={true}
+                        variant={"persistent"}
+                        classes={{
+                            paper: classes.drawerPaper
+                        }}
+                        onClose={() => setOpenFilterDrawer(false)}>
+                <div style={{display: 'flex', flexDirection:'column', height: '100%'}}>
+                    <div style={{background: '#000',
+                                borderBottomWidth: 1,
+                                display:'flex',
+                                borderColor: 'rgba(44, 44, 44, 1)',
+                            //    position: 'fixed',
+                            //    zIndex: 12                           
+                                }}>
+                    {filterHeader}                    
+                    </div>
+                    <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
+                    <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
+                        <FilterBody filters={[]} />
+                    </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </Drawer>
+                </Drawer>
+            </Desktop>
+
+            <Mobile>
+                <div style={{padding: 28}}>
+                    <div style={{display: 'flex', }}>
+                        {/* <Image alt='logo' src={logo} /> */}
+                        <Title style={{marginLeft: 8}}>OpenLand</Title>
+                    </div>
+
+                    <Heading>explore the otherside map in airbnb-like way</Heading>
+
+                    <div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: 28}}>
+                        <WhiteButton href='https://discord.gg/ESHQtDxpyS'>JOIN DISCORD</WhiteButton>
+                        <ATag>MOBILE COMING SOON</ATag>
+                    </div>
+
+                    <FloorTitle>Otherside floor</FloorTitle>
+
+                    <Floor>3.21Ξ</Floor>
+
+                </div>
+            </Mobile>
+          
 
         </div>
         

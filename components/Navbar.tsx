@@ -13,8 +13,9 @@ import {
 import SearchIcon from '../assets/search.png'
 import {setFocusedIds} from '../components/map/Map';
 import FloorBoxComponent from './FloorBox';
+import logo from '../assets/logo.svg';
 
-export default function Navbar() {
+export default function Navbar({showSearch, showFloor}: any) {
     const [text, setText] = useState('');
 
     const goToMapObj = () => {
@@ -46,18 +47,21 @@ export default function Navbar() {
                           width: '100%',
                           alignItems: 'center'
                   }}>
-                <Text h1 className={styles.navbar}>         
-                  <Link
-                      color={'primary'}
-                      href="https://openland.gg"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff'}}
-                  >
-                    Openland
-                  </Link>                
-                </Text>
-                <div style={{
+                    <div style={{display: "flex"}}>
+                      {/* <Image alt='logo' src={logo} /> */}
+                      <Text h1 className={styles.navbar} style={{marginLeft: 8}}>         
+                        <Link
+                            color={'primary'}
+                            href="/"
+                            rel="noopener noreferrer"
+                            style={{color: '#fff'}}
+                        >
+                          OpenLand
+                        </Link>                
+                      </Text>
+                    </div>
+                
+                {showSearch && <div style={{
                     border: "none",
                     background: "#000033",
                     padding:10,
@@ -73,7 +77,7 @@ export default function Navbar() {
                         onChange={(ev)=>handleInputChange(ev) }
                         type="number"
                         value={text}
-                        placeholder="Search Plot Number"
+                        placeholder="Search Deed Number"
                         onKeyPress={event => {
                             if (event.key === 'Enter') {
                                 goToMapObj()
@@ -89,7 +93,7 @@ export default function Navbar() {
                         style={{width:20, height:20, zIndex:10,
                               cursor:'pointer'}} src={'/search.png'} />
                   </div>
-                </div>
+                </div>}
               </div>
               <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%'}}>
                 
@@ -128,7 +132,7 @@ export default function Navbar() {
                   >
                     About
                   </Link>
-                  <FloorBoxComponent />
+                  {showFloor && <FloorBoxComponent />}
                 </div>
               </div>
           </Container>
