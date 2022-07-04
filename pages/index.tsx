@@ -388,25 +388,24 @@ export default function Home() {
           </Desktop>
 
           <Mobile>
-              <div style={{paddingTop: 12, paddingLeft: 24, background: 'linear-gradient(119.74deg, #1E1E1E 31.82%, #1F1F1F 122.39%)'}}>
-                  <Image layout='fill' alt='desktop-smaple-image' src='https://openland.s3.us-east-2.amazonaws.com/desktop.png' />
+              <div style={{paddingTop: 12, paddingLeft: 24, background: 'linear-gradient(119.74deg, #1E1E1E 31.82%, #1F1F1F 122.39%)', display: 'flex', justifyContent: 'flex-end'}}>
+                  <Image width={375} height={234} alt='desktop-smaple-image' src='https://openland.s3.us-east-2.amazonaws.com/desktop.png' />
               </div>
             <div style={{padding: 28}}>
               <div style={{display: 'flex', }}>
                 <Image alt='logo' src={logo} />
-                <Title style={{marginLeft: 8}}>OpenLand</Title>
+                {/* <Title style={{marginLeft: 8}}>OpenLand</Title> */}
               </div>
+              <div>
+                <Heading>explore the otherside map in airbnb-like way</Heading>
 
-              <Heading>explore the otherside map in airbnb-like way</Heading>
-
-              <div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: 28}}>
-                <WhiteButton href='https://discord.gg/ESHQtDxpyS'>JOIN DISCORD</WhiteButton>
-                <ATag>MOBILE COMING SOON</ATag>
+                <div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: 28}}>
+                    <WhiteButton href='https://discord.gg/ESHQtDxpyS'>JOIN DISCORD</WhiteButton>
+                    <ATag>MOBILE COMING SOON</ATag>
+                </div>
+                <FloorTitle>Otherside floor</FloorTitle>
+                <Floor>{floor}Ξ</Floor>
               </div>
-
-              <FloorTitle>Otherside floor</FloorTitle>
-              <Floor>{floor}Ξ</Floor>
-
             </div>
           </Mobile>
           
