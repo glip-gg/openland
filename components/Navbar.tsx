@@ -13,6 +13,7 @@ import {
 import SearchIcon from '../assets/search.png'
 import {setFocusedIds} from '../components/map/Map';
 import FloorBoxComponent from './FloorBox';
+import logo from '../assets/logo.svg';
 
 export default function Navbar({showSearch, showFloor}: any) {
     const [text, setText] = useState('');
@@ -46,16 +47,20 @@ export default function Navbar({showSearch, showFloor}: any) {
                           width: '100%',
                           alignItems: 'center'
                   }}>
-                <Text h1 className={styles.navbar}>         
-                  <Link
-                      color={'primary'}
-                      href="/"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff'}}
-                  >
-                    OpenLand
-                  </Link>                
-                </Text>
+                    <div style={{display: "flex"}}>
+                      {/* <Image alt='logo' src={logo} /> */}
+                      <Text h1 className={styles.navbar} style={{marginLeft: 8}}>         
+                        <Link
+                            color={'primary'}
+                            href="/"
+                            rel="noopener noreferrer"
+                            style={{color: '#fff'}}
+                        >
+                          OpenLand
+                        </Link>                
+                      </Text>
+                    </div>
+                
                 {showSearch && <div style={{
                     border: "none",
                     background: "#000033",
