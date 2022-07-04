@@ -79,7 +79,7 @@ export function isIncludedByFilter(filterObj:any, gApeDeed:any){
     return isIncluded;
 }
 
-export async function filterApeDeeds(filtersObj:any){
+export function filterApeDeeds(filtersObj:any){
     console.log(filtersObj);
     let processedFilterObj:any = {};
     

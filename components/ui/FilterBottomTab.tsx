@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import globalApeFilter from '../../utils/globalFilter';
 import eventBus from '../../utils/eventBus';
+import { Bars} from 'react-loader-spinner'
 
 const Card = styled.div`
     font-family: 'Chakra Petch';
@@ -75,21 +76,45 @@ const Button = styled.div`
 */ 
 export default function FilterBottomTab(props: any) {      
 
+    const [showLoader, setShowLoader] = useState(false);
+    const [showLoaderClear, setShowLoaderClear] = useState(false);
     const clearFilters = () => {
+        setShowLoaderClear(true)
         props.clearFilters();
         eventBus.dispatch('filter-applied',{});
+        setShowLoaderClear(false);
+        
     };
 
-    const applyFilters = () => {
+    const applyFilters = async () => {
         if(props.applyFilters)
             props.applyFilters();
+        setShowLoader(true);
+        
+        globalApeFilter.applyFilter();
         eventBus.dispatch('filter-applied',{});
+        setShowLoader(false);
+        
     };
 
     return (
         <Card>
-          <Title className='hover' onClick={() => clearFilters()}>Clear filters</Title>
-          <Button className='hover' onClick={() => applyFilters()}>Apply filter</Button>
+        <Title className='hover' onClick={() => clearFilters()}>
+        
+        {showLoaderClear && (<Bars height={21} />)}
+        {!showLoaderClear && (
+            <>Clear filters</>
+        )}
+        
+        </Title>
+        <Button className='hover' onClick={() => applyFilters()}>
+        <>
+        {showLoader && (<Bars height={21} />)}
+        {!showLoader && (
+            <>Apply filter</>
+        )}
+        </>
+                </Button>
         </Card>
     );
-    }
+}

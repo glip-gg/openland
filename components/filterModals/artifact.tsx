@@ -14,6 +14,7 @@ import {
 } from '@nextui-org/react';
 import { on } from 'events';
 
+import eventBus from '../../utils/eventBus';
 import globalApeFilter from '../../utils/globalFilter';  
 
 const CardDesign = styled.div`
@@ -84,6 +85,8 @@ export const clearArtifactFilters = () => {
     globalApeFilter.clearFilter('Artifact', 'in');
     globalApeFilter.clearFilter('Artifact', 'include');
     globalApeFilter.clearFilter('Artifact', 'exclude');
+    globalApeFilter.applyFilter();
+    eventBus.dispatch('filter-applied',{});
 };
 
 export default function ArtifactFilterModal(props: any) {    

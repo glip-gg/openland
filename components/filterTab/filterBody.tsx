@@ -96,26 +96,20 @@ export default function FilterBody({filters, }: any) {
     }
     
     useEffect(()=>{
-        let newData:any;
-        eventBus.on("filter-applied", async (data:any)=>{
-            newData = await globalApeFilter.applyFilter();
-            console.log('newData', newData);
+        eventBus.on("new-filtered-data", async (newData:any)=>{
+            console.log(newData)
             setCards(sortApeDeeds(Object.keys(sortingOption.current)[0], newData));
             setLands(newData.length)
-            if(newData.length === 1000000){
-                //return
-            }
             let newIds = newData.map((x:any)=>(x.Plot))
             console.log('newIds', newIds)
             setFilteredIds(newIds);
-            
         });
         return ()=>{
             eventBus.remove("filter-applied", undefined);
             eventBus.remove("ape-deeds-added", undefined);
         }
     },[]);
-
+    
     useEffect(()=>{
         let newData = globalApeFilter.getAllApeDeeds();
         console.log('newData', newData);
@@ -125,14 +119,15 @@ export default function FilterBody({filters, }: any) {
         console.log('envTiers', envTiers);
         setLandData(ranks, envTiers);
         setLands(newData.length)
-        setCards(sortApeDeeds(Object.keys(sortingOption.current)[0], newData));
-    },[]);
+        setCards(sortApeDeeds(
+            Object.keys(sortingOption.current)[0], newData));
+    }, []);
     
     const sortingOptionChanged = (tsortingOption:any) =>{
         setSortingOption(tsortingOption);
         setCards(sortApeDeeds(Object.keys(tsortingOption)[0], cards));
-        
     }
+    
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', }}>
           <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row',}}>

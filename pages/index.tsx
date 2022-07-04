@@ -244,7 +244,7 @@ export default function Home() {
                         //    position: 'fixed',
                         //    zIndex: 12                           
                            }}>
-                {filterHeader}                    
+                {filterHeader}
               </div>
               <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
                 <div style={{background: 'black', padding: 32, paddingRight: 0,}}>

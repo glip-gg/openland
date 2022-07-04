@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { Tag } from "rsuite";
 
+import { Bars} from 'react-loader-spinner'
+
 import eventBus from '../../utils/eventBus';
 import globalApeFilter from '../../utils/globalFilter';
 import {clearLandFilters} from '../filterModals/land';
@@ -56,6 +58,7 @@ const DISPLAY_NAME_DICT:any = {
 export default function ChipFilterDisplay({filters}: any) {    
 
     const [appliedFilters, setAppliedFilters] = useState({} as any);
+    const [filterBeingRemoved, setFilterBeingRemoved] = useState('');
     
     const newFiltersAdded = async (data:any)=>{
         //need to check if filters exist in filters map.
@@ -100,6 +103,7 @@ export default function ChipFilterDisplay({filters}: any) {
         });
     }
     const clearAllFilters = ()=>{
+        setFilterBeingRemoved('All');
         clearLandFilters();
         clearArtifactFilters();
         clearKodaFilters();
@@ -107,6 +111,7 @@ export default function ChipFilterDisplay({filters}: any) {
         clearRankFilters();
         clearPriceFilters();
         eventBus.dispatch('filter-applied',{});
+        setFilterBeingRemoved('');
     }
     
     useEffect(()=>{
@@ -119,6 +124,7 @@ export default function ChipFilterDisplay({filters}: any) {
 
     
     const filterClosed = (item: any) => {
+        setFilterBeingRemoved(item);
         if(item === 'landFilters'){
             console.log('sad closing land filters');
             clearLandFilters();
@@ -144,6 +150,10 @@ export default function ChipFilterDisplay({filters}: any) {
             clearPriceFilters();
         }
         eventBus.dispatch('filter-applied',{});
+        setTimeout(()=>{
+            setFilterBeingRemoved('');
+        }, 5000)
+        setFilterBeingRemoved('');
     };
     
     const chipItems = Object.keys(appliedFilters).filter((item:any)=>{
@@ -164,13 +174,32 @@ export default function ChipFilterDisplay({filters}: any) {
             onClick={(ev:any)=>{console.log(ev)}}
             key={`sortingdropdown-${index}`} closable
             onClose={(ev) => {filterClosed(item);ev.stopPropagation();ev.preventDefault()}}
-        >{DISPLAY_NAME_DICT[item]} ({appliedFilters[item]})</Tag> ));
-    
-    console.log('chip items', chipItems);
+        >
+          {(item === filterBeingRemoved || filterBeingRemoved == 'All') &&
+           (<>
+             <Bars height={21} />
+           </>)
+          }
+          {(item != filterBeingRemoved && filterBeingRemoved != 'All') &&
+           (<>{DISPLAY_NAME_DICT[item]} ({appliedFilters[item]})</>)
+          }
+        </Tag> ));
+              
+              console.log('chip items', chipItems);
     return (
         <div style={{display: 'flex', flexGrow: 'grow'}}>
-            {chipItems}
-            {chipItems.length > 0 && <Clear onClick={()=> {clearAllFilters()}}>Clear all filters</Clear>}
+          {chipItems}
+          {chipItems.length > 0 && <Clear onClick={()=> {clearAllFilters()}}>
+            {(filterBeingRemoved == 'All') &&
+             (<>
+               <Bars height={21} />
+             </>)}
+            {(filterBeingRemoved != 'All') &&
+             (<>
+               Clear all filters
+             </>)
+            }
+          </Clear>}
         </div>
     );
 }
