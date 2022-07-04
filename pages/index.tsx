@@ -37,7 +37,7 @@ import OtherCard from '../components/filterTab/OtherCard';
 import {getLandData} from '../utils/apeDeedsModelManager';
 
 
-import { fetchApeDeedsData, fetchApeDeedsPriceData } from '../utils/dataFetherHelper';
+import { fetchApeDeedsData, fetchApeDeedsPriceData, fetchApeDeedsFloorData } from '../utils/dataFetcherHelper';
 import { addApeDeeds } from '../utils/apeDeedsModelManager';
 import { BallTriangle } from 'react-loader-spinner'
 import logo from '../assets/logo.svg';
@@ -205,6 +205,7 @@ const FilterHeaderItemImage = ({active, imageType}) => {
 export default function Home() {
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [floor, setFloor] = useState(0);
     
     const classes = useStyles();
 
@@ -218,6 +219,15 @@ export default function Home() {
         {type: 'price', label: 'Price'},         
     ]);
     const [activeFilterHeaderItem, setActiveFilterHeaderItem] = useState('');
+
+    useEffect(() => {
+        const getFloorPrice = async () => {
+            const data: any = await fetchApeDeedsFloorData();
+            console.log(data, 'floordata')
+            setFloor(data.data.floorPrice);
+        }
+        getFloorPrice();
+    }, []);
 
     const handleOpenFilterDrawer = () => {
         setOpenFilterDrawer(true);
@@ -386,7 +396,7 @@ export default function Home() {
 
                     <FloorTitle>Otherside floor</FloorTitle>
 
-                    <Floor>3.21Ξ</Floor>
+                    <Floor>{floor}Ξ</Floor>
 
                 </div>
             </Mobile>
