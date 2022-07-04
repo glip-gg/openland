@@ -15,7 +15,7 @@ import {setFocusedIds} from '../components/map/Map';
 import FloorBoxComponent from './FloorBox';
 import logo from '../assets/logo.svg';
 
-export default function Navbar({showSearch, showFloor}: any) {
+export default function Navbar({showSearch, showFloor, setBarActive, barActive}: any) {
     const [text, setText] = useState('');
 
     const goToMapObj = () => {
@@ -33,33 +33,37 @@ export default function Navbar({showSearch, showFloor}: any) {
               display="flex"
               direction="row"
               alignItems="center"
-              style={{ width: '100%', marginTop: 8, marginLeft:32, marginRight:32}}
+              style={{ width: '100%', marginTop: 8, marginLeft:0, marginRight:32, paddingLeft:0}}
           >
             <div style={{display: 'flex',
                          justifyContent: 'space-between',
                          width: '100%',
                          alignItems: 'center'
-                }}>
-
-            
+            }}>
               <div style={{display: 'flex',
-                          justifyContent: 'flex-start',
-                          width: '100%',
-                          alignItems: 'center'
-                  }}>
-                    <div style={{display: "flex"}}>
-                      {/* <Image alt='logo' src={logo} /> */}
-                      <Text h1 className={styles.navbar} style={{marginLeft: 8}}>         
-                        <Link
-                            color={'primary'}
-                            href="/"
-                            rel="noopener noreferrer"
-                            style={{color: '#fff'}}
-                        >
-                          OpenLand
-                        </Link>                
-                      </Text>
-                    </div>
+                           justifyContent: 'flex-start',
+                           width: '100%',
+                           alignItems: 'center'
+              }}>
+                <div style={{display: "flex", justifyContent:'center', alignItems:'center'}}>
+                  {/* <Image alt='logo' src={logo} /> */}
+                  <div className="nav-toggle" onClick={()=>{
+                      setBarActive(!barActive)}} style={{marginLeft:10, marginRight:5}}>
+                    <span className={`bar ${barActive ? "x" : ""}`}></span>
+                    <span className={`bar ${barActive ? "x" : ""}`}></span>
+                    <span className={`bar ${barActive ? "x" : ""}`}></span>
+                  </div>
+                  <Text h1 className={styles.navbar} style={{marginLeft: 8}}>         
+                    <Link
+                        color={'primary'}
+                        href="/"
+                        rel="noopener noreferrer"
+                        style={{color: '#fff'}}
+                    >
+                      OpenLand
+                    </Link>                
+                  </Text>
+                </div>
                 
                 {showSearch && <div style={{
                     border: "none",
@@ -74,15 +78,15 @@ export default function Navbar({showSearch, showFloor}: any) {
                       border:'none',
                       color:'white',
                       background: "transparent", }}
-                        onChange={(ev)=>handleInputChange(ev) }
-                        type="number"
-                        value={text}
-                        placeholder="Search Deed Number"
-                        onKeyPress={event => {
-                            if (event.key === 'Enter') {
-                                goToMapObj()
-                            }
-                        }}
+                         onChange={(ev)=>handleInputChange(ev) }
+                         type="number"
+                         value={text}
+                         placeholder="Search Deed Number"
+                         onKeyPress={event => {
+                             if (event.key === 'Enter') {
+                                 goToMapObj()
+                             }
+                         }}
                   />
                   <div className="shine-wrap">
                     <img
@@ -91,50 +95,50 @@ export default function Navbar({showSearch, showFloor}: any) {
                         width='20'
                         height='20'
                         style={{width:20, height:20, zIndex:10,
-                              cursor:'pointer'}} src={'/search.png'} />
+                                cursor:'pointer'}} src={'/search.png'} />
                   </div>
                 </div>}
               </div>
               <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%'}}>
                 
                 <Link
-                      color={'primary'}
-                      href="https://discord.gg/ESHQtDxpyS"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff', marginRight: 12}}
-                  >
-                    Discord
-                  </Link>
-                  <Link
-                      color={'primary'}
-                      href="https://www.instagram.com/gliphouse/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff', marginRight: 12}}
-                  >
-                    Instagram
-                  </Link>
-                  <Link
-                      color={'primary'}
-                      href="https://twitter.com/bloomutant"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff', marginRight: 12}}
-                  >
-                    Twitter
-                  </Link>             
-                  <Link
-                      color={'primary'}
-                      href="/about"
-                      rel="noopener noreferrer"
-                      style={{color: '#fff', marginRight: 12}}
-                  >
-                    About
-                  </Link>
-                  {showFloor && <FloorBoxComponent />}
-                </div>
+                    color={'primary'}
+                    href="https://discord.gg/ESHQtDxpyS"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{color: '#fff', marginRight: 12}}
+                >
+                  Discord
+                </Link>
+                <Link
+                    color={'primary'}
+                    href="https://www.instagram.com/gliphouse/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{color: '#fff', marginRight: 12}}
+                >
+                  Instagram
+                </Link>
+                <Link
+                    color={'primary'}
+                    href="https://twitter.com/bloomutant"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{color: '#fff', marginRight: 12}}
+                >
+                  Twitter
+                </Link>             
+                <Link
+                    color={'primary'}
+                    href="/about"
+                    rel="noopener noreferrer"
+                    style={{color: '#fff', marginRight: 12}}
+                >
+                  About
+                </Link>
+                {showFloor && <FloorBoxComponent />}
               </div>
+            </div>
           </Container>
         </div>
     );
