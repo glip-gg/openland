@@ -383,6 +383,9 @@ export default function Home() {
             </Desktop>
 
             <Mobile>
+                <div style={{background: 'linear-gradient(119.74deg, #1E1E1E 31.82%, #1F1F1F 122.39%)', paddingTop: 12, paddingLeft: 24}}>
+                    <Image layout='fill' alt="dektop-sample-iamge" src='https://openland.s3.us-east-2.amazonaws.com/desktop.png' />
+                </div>
                 <div style={{padding: 28}}>
                     <div style={{display: 'flex', }}>
                         {/* <Image alt='logo' src={logo} /> */}
