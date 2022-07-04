@@ -15,6 +15,9 @@ import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { Popover, Whisper } from 'rsuite'
 const Drawer = dynamic(import('@mui/material/Drawer').then(mod => mod), { ssr: false }) // disable ssr
+
+
+
 //import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 
@@ -195,6 +198,7 @@ const useStyles = makeStyles({
     }
 });
 
+
 const FilterHeaderItemImage = ({active, imageType}) => {
     if(imageType == 'land')
         return (<Image alt='land' src={LandImage} style={{color: active ? 'white': 'rgba(68, 68, 68, 1)', marginBottom: 0}} />);
@@ -205,6 +209,16 @@ const FilterHeaderItemImage = ({active, imageType}) => {
 export default function Home() {
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [barActive, setBarActive] = useState(true);
+    
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+    
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
     
     const classes = useStyles();
 
@@ -304,7 +318,7 @@ export default function Home() {
     }
     return (
         <div className={styles.container}>
-            <Head>
+          <Head>
             <title>OpenLand | Suped-up search for Otherside</title>
             <meta
                 name="description"
@@ -312,85 +326,83 @@ export default function Home() {
             />
             <link rel="icon" href="/favicon.ico" />
 
-            </Head>
+          </Head>
 
-            <Desktop>
-                <Navbar showSearch={true} showFloor={true} />
+          <Desktop>
+            <Navbar showSearch={true} showFloor={true} barActive={barActive} setBarActive={setBarActive} />
 
-                <Container
-                    as="main"
-                    display="flex"
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                    style={{ height: '100vh', margin: 0 }}
-                >                
-                <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
+            <Container
+                as="main"
+                display="flex"
+                direction="column"
+                justify="center"
+                alignItems="center"
+                style={{ height: '100vh', margin: 0 }}
+            >                
+              <Map onLandSelected={onLandSelected} onLandUnselected={onLandUnselected}></Map>
 
-                {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
-                    padding: 20,
-                    backgroundColor: 'black',
-                    position: 'absolute', 
-                    left:`${mapLandDetailsPosition[1]}px`, 
-                    top:`${mapLandDetailsPosition[2]}px`,
-                    visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
-                    
-                    <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
-                            data={selectedMapLand} />
-                </div>}
-                {/*
-                    <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
-                    */}
+              {mapLandDetailsPosition[0] != -1 &&  <div id="map-land-details" style={{
+                  padding: 20,
+                  backgroundColor: 'black',
+                  position: 'absolute', 
+                  left:`${mapLandDetailsPosition[1]}px`, 
+                  top:`${mapLandDetailsPosition[2]}px`,
+                  visibility: mapLandDetailsPosition[0] != -1 ? 'visible' : 'hidden'}}>
                 
-                </Container>
+                <OtherCard key={`othercard-${mapLandDetailsPosition[0]}`} 
+                           data={selectedMapLand} />
+              </div>}
+              {/*
+                  <Button shadow onClick={() => handleOpenFilterDrawer()} style={{position: 'absolute', bottom: '0px'}}>Open Drawer</Button>
+                */}
+              
+            </Container>
 
-                <Drawer anchor={'left'}
-                //open={openFilterDrawer}
-                        open={true}
-                        variant={"persistent"}
-                        classes={{
-                            paper: classes.drawerPaper
-                        }}
-                        onClose={() => setOpenFilterDrawer(false)}>
-                <div style={{display: 'flex', flexDirection:'column', height: '100%'}}>
-                    <div style={{background: '#000',
-                                borderBottomWidth: 1,
-                                display:'flex',
-                                borderColor: 'rgba(44, 44, 44, 1)',
-                            //    position: 'fixed',
-                            //    zIndex: 12                           
-                                }}>
-                    {filterHeader}                    
-                    </div>
-                    <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
-                    <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
-                        <FilterBody filters={[]} />
-                    </div>
-                    </div>
+            <Drawer anchor={'left'}
+              //open={openFilterDrawer}
+                    open={barActive}
+                    variant={"persistent"}
+                    classes={{paper: classes.drawerPaper}}
+                    onClose={() => setOpenFilterDrawer(false)}>
+              <div style={{display: 'flex', flexDirection:'column', height: '100%'}}>
+                <div style={{background: '#000',
+                             borderBottomWidth: 1,
+                             display:'flex',
+                             borderColor: 'rgba(44, 44, 44, 1)',
+                             //    position: 'fixed',
+                             //    zIndex: 12                           
+                }}>
+                  {filterHeader}                    
                 </div>
-                </Drawer>
-            </Desktop>
-
-            <Mobile>
-                <div style={{padding: 28}}>
-                    <div style={{display: 'flex', }}>
-                        {/* <Image alt='logo' src={logo} /> */}
-                        <Title style={{marginLeft: 8}}>OpenLand</Title>
-                    </div>
-
-                    <Heading>explore the otherside map in airbnb-like way</Heading>
-
-                    <div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: 28}}>
-                        <WhiteButton href='https://discord.gg/ESHQtDxpyS'>JOIN DISCORD</WhiteButton>
-                        <ATag>MOBILE COMING SOON</ATag>
-                    </div>
-
-                    <FloorTitle>Otherside floor</FloorTitle>
-
-                    <Floor>3.21Ξ</Floor>
-
+                <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
+                  <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
+                    <FilterBody filters={[]} />
+                  </div>
                 </div>
-            </Mobile>
+              </div>
+            </Drawer>
+          </Desktop>
+
+          <Mobile>
+            <div style={{padding: 28}}>
+              <div style={{display: 'flex', }}>
+                {/* <Image alt='logo' src={logo} /> */}
+                <Title style={{marginLeft: 8}}>OpenLand</Title>
+              </div>
+
+              <Heading>explore the otherside map in airbnb-like way</Heading>
+
+              <div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: 28}}>
+                <WhiteButton href='https://discord.gg/ESHQtDxpyS'>JOIN DISCORD</WhiteButton>
+                <ATag>MOBILE COMING SOON</ATag>
+              </div>
+
+              <FloorTitle>Otherside floor</FloorTitle>
+
+              <Floor>3.21Ξ</Floor>
+
+            </div>
+          </Mobile>
           
 
         </div>
