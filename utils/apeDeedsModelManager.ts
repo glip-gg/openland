@@ -146,7 +146,7 @@ export function getAllApeDeeds(){
 }
 
 export function getLandData(plot:number){
-    for(let i=0;i<gApeDeeds.length;i++){
+    for(let i=0; i<gApeDeeds.length; i++){
         if(gApeDeeds[i]['Plot'] === plot){
             return gApeDeeds[i];
         }

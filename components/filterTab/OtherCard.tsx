@@ -12,6 +12,7 @@ import { Spacer } from '@nextui-org/react';
 
 import {setFocusedIds} from '../map/Map';
 import EtherSymbol from '../../assets/currency/ether.svg';
+import opensea from '../../assets/opensea.svg';
 
 
 const OtherID = styled.div`
@@ -143,10 +144,10 @@ const RESOURCE_LIST = [
    - artifact
    - resource
  */
-const Icon = ({icon}: any) => {
+const Icon = ({icon, margin}: any) => {
     return (
-    <div>
-        <Image alt='' src={icon} />
+    <div style={{marginRight: margin ? 0: 10}}>
+        <Image  width='20' height='20' alt='' src={icon} />
     </div>
     );
 }
@@ -156,7 +157,7 @@ const replaceAt = (str:string, index:number, replacement:string) => {
     return str.substring(0, index) + replacement + str.substring(index + replacement.length);
 }
 
-export default function OtherCard({data}: any) {    
+export default function OtherCard({data}: any) {   
 
     const focusInMap = ()=>{
         console.log('focusing plot', data.Plot)
@@ -207,7 +208,7 @@ export default function OtherCard({data}: any) {
         currentListPrice = false;
     }
         return (
-            <div style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
+            <div className='hover' style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
               
               <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
                      alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />
@@ -217,7 +218,11 @@ export default function OtherCard({data}: any) {
                 {(currentListPrice) && (
                     <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
                       <Price style={{marginRight:10}}>{currentListPrice}</Price>
-                      <Icon icon={EtherSymbol} />
+                      <Icon  margin={false} icon={EtherSymbol} />
+                      <a rel='noreferrer' href={`https://opensea.io/assets/ethereum/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/${data.Plot}`} target="_blank">
+                          <Icon margin={true} icon={opensea} />
+                      </a>
+                      
                     </div>
                 )}
               </div>
@@ -235,9 +240,9 @@ export default function OtherCard({data}: any) {
 
               <div style={{display: 'flex',
                            justifyContent: 'space-between'}}>
-                <DetailsDiv>{numKodas} Koda</DetailsDiv>
-                <DetailsDiv>{numArtifacts} Artifacts</DetailsDiv>
-                <DetailsDiv>{numResources} Resources</DetailsDiv>
+                {numKodas > 0 && <DetailsDiv>{numKodas}x Koda</DetailsDiv>}
+                {numArtifacts > 0 && <DetailsDiv>{numArtifacts}x Artifact</DetailsDiv>}
+                {numResources > 0 && <DetailsDiv>{numResources}x Resource</DetailsDiv>}
               </div>
 
             </div>
