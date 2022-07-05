@@ -219,7 +219,7 @@ export default function OtherCard({data}: any) {
                     <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
                       <Price style={{marginRight:10}}>{currentListPrice}</Price>
                       <Icon  margin={false} icon={EtherSymbol} />
-                      <Icon margin={true} icon={opensea} />
+                      <Icon onClick={()=> window.open(`https://opensea.io/assets/ethereum/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/${data.Plot}`, "_blank")} margin={true} icon={opensea} />
                     </div>
                 )}
               </div>
