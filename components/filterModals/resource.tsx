@@ -30,9 +30,29 @@ const tier_chips = tier_data.map((item: any, index: any) => <Chip key={`sediment
    - tier
    - enviorment
  */
-const resource_data: Array<String> = ['All', "Whisper","Bonestone","Spikeweed","Lunarian","Lumileaf","Oblivion","Nether","Duskia","Runa","Coralia","Brimstone","Luster","Chlorocite","Psychosilk","Tantalite","Moldium","Petrified","Fossica","Luminite","Kinsoul","Durinia","Ragnarock","Stonecrop","Sulfirica","Fortuna","Glowpod","Steppesalt","Degradia","Mossmoon","Fragmentia","Amberskull","Omni","Hollowcine","Thermodite","Etheria","Bubonium","Gloomia","Opalia","Sporicite","Galactica","Shatterfrost","Tanglevine","Claymer","Slushia","Maltosia","Slaglia","Void","Scumbria","Element 115","Vaporhaze","Spiritseep","Nocturna","Nebula","Rotworth","Scholara","Prysmatica","Abyssia","Onyx","Aurelian","Magentia","Pyrum","Geopillar","Dimensional","Pricklia","Senticybia","Entropy","Mallo","Nucleod","Obsilica","Brineslime","Chroma","Entradium","Lapidite","Phantom"];
 
-console.log('sediment data',resource_data.sort((a, b) => a.localeCompare(b)))
+const resource_data: Array<String> = [
+    'All',          'Abyssia',     'Amberskull', 'Aurelian',
+    'Bonestone',    'Brimstone',   'Brineslime', 'Bubonium',
+    'Chlorocite',   'Chroma',      'Claymer',    'Coralia',
+    'Degradia',     'Dimensional', 'Durinia',    'Duskia',
+    'Element 115',  'Entradium',   'Entropy',    'Etheria',
+    'Fortuna',      'Fossica',     'Fragmentia', 'Galactica',
+    'Geopillar',    'Gloomia',     'Glowpod',    'Hollowcine',
+    'Kinsoul',      'Lapidite',    'Lumileaf',   'Luminite',
+    'Lunarian',     'Luster',      'Magentia',   'Mallo',
+    'Maltosia',     'Moldium',     'Mossmoon',   'Nebula',
+    'Nether',       'Nocturna',    'Nucleod',    'Oblivion',
+    'Obsilica',     'Omni',        'Onyx',       'Opalia',
+    'Petrified',    'Phantom',     'Pricklia',   'Prysmatica',
+    'Psychosilk',   'Pyrum',       'Ragnarock',  'Rotworth',
+    'Runa',         'Scholara',    'Scumbria',   'Senticybia',
+    'Shatterfrost', 'Slaglia',     'Slushia',    'Spikeweed',
+    'Spiritseep',   'Sporicite',   'Steppesalt', 'Stonecrop',
+    'Sulfirica',    'Tanglevine',  'Tantalite',  'Thermodite',
+    'Vaporhaze',    'Void',        'Whisper']
+
+
 
 const RESOUCE_FILTER_LIST = [
     'Eastern Resource Tier', 'Eastern Resource',

@@ -130,7 +130,7 @@ function _getFloor(apeDeeds:any[]){
     return floorPrice;
 }
 
-export function getFloor(filteredApeDeeds:any[]){
+export function getFloor(filteredApeDeeds?:any[]){
     if(!filteredApeDeeds){
         console.log('filteredapedeedsddsds',gApeDeeds);
         return _getFloor(gApeDeeds);

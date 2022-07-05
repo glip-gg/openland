@@ -124,7 +124,24 @@ export default function KodaFilterModal(props: any) {
             >
             </ExcludeIncludeFilterCard>
           </div>
-
+          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+            <ExcludeIncludeFilterCard
+                mainElemName="Koda"
+                title="Mega"
+            >
+            </ExcludeIncludeFilterCard>
+            <ExcludeIncludeFilterCard
+                mainElemName="Koda"
+                title="Weapons"
+            >
+            </ExcludeIncludeFilterCard>
+            <ExcludeIncludeFilterCard
+                mainElemName="Koda"
+                title="Clothing"
+            >
+            </ExcludeIncludeFilterCard>
+          </div>
+          
           {showAdvanced && <>
             <FlexWrapWrapper type={'card'}>
               {koda_chips}

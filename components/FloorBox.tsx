@@ -21,7 +21,6 @@ export default function FloorBoxComponent(props:any){
 
     const [floor, setFloor] = useState(0);
     useEffect(()=>{
-        let newData:any;
         eventBus.on("new-filtered-data", async (data:any)=>{
             setFloor(getFloor(data));
         });
@@ -30,6 +29,7 @@ export default function FloorBoxComponent(props:any){
         });
         setFloor(getFloor());
     },[]);
+    
     return (
         <FloorBoxDiv style={{
             display: 'flex',
