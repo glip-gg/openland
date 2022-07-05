@@ -3832,7 +3832,7 @@
     "regl" "^2.1.0"
 
 "regl-scatterplot@git+https://github.com/naman14/regl-scatterplot.git":
-  "resolved" "git+ssh://git@github.com/naman14/regl-scatterplot.git#f6fe1d7529a9cc91582358b10dd03f5984514899"
+  "resolved" "git+ssh://git@github.com/naman14/regl-scatterplot.git#c8a0eb7c8e1b81e802a7f2944802eae13b529f1f"
   "version" "1.3.0"
   dependencies:
     "@flekschas/utils" "^0.29.0"
