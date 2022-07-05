@@ -28,21 +28,23 @@ import eventBus from '../../utils/eventBus';
 
 const category_images_dict:any = {
     'All': AllCategoryImage,
-    "Spirit": SpiritCategoryImage,
-    "Volcanic": VolcanicCategoryImage,
-    "Harsh": HarshCategoryImage,
+    "Chaos": ChaosCategoryImage,
     "Decay": DecayCategoryImage,
     "Growth": GrowthCategoryImage,
-    "Psychedelic": PsychedelicCategoryImage,
+    "Harsh": HarshCategoryImage,
     "Mineral": MineralCategoryImage,
-    "Chaos": ChaosCategoryImage
+    "Psychedelic": PsychedelicCategoryImage,
+    "Spirit": SpiritCategoryImage,
+    "Volcanic": VolcanicCategoryImage,
 }
+
 const tier_data: Array<String> = ['All', '1', '2', '3'];
 const env_tier_data: Array<String> = ['All', '1', '2', '3', '4', '5'];
 
-const sediment_data: Array<String> = ['All', 'Infinite Expanse', 'Cosmic Dream', 'Chemical Goo', 'Rainbow Atmos', 'Biogenic Swamp'];
+const sediment_data: Array<String> = ['All', 'Biogenic Swamp', 'Chemical Goo', 'Cosmic Dream', 'Infinite Expanse', 'Rainbow Atmos'];
 
-const environment_data: Array<String> = ['All', "Steppes","Obsidian","Sands","Splinter","Ruins","Bog","Mystic","Thornwood","Sludge","Plague","Bone","Sulfuric","Wastes","Jungle","Mallow","Molten","Acid","Veldan","Spires","Glacia","Crimson","Biolume","Luster","Crystal","Sky","Shadow","Mycelium","Botanical","Chaos"];
+const environment_data: Array<String> = ['All','Acid','Biolume', 'Bog', 'Bone', 'Botanical', 'Chaos', 'Crimson', 'Crystal', 'Glacia', 'Jungle', 'Luster', 'Mallow', 'Molten', 'Mycelium', 'Mystic', 'Obsidian', 'Plague', 'Ruins', 'Sands', 'Shadow', 'Sky', 'Sludge', 'Spires', 'Splinter', 'Steppes', 'Sulfuric', 'Thornwood', 'Veldan', 'Wastes'];
+
 
 
 /*

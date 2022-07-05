@@ -60,18 +60,19 @@ const Subtitle = styled.div`
 `;
 
 
-const type_data: Array<String> = ["Forged Pickaxe","Red Orb","Rugged Pickaxe","Fire Sale Scroll","Celestial Tear","Whim","Cryptid","Forged Hammer","Vivec","Banana Peel","Rugged Hammer","Mystic Triangles","Koda Hammer","Glass Eye","Ancient Coin","Rugged Shovel","Jar of Koda Farts","Sticky Cauldron","Koda Axe","Sooper Box","Monkey Barrel","Rugged Axe","Sands of Time","Knight's Pail","Sloth Juice","Mystical Crown","Slime Juice","Card from a Deck","Relic Card","Whale Statue","Daniel","Tazer","Camp Fire","Celestial Orb","Celestial Heart","Blue Orb","Chomps","Tavo","Anthony","Magic Powder","Toto","Santiago","Z","Marcin","Forged Shovel","Forged Axe","Koda Shovel","Fairy in a Jar","Lovans","Chest of Holding","Koda Pickaxe","Unknown Map","Lapis","Yellow Orb","Leo","Mia","Yellow Obelisk","Romain","Jules","Mecha Piece","Raven","Pandora's Box","Mirror Mirror","Sword of Chosen","Portal Piece","Foretelling Scroll","Relic Book Page","Red Obelisk","Green Obelisk","Blade of Eternum","Archway","Celestial Egg","Mystery Potion","Archway Keystone"];
+const type_data: Array<String> = ['Ancient Coin', 'Anthony', 'Archway', 'Archway Keystone', 'Banana Peel', 'Blade of Eternum', 'Blue Orb', 'Camp Fire', 'Card from a Deck', 'Celestial Egg', 'Celestial Heart', 'Celestial Orb', 'Celestial Tear', 'Chest of Holding', 'Chomps', 'Cryptid', 'Daniel', 'Fairy in a Jar', 'Fire Sale Scroll', 'Foretelling Scroll', 'Forged Axe', 'Forged Hammer', 'Forged Pickaxe', 'Forged Shovel', 'Glass Eye', 'Green Obelisk', 'Jar of Koda Farts', 'Jules', "Knight's Pail", 'Koda Axe', 'Koda Hammer', 'Koda Pickaxe', 'Koda Shovel', 'Lapis', 'Leo', 'Lovans', 'Magic Powder', 'Marcin', 'Mecha Piece', 'Mia', 'Mirror Mirror', 'Monkey Barrel', 'Mystery Potion', 'Mystic Triangles', 'Mystical Crown', "Pandora's Box", 'Portal Piece', 'Raven', 'Red Obelisk', 'Red Orb', 'Relic Book Page', 'Relic Card', 'Romain', 'Rugged Axe', 'Rugged Hammer', 'Rugged Pickaxe', 'Rugged Shovel', 'Sands of Time', 'Santiago', 'Slime Juice', 'Sloth Juice', 'Sooper Box', 'Sticky Cauldron', 'Sword of Chosen', 'Tavo', 'Tazer', 'Toto', 'Unknown Map', 'Vivec', 'Whale Statue', 'Whim', 'Yellow Obelisk', 'Yellow Orb', 'Z'];
+
 
 const type_cards = type_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
 
 /*
-    5 items to be filterd, need  getter and setter for all 5
-    Using props.xyz instead of direct names because too many params :(
-        Params:
-        - sediment_tier
-        - sediment
-        - category
-        - tier
+   5 items to be filterd, need  getter and setter for all 5
+   Using props.xyz instead of direct names because too many params :(
+   Params:
+   - sediment_tier
+   - sediment
+   - category
+   - tier
    - enviorment
  */
 

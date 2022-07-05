@@ -32,6 +32,7 @@ const tier_chips = tier_data.map((item: any, index: any) => <Chip key={`sediment
  */
 const resource_data: Array<String> = ['All', "Whisper","Bonestone","Spikeweed","Lunarian","Lumileaf","Oblivion","Nether","Duskia","Runa","Coralia","Brimstone","Luster","Chlorocite","Psychosilk","Tantalite","Moldium","Petrified","Fossica","Luminite","Kinsoul","Durinia","Ragnarock","Stonecrop","Sulfirica","Fortuna","Glowpod","Steppesalt","Degradia","Mossmoon","Fragmentia","Amberskull","Omni","Hollowcine","Thermodite","Etheria","Bubonium","Gloomia","Opalia","Sporicite","Galactica","Shatterfrost","Tanglevine","Claymer","Slushia","Maltosia","Slaglia","Void","Scumbria","Element 115","Vaporhaze","Spiritseep","Nocturna","Nebula","Rotworth","Scholara","Prysmatica","Abyssia","Onyx","Aurelian","Magentia","Pyrum","Geopillar","Dimensional","Pricklia","Senticybia","Entropy","Mallo","Nucleod","Obsilica","Brineslime","Chroma","Entradium","Lapidite","Phantom"];
 
+console.log('sediment data',resource_data.sort((a, b) => a.localeCompare(b)))
 
 const RESOUCE_FILTER_LIST = [
     'Eastern Resource Tier', 'Eastern Resource',
