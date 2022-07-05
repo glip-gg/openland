@@ -29,8 +29,7 @@ export default function FloorBoxComponent(props:any){
             setFloor(getFloor(data));
         });
         setFloor(getFloor());
-        
-    });
+    },[]);
     return (
         <FloorBoxDiv style={{
             display: 'flex',
