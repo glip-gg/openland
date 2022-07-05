@@ -224,8 +224,8 @@ function setupMap(createScatterplot: any) {
   })
 
   scatterplot.subscribe('pointOver', (index: any) => {
-    if (hoveredId == data[index].A) return
-    hoveredId = data[index].A
+    // if (hoveredId == data[index].A) return
+    // hoveredId = data[index].A
 
     if (currentZoomLevel < highlightHoverZoomCutoff) {
       canvas.style["cursor"] = "pointer";
@@ -246,11 +246,11 @@ function setupMap(createScatterplot: any) {
   })
 
   scatterplot.subscribe('pointOut', (index: any) => {
-    if (data[index].A == hoveredId) {
-      hoveredId = -1
-      return
-    }
-    hoveredId = -1
+    // if (data[index].A == hoveredId) {
+    //   hoveredId = -1
+    //   return
+    // }
+    // hoveredId = -1
     canvas.style["cursor"] = "default";
     textLabel.style['visibility'] = 'hidden'
   })
@@ -266,6 +266,8 @@ function setupMap(createScatterplot: any) {
 
     if (selectedPoint == CLUB_HOUSE_ID) return
     onLandSelectedCallback(selectedPoint, infoX, infoY)
+
+    textLabel.style['visibility'] = 'hidden'
   })
 
   scatterplot.subscribe('deselect', () => {
