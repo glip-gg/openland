@@ -2,12 +2,50 @@ import { useEffect } from 'react';
 import { scaleLinear } from 'd3-scale';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 import { FloatType } from 'three';
+import styled from 'styled-components';
 
 type LandSelectCallback = (selectedIndex: number, x: number, y: number) => void
 type LandUnselectCallback = () => void
 
 let onLandSelectedCallback: LandSelectCallback
 let onLandUnselectedCallback: LandUnselectCallback
+
+let RarityColorLegend = styled.div`
+    background: #1A1A1A;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    width: 356px;
+    height: 40px;
+    margin-right: 14px;
+    margin-bottom: 18px;
+`;
+
+let RarityColorCircle = styled.div`
+    width: 8px;
+    height: 8px;
+    left: 0px;
+    top: 5px;
+
+    background: #E0BE46;
+    border-radius: 100px;
+
+    margin-left: 12px;
+`;
+
+let RarityColorText = styled.p`
+    font-family: 'Chakra Petch';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+
+    margin-left: 6px;
+
+    color: #FFFFFF;
+`;
 
 export default function Map(props: any) {
   console.log('loading map component')
@@ -23,6 +61,26 @@ export default function Map(props: any) {
     <div id="canvas-wrapper" style={{ width: "100vw", height: "100vh", marginLeft: "300px" }}>
       <canvas id='chart-container' width="100vw" height="100vh"></canvas>
       <h4 id='map-land-label' style={{ color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none' }}></h4>
+
+      <RarityColorLegend style={{position: 'absolute', bottom: '0px', right: '0px'}}>
+        {/* <p style={{padding: '4px', marginLeft: '8px', fontFamily: 'Chakra Petch', fontSize: '14px', color: 'rgba(255, 255, 255, 0.4)' , fontWeight: 400}}>RARITY LEGEND</p> */}
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '10px'}}>
+          <RarityColorCircle style={{background: pointColors[1]}}/>
+          <RarityColorText>0-1%</RarityColorText>
+
+          <RarityColorCircle style={{background: pointColors[2]}}/>
+          <RarityColorText>1-10%</RarityColorText>
+
+          <RarityColorCircle style={{background: pointColors[3]}}/>
+          <RarityColorText>10-25%</RarityColorText>
+
+          <RarityColorCircle style={{background: pointColors[4]}}/>
+          <RarityColorText>25-50%</RarityColorText>
+
+          <RarityColorCircle style={{background: pointColors[6]}}/>
+          <RarityColorText>50%+</RarityColorText>
+        </div>
+      </RarityColorLegend>
     </div>
   )
 }
@@ -146,7 +204,8 @@ function setupMap(createScatterplot: any) {
     sizeBy: 'valueB',
     xScale: xScale,
     yScale: yScale,
-    pointOutlineWidth: 8
+    pointOutlineWidth: 8,
+    pointSizeMouseDetection: 80
   });
 
   let camera = scatterplot.get('camera')
@@ -165,8 +224,8 @@ function setupMap(createScatterplot: any) {
   })
 
   scatterplot.subscribe('pointOver', (index: any) => {
-    if (hoveredId == data[index].A) return
-    hoveredId = data[index].A
+    // if (hoveredId == data[index].A) return
+    // hoveredId = data[index].A
 
     if (currentZoomLevel < highlightHoverZoomCutoff) {
       canvas.style["cursor"] = "pointer";
@@ -187,11 +246,11 @@ function setupMap(createScatterplot: any) {
   })
 
   scatterplot.subscribe('pointOut', (index: any) => {
-    if (data[index].A == hoveredId) {
-      hoveredId = -1
-      return
-    }
-    hoveredId = -1
+    // if (data[index].A == hoveredId) {
+    //   hoveredId = -1
+    //   return
+    // }
+    // hoveredId = -1
     canvas.style["cursor"] = "default";
     textLabel.style['visibility'] = 'hidden'
   })
@@ -207,6 +266,8 @@ function setupMap(createScatterplot: any) {
 
     if (selectedPoint == CLUB_HOUSE_ID) return
     onLandSelectedCallback(selectedPoint, infoX, infoY)
+
+    textLabel.style['visibility'] = 'hidden'
   })
 
   scatterplot.subscribe('deselect', () => {
