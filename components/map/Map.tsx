@@ -146,7 +146,8 @@ function setupMap(createScatterplot: any) {
     sizeBy: 'valueB',
     xScale: xScale,
     yScale: yScale,
-    pointOutlineWidth: 8
+    pointOutlineWidth: 8,
+    pointSizeMouseDetection: Math.max(...pointSizes)
   });
 
   let camera = scatterplot.get('camera')
