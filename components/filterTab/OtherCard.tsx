@@ -12,6 +12,7 @@ import { Spacer } from '@nextui-org/react';
 
 import {setFocusedIds} from '../map/Map';
 import EtherSymbol from '../../assets/currency/ether.svg';
+import opensea from '../../assets/opensea.svg';
 
 
 const OtherID = styled.div`
@@ -143,10 +144,10 @@ const RESOURCE_LIST = [
    - artifact
    - resource
  */
-const Icon = ({icon}: any) => {
+const Icon = ({icon, margin}: any) => {
     return (
-    <div>
-        <Image alt='' src={icon} />
+    <div style={{marginRight: margin ? 0: 10}}>
+        <Image  width='20' height='20' alt='' src={icon} />
     </div>
     );
 }
@@ -156,7 +157,7 @@ const replaceAt = (str:string, index:number, replacement:string) => {
     return str.substring(0, index) + replacement + str.substring(index + replacement.length);
 }
 
-export default function OtherCard({data}: any) {    
+export default function OtherCard({data}: any) {   
 
     const focusInMap = ()=>{
         console.log('focusing plot', data.Plot)
@@ -217,7 +218,8 @@ export default function OtherCard({data}: any) {
                 {(currentListPrice) && (
                     <div style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}>
                       <Price style={{marginRight:10}}>{currentListPrice}</Price>
-                      <Icon icon={EtherSymbol} />
+                      <Icon  margin={false} icon={EtherSymbol} />
+                      <Icon margin={true} icon={opensea} />
                     </div>
                 )}
               </div>
