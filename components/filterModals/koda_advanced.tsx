@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
+import {KODA_ADVANCED_DATA} from './koda_advanced_data';
 
 const FilterTitle = styled.div`
     font-family: 'Chakra Petch';
@@ -38,7 +39,9 @@ const Floor = styled.div`
         - category
         - tier
         - enviorment
-*/ 
+*/
+
+const sorted_koda_advanced_data = KODA_ADVANCED_DATA;
 export default function KodaAdvancedFilterModal(props: any) {    
 
     const clearFilters = () => {

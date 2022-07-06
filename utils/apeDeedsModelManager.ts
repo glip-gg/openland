@@ -7,34 +7,36 @@ export const SORTING_OPTION_PRICE_HIGH_TO_LOW = 'PRICE_HIGH_TO_LOW';
 export const SORTING_OPTIONS = [{[SORTING_OPTION_PRICE_LOW_TO_HIGH]: 'Price: Low to High'}, {[SORTING_OPTION_PRICE_HIGH_TO_LOW]: 'Price: High to Low'}]
 
 
-function addApePriceRankData(apePriceData:any){
+function addApePriceRankData(apeDeeds:any,apePriceData:any){
     console.log()
     let priceObj:any = {}
     apePriceData.map((x:any) => {
         priceObj[x['tokenId']]=x;
     })
     console.log('priceObj', priceObj)
-    gApeDeeds = gApeDeeds.map((obj, i) => {
+    apeDeeds = apeDeeds.map((obj, i) => {
         let currPriceObj = priceObj[String(obj['Plot'])];
         let currentListCurrency:any = '';
-        if(currPriceObj.currentListCurrency){
+        if(currPriceObj && currPriceObj.currentListCurrency){
             currentListCurrency = currPriceObj.currentListCurrency.name;
         }
         return {
             ...obj,
+            Plot: Number(obj['Plot']),
             currentListPrice: Number(currPriceObj.currentListPrice),
             currentListCurrency: currentListCurrency,
             rank: Number(currPriceObj.rank),
             score: Number(currPriceObj.score),
         }
-    });    
+    });
+    apeDeeds.sort((a:any,b:any) => a.Plot - b.Plot);
+    console.log('apeDeedsSorted', apeDeeds)
+    gApeDeeds = apeDeeds;
 }
 
 export function addApeDeeds(apeDeeds:any, apePriceData:any){
-    gApeDeeds = apeDeeds;
-    console.log(apePriceData)
-    addApePriceRankData(apePriceData)
-    eventBus.dispatch('ape-deeds-added', gApeDeeds)
+    addApePriceRankData(apeDeeds, apePriceData)
+    eventBus.dispatch('ape-deeds-added', gApeDeeds);
 }
 
 const EXCLUDED_RESOURCE_FILTERS = [
@@ -154,7 +156,8 @@ export function getLandData(plot:number){
 }
 
 export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
-    apeDeeds.sort((a, b) => {
+    const copy = _.cloneDeep(apeDeeds);
+    copy.sort((a, b) => {
         if(!(a.currentListPrice)){
             return 1;
         }
@@ -168,5 +171,5 @@ export function sortApeDeeds(sortingOption:string, apeDeeds:any[]){
             return(a.currentListPrice - b.currentListPrice)
         }
     })
-    return apeDeeds;
+    return copy;
 }

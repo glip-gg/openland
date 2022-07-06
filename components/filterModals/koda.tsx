@@ -42,7 +42,7 @@ const Title = styled.div`
     align-items: center;
 
     color: #FFFFFF;
-    justify-content: flex-start;
+    justify-content: center;
 `;
 
 const Subtitle = styled.div`
@@ -121,7 +121,7 @@ export default function KodaFilterModal(props: any) {
                 mainElemName="Koda"
                 title="Kodas"
                 showExclude={true}
-            >
+        >
             </ExcludeIncludeFilterCard>
           </div>
           <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
@@ -141,14 +141,24 @@ export default function KodaFilterModal(props: any) {
             >
             </ExcludeIncludeFilterCard>
           </div>
+          {/*
+              <div style={{display: 'flex', marginTop: 8, marginBottom: 8, 
+              alignItems:'center', justifyContent:'center', width: '100%'}}>
+              <button className="big-button" style={{
+              marginBottom:20,
+              background:'transparent',
+              
+              }}>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <Title>&#8595;&nbsp;&nbsp;&nbsp;&nbsp;Koda properties filters&nbsp;&nbsp;&nbsp;&nbsp;&#8595;</Title>
+              </button
+              </div>>*/}
           
-          {showAdvanced && <>
-            <FlexWrapWrapper type={'card'}>
-              {koda_chips}
-              <div style={{display: 'flex'}} onClick={() => setShowAdvanced(!showAdvanced)}>
-                <FilterCard title={'Koda Advanced filters'} active={false} />
-              </div>
-            </FlexWrapWrapper>
+          {true && <>
+            
 
 
             <Spacer y={1} />

@@ -300,9 +300,10 @@ export default function Home() {
         (async () =>{
             //TODO do not load this on mobile
             //let apeDeeds = await fetchApeDeedsData();
-            let [apeDeeds, apePriceData] = await Promise.all([
-                fetchApeDeedsData(), fetchApeDeedsPriceData()]);
-            
+            let apeDeeds = fetchApeDeedsData();
+            let apePriceData = fetchApeDeedsPriceData();
+            apeDeeds = await apeDeeds;
+            apePriceData = await apePriceData;
             //let apePriceData = await fetchPriceData();
             addApeDeeds(apeDeeds, apePriceData.data.otherdeed);
             setDataLoaded(true);
