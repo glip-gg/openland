@@ -14,6 +14,7 @@ import {
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { Popover, Whisper } from 'rsuite'
+import Script from 'next/script'
 const Drawer = dynamic(import('@mui/material/Drawer').then(mod => mod), { ssr: false }) // disable ssr
 
 
@@ -331,6 +332,19 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
 
           </Head>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-1S3Q9HHQJC"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-1S3Q9HHQJC');
+            `}
+          </Script>
 
           <Desktop>
             <Navbar showSearch={true} showFloor={true} barActive={barActive} setBarActive={setBarActive} />
