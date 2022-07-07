@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css';
 //import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 import Navbar from '../components/Navbar';
-
+import Script from 'next/script'
 import styled from 'styled-components';
 
 let FilterHeaderItem = styled.div`
@@ -63,6 +63,19 @@ export default function About() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-1S3Q9HHQJC"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-1S3Q9HHQJC');
+            `}
+          </Script>
 
             <Navbar showSearch={false} showFloor={false} />
 
