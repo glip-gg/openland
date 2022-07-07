@@ -31,17 +31,21 @@ const Floor = styled.div`
 `;
 
 /*
-    5 items to be filterd, need  getter and setter for all 5
-    Using props.xyz instead of direct names because too many params :(
-        Params:
-        - sediment_tier
-        - sediment
-        - category
-        - tier
-        - enviorment
-*/
+   5 items to be filterd, need  getter and setter for all 5
+   Using props.xyz instead of direct names because too many params :(
+   Params:
+   - sediment_tier
+   - sediment
+   - category
+   - tier
+   - enviorment
+ */
 
-const sorted_koda_advanced_data = KODA_ADVANCED_DATA;
+console.log(KODA_ADVANCED_DATA);
+const sorted_koda_advanced_data = Object.keys(KODA_ADVANCED_DATA).map(((key:any)=>{
+    KODA_ADVANCED_DATA[key].sort();
+}));
+console.log(sorted_koda_advanced_data)
 export default function KodaAdvancedFilterModal(props: any) {    
 
     const clearFilters = () => {
@@ -54,7 +58,7 @@ export default function KodaAdvancedFilterModal(props: any) {
 
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', overflow: 'hidden'}}>
-
+          
         </div>
     );
 }
