@@ -33,7 +33,7 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
               display="flex"
               direction="row"
               alignItems="center"
-              style={{ width: '100%', marginTop: 8, marginLeft:0, marginRight:32, paddingLeft:8}}
+              style={{ width: '100%', marginTop: 8, marginLeft:0, marginRight:32, paddingLeft: 8}}
           >
             <div style={{display: 'flex',
                          justifyContent: 'space-between',
