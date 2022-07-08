@@ -21,6 +21,7 @@
     "d3-svg-annotation": "^2.5.1",
     "d3fc": "^15.2.5",
     "next": "12.1.6",
+    "nextjs-google-analytics": "^1.2.1",
     "pako": "^2.0.4",
     "pub-sub-es": "^2.0.1",
     "react": "18.1.0",

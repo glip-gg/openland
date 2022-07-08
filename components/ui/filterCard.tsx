@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Spacer } from '@nextui-org/react';
 import Image from 'next/image';
+import { event } from "nextjs-google-analytics";
 
 const Card = styled.div`
     font-family: 'Chakra Petch';
@@ -82,6 +83,11 @@ export default function FilterCard(
     const cardClick = () => {
         onChange(mainElemName, title, !active);
         // TODO add funciton for property
+        event("filter_clicked", {
+            category: mainElemName,
+            label: title,
+            value: subtitle,
+          });
     };
 
     return (
