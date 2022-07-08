@@ -139,7 +139,7 @@ export default function FilterBody({filters, }: any) {
           <div style={{display: 'flex', overflowY: 'auto', height: '66vh'}}>
             <PaginatedList
                 list={cards}
-                itemsPerPage={6}
+                itemsPerPage={12}
                 loopAround={true}
                 renderList={(list) => (
                     <PaginatedListContainer>

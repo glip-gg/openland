@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Chip from '../ui/chip';;
+import { event } from "nextjs-google-analytics";
 
 import globalApeFilter from '../../utils/globalFilter';
 
@@ -13,8 +14,8 @@ export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
     const forceUpdate = useForceUpdate();
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
-        console.log('data', data);
-        console.log(val);
+        // console.log('data', data);
+        // console.log(val);
         if(active){
             if(val === 'All'){
                 globalApeFilter.addFilter(name, [...(data.filter(
@@ -35,6 +36,10 @@ export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
             setFiltersCB(name, val, active);
         }
         forceUpdate();
+        event(`chip_clicked_${mainElemName}`, {
+            category: name,
+            label: `${val}`,
+        });
     };
 
     const checkIfActive = (title:any)=>{

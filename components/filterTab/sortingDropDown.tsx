@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Dropdown } from "rsuite";
 import { SORTING_OPTIONS } from '../../utils/apeDeedsModelManager';
+import { event } from "nextjs-google-analytics";
 
 export default function SortingDropDown(props:any) {
     const [title, setTitle] = useState(Object.values(props.sortingOption)[0]);
@@ -11,6 +12,9 @@ export default function SortingDropDown(props:any) {
         setTitle(title);
         setActive(active);
         props.setSortingOption(sortingOption)
+        event("sorting_changed", {
+            category: title,
+        });
     }    
 
     return (
