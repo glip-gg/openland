@@ -11,9 +11,9 @@ export default function ModalContainer(props: any) {
 
     return (
         <div style={{
-            overflow: 'auto',
+            overflow: 'scroll',
             maxWidth: 584,
-            maxHeight: 496,
+            maxHeight: '70vh',
             display: 'flex',
             justifyContent: 'flex-start',
             flexDirection: 'column',
