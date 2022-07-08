@@ -37,7 +37,8 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
             <div style={{display: 'flex',
                          justifyContent: 'space-between',
                          minWidth: '100vw',
-                         alignItems: 'center'
+                         alignItems: 'center',
+                         paddingRight: 8
             }}>
               <div style={{display: 'flex',
                            justifyContent: 'flex-start',
