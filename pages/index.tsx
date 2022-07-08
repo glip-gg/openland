@@ -313,8 +313,8 @@ export default function Home() {
     if(!dataLoaded){
     //if(true){
         return (
-            <div style={{display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
-              <BallTriangle ariaLabel="loading-indicator" color="white" width="400" height="500" />
+            <div style={{display:'flex', width:'100%', height:'100vh', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+              {/* <BallTriangle ariaLabel="loading-indicator" color="white" width="400" height="500" /> */}
               <div className="shsimmer" style={{color:'white', fontSize: 66}}>
                 Loading!
               </div>
@@ -331,7 +331,7 @@ export default function Home() {
             />
             <link rel="icon" href="/favicon.ico" />
 
-          </Head>
+          </Head>          
 
           <Desktop>
             <Navbar showSearch={true} showFloor={true} barActive={barActive} setBarActive={setBarActive} />

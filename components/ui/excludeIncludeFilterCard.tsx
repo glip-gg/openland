@@ -48,7 +48,8 @@ export default function ExcludeIncludeFilterCard(
           <FilterCard 
               key={`${mainElemName}-include`}
               title={`${title} Only`}
-              subtitle={'4.34 (4,000)'}
+            //   subtitle={'4.34 (4,000)'}
+              subtitle={''}
               icon={image}
               onChange={(name:string, val:string|number, active:boolean)=> {
                   setFilters(name, val, active, 'include')}}
@@ -59,7 +60,8 @@ export default function ExcludeIncludeFilterCard(
               <FilterCard 
                   key={`${mainElemName}-exclude`}
                   title={`Exclude ${title}`}
-                  subtitle={'4.34 (4,000)'}
+                //   subtitle={'4.34 (4,000)'}
+                  subtitle={''}
                   icon={image}
                   onChange={(name:string, val:string|number, active:boolean)=> {
                       setFilters(name, val, active, 'exclude')}}

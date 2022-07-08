@@ -6,7 +6,6 @@ import styles from '../styles/Home.module.css';
 //import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 import Navbar from '../components/Navbar';
-
 import styled from 'styled-components';
 
 let FilterHeaderItem = styled.div`
@@ -62,7 +61,7 @@ export default function About() {
                     content="Navigate the otherside in a blazing fast experience"
                 />
                 <link rel="icon" href="/favicon.ico" />
-            </Head>
+            </Head>            
 
             <Navbar showSearch={false} showFloor={false} />
 
