@@ -47,7 +47,7 @@ export default function FloorBoxComponent(props:any){
             marginRight: 12,
             }}>
           <FloorTextSpan>
-            Floor: {floor} ETH
+            Floor: {floor}Ξ
           </FloorTextSpan>
         </FloorBoxDiv>
     );
