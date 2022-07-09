@@ -20,7 +20,7 @@ function areEqual(array1:any[], array2:any[]) {
 const NUMBER_TRAITS:string[] = [
     'Sediment Tier', 'Environment Tier',
     'Western Resource Tier', 'Eastern Resource Tier', 'Northern Resource Tier',
-    'Southern Resource Tier',  'Plot'
+    'Southern Resource Tier',  'Plot',
 ]
 
 class ApeFilter {

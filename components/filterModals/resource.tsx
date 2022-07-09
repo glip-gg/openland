@@ -149,7 +149,8 @@ export default function ResourceFilterModal(props: any) {
                 }
             }
             if(resourceTypeORFilterArr.length>0)
-                globalApeFilter.addOrFilter('Resource Types', resourceTypeORFilterArr);
+                globalApeFilter.addOrFilter(
+                    'Resource Types', resourceTypeORFilterArr);
         }
 
 

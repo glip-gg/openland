@@ -40,7 +40,7 @@ export function addApeDeeds(apeDeeds:any, apePriceData:any){
 }
 
 const EXCLUDED_RESOURCE_FILTERS = [
-    'Resource Direction', 'Resource Tier', 'Resource Type'];
+    'Resource Direction', 'Resource Tier', 'Resource Type', 'KodaProperty'];
 
 export function isIncludedByFilter(filterObj:any, gApeDeed:any){
     let isIncluded = true;
