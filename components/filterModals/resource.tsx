@@ -89,7 +89,7 @@ export default function ResourceFilterModal(props: any) {
         forceUpdate();
     };
 
-    const applyFilters=()=>{
+    const applyFilters = () => {
         for(let resourceFilter of RESOUCE_FILTER_LIST){
             globalApeFilter.clearFilter(resourceFilter, 'in');
         }
@@ -134,7 +134,6 @@ export default function ResourceFilterModal(props: any) {
 
 
         applyFilterGlobal();
-        // setShowLoader(false);
 
         event("filter_bottom_tab", {
             category: "filter",

@@ -208,7 +208,7 @@ export default function OtherCard({data}: any) {
         currentListPrice = false;
     }
         return (
-            <div className='hover' style={{display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, }} onClick={()=> {focusInMap()}}>
+            <div className='hover' style={{width: '100%', display: 'flex', flexDirection: 'column', margin: 10, borderBottom: '1px solid rgba(44, 44, 44, 1)', paddingBottom: 24, paddingLeft: 10, paddingRight: 10}} onClick={()=> {focusInMap()}}>
               
               <Image src={`https://live-nft-hosted-assets.s3.ap-south-1.amazonaws.com/otherside/land-images/${data.Plot}.jpeg`}
                      alt='https://lh3.googleusercontent.com/F1dsTzx4j5OyXxww6HUzeyuEXgrYxYf3apPNrU76321lMyISXWw8bzbqXlrdPiOv2aCprJKWJIudIiE75m-6pz-7dkdzOvoEBFiu3g=w600' width={260} height={363} />
@@ -242,10 +242,11 @@ export default function OtherCard({data}: any) {
               </div>
 
               <div style={{display: 'flex',
-                           justifyContent: 'space-between'}}>
+                           justifyContent: 'space-between', }}>
                 {numKodas > 0 && <DetailsDiv>{numKodas}x Koda</DetailsDiv>}
                 {numArtifacts > 0 && <DetailsDiv>{numArtifacts}x Artifact</DetailsDiv>}
                 {numResources > 0 && <DetailsDiv>{numResources}x Resource</DetailsDiv>}
+                {!numResources && !numArtifacts && !numKodas && <Spacer y={1} />}
               </div>
 
             </div>
