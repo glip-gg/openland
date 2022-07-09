@@ -38,7 +38,9 @@ export default function ChipList({ mainElemName, data, setFiltersCB, applyFilter
         }
         forceUpdate();
 
-        applyFilterGlobal();
+        if(applyFilters) applyFilters();
+        else applyFilterGlobal();
+
 
         event(`chip_clicked_${mainElemName}`, {
             category: name,

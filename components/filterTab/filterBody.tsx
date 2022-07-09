@@ -11,6 +11,9 @@ import globalApeFilter from '../../utils/globalFilter';
 import { sortApeDeeds, SORTING_OPTION_PRICE_LOW_TO_HIGH, SORTING_OPTIONS } from '../../utils/apeDeedsModelManager';
 import {PaginatedList} from  'react-paginated-list';
 import { setFilteredIds, setLandData } from '../map/Map';
+// import {List, AutoSizer, MultiGrid} from 'react-virtualized';
+import { FixedSizeGrid as Grid } from 'react-window';
+
 
 const FilterTitle = styled.div`
     font-family: 'Chakra Petch';
@@ -88,13 +91,33 @@ export default function FilterBody({filters, }: any) {
     const forceUpdate = useForceUpdate();
     const [cards, setCards] = useState([] as any[]);
     const sortingOption = useRef(DEFAULT_SORTING_OPTION);
-    const [lands, setLands] = useState(4500);
+    const [lands, setLands] = useState(100000);
 
     const setSortingOption = (newVal:any)=>{
         sortingOption.current = newVal;
         forceUpdate();
     }
     
+    function rowRenderer({key, // Unique key within array of rows
+    index, // Index of row within collection
+    isScrolling, // The List is currently being scrolled
+    isVisible, // This row is visible within the List (eg it is not an overscanned row)
+    style}: any) {
+        return <OtherCard key={`othercard-${key}`} data={cards[index]} />;
+            if (columnIndex === 0) {
+              return <OtherCard key={`othercard-${key}`} data={cards[rowIndex * 2]} />;
+            } else {
+              return <OtherCard key={`othercard-${key}`} data={cards[rowIndex * 2 + 1]} />;
+            }
+          }
+
+    const Cell = ({ columnIndex, rowIndex, style }: any) => (
+        <div style={style}>
+            <OtherCard key={`othercard-${columnIndex}-${rowIndex}`} data={cards[(columnIndex + rowIndex)* 2]} />
+        </div>
+    );
+    
+
     useEffect(()=>{
         eventBus.on("new-filtered-data", async (newData:any)=>{
             console.log('new-filtered-data', newData)
@@ -138,8 +161,33 @@ export default function FilterBody({filters, }: any) {
           </div>
           <Spacer />
           <ChipFilterDisplay rounded filters={filters} />
-          <div style={{display: 'flex', overflowY: 'auto', height: '66vh'}}>
-            <PaginatedList
+          <div style={{}}>
+            {/* <List
+                width={550}
+                height={1509}
+                rowCount={cards.length}
+                columnCount={2}
+                rowHeight={509}
+                columnWidth={260}
+                rowRenderer={rowRenderer}
+                // cellRenderer={rowRenderer}
+                
+                // fixedColumnCount={2}
+
+            /> */}
+
+            <Grid
+                columnCount={2}
+                columnWidth={280}
+                height={1509}
+                rowCount={cards.length}
+                rowHeight={609}
+                width={590}
+            >
+                {Cell}
+            </Grid>
+            
+            {/* <PaginatedList
                 list={cards}
                 itemsPerPage={12}
                 loopAround={true}
@@ -152,9 +200,11 @@ export default function FilterBody({filters, }: any) {
                         })}
                     </PaginatedListContainer>
                 )}
-            />
+            /> */}
           </div>
           <Spacer y={4} />
         </div>
     );
 }
+
+
