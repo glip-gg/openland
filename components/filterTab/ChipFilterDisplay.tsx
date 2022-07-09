@@ -12,6 +12,7 @@ import { clearKodaFilters } from '../filterModals/koda';
 import {clearResourceFilters} from '../filterModals/resource';
 import {clearRankFilters} from '../filterModals/rank';
 import {clearPriceFilters} from '../filterModals/price';
+import { event } from "nextjs-google-analytics";
 
 const Clear = styled.div`
     font-family: 'Chakra Petch';
@@ -112,6 +113,10 @@ export default function ChipFilterDisplay({filters}: any) {
         clearPriceFilters();
         eventBus.dispatch('filter-applied',{});
         setFilterBeingRemoved('');
+        event("filters_removed", {
+            category: "all",
+        });
+      
     }
     
     useEffect(()=>{
@@ -128,26 +133,44 @@ export default function ChipFilterDisplay({filters}: any) {
         if(item === 'landFilters'){
             console.log('sad closing land filters');
             clearLandFilters();
+            event("filters_removed", {
+                category: "land",
+            });
         }
         if(item === 'artifactFilters'){
             console.log('sad closing land filters');
             clearArtifactFilters();
+            event("filters_removed", {
+                category: "artifact",
+            });
         }
         if(item === 'kodaFilters'){
             console.log('sad closing land filters');
             clearKodaFilters();
+            event("filters_removed", {
+                category: "koda",
+            });
         }
         if(item === 'resourceFilters'){
             console.log('sad closing land filters');
             clearResourceFilters();
+            event("filters_removed", {
+                category: "resource",
+            });
         }
         if(item === 'rankFilters'){
             console.log('sad closing land filters');
             clearRankFilters();
+            event("filters_removed", {
+                category: "rank",
+            });
         }
         if(item === 'priceFilters'){
             console.log('sad closing land filters');
             clearPriceFilters();
+            event("filters_removed", {
+                category: "price",
+            });
         }
         eventBus.dispatch('filter-applied',{});
         setTimeout(()=>{
@@ -169,7 +192,8 @@ export default function ChipFilterDisplay({filters}: any) {
                 background: '#191919',
                 color: '#fff',
                 padding: '8px 26px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                paddingRight: 32
             }} size="lg"
             onClick={(ev:any)=>{console.log(ev)}}
             key={`sortingdropdown-${index}`} closable
@@ -185,7 +209,6 @@ export default function ChipFilterDisplay({filters}: any) {
           }
         </Tag> ));
               
-              console.log('chip items', chipItems);
     return (
         <div style={{display: 'flex', flexGrow: 'grow'}}>
           {chipItems}

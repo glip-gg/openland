@@ -6,6 +6,7 @@ import Image from 'next/image';
 import globalApeFilter from '../../utils/globalFilter';
 import eventBus from '../../utils/eventBus';
 import { Bars} from 'react-loader-spinner'
+import { event } from "nextjs-google-analytics";
 
 const Card = styled.div`
     font-family: 'Chakra Petch';
@@ -78,11 +79,16 @@ export default function FilterBottomTab(props: any) {
 
     const [showLoader, setShowLoader] = useState(false);
     const [showLoaderClear, setShowLoaderClear] = useState(false);
+
     const clearFilters = () => {
         setShowLoaderClear(true)
         props.clearFilters();
         eventBus.dispatch('filter-applied',{});
         setShowLoaderClear(false);
+        event("filter_bottom_tab", {
+            category: "filter",
+            label: 'clear_filter',
+        });
         
     };
 
@@ -94,27 +100,32 @@ export default function FilterBottomTab(props: any) {
         globalApeFilter.applyFilter();
         eventBus.dispatch('filter-applied',{});
         setShowLoader(false);
+
+        event("filter_bottom_tab", {
+            category: "filter",
+            label: 'apply_filter',
+        });
         
     };
 
     return (
         <Card>
-        <Title className='hover' onClick={() => clearFilters()}>
-        
-        {showLoaderClear && (<Bars height={21} />)}
-        {!showLoaderClear && (
-            <>Clear filters</>
-        )}
-        
-        </Title>
-        <Button className='hover' onClick={() => applyFilters()}>
-        <>
-        {showLoader && (<Bars height={21} />)}
-        {!showLoader && (
-            <>Apply filter</>
-        )}
-        </>
-                </Button>
+            <Title className='hover' onClick={() => clearFilters()}>
+            
+            {showLoaderClear && (<Bars height={21} />)}
+            {!showLoaderClear && (
+                <>Clear filters</>
+            )}
+            
+            </Title>
+            {props.dontShowApply && <Button className='hover' onClick={() => applyFilters()}>
+                <>
+                {showLoader && (<Bars height={21} />)}
+                {!showLoader && (
+                    <>Apply filter</>
+                )}
+                </>
+            </Button>}
         </Card>
     );
 }

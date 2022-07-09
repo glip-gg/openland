@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import FilterCard from '../ui/filterCard';
 
 import globalApeFilter from '../../utils/globalFilter';
+import { applyFilterGlobal } from '../../utils/util';
 
 
 function useForceUpdate(){
@@ -34,6 +35,7 @@ export default function FilterCardList(
             globalApeFilter.removeFilter(name, [val], 'in');
         }
         forceUpdate();
+        applyFilterGlobal();
     };
 
     const checkIfActive = (title:any)=>{

@@ -13,6 +13,8 @@ import {
 
 import globalApeFilter from '../../utils/globalFilter';
 import eventBus from '../../utils/eventBus';
+import { event } from "nextjs-google-analytics";
+import {applyFilterGlobal} from '../../utils/util';
 
 const direction_data: Array<String> = ['All', 'S', 'W', 'E', 'N'];
 const direction_chips = direction_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -149,6 +151,15 @@ export default function ResourceFilterModal(props: any) {
             if(resourceTypeORFilterArr.length>0)
                 globalApeFilter.addOrFilter('Resource Types', resourceTypeORFilterArr);
         }
+
+
+        applyFilterGlobal();
+        // setShowLoader(false);
+
+        event("filter_bottom_tab", {
+            category: "filter",
+            label: 'apply_filter',
+        });
     }
     
     
@@ -186,23 +197,20 @@ export default function ResourceFilterModal(props: any) {
 
           <FilterSectionTitle>Direction</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>
-            <ChipList data={direction_data}
-                      mainElemName="Resource Direction"
-            ></ChipList>
+            <ChipList data={direction_data} applyFilters={applyFilters} mainElemName="Resource Direction"/>
           </FlexWrapWrapper>
           <FilterSectionTitle>Tier</FilterSectionTitle>
           <FlexWrapWrapper type={'chip'}>
             <ChipList
+                applyFilters={applyFilters}
                 data={tier_data}
                 mainElemName="Resource Tier"
-            >
-              
+            >              
             </ChipList>
           </FlexWrapWrapper>
           <FilterSectionTitle>Type</FilterSectionTitle>
           <FlexWrapWrapper type={'card'}>
-            <ChipList data={filteredCards}
-                      mainElemName="Resource Type"></ChipList>
+            <ChipList applyFilters={applyFilters} data={filteredCards} mainElemName="Resource Type" />
           </FlexWrapWrapper>
           <FilterBottomTab applyFilters={applyFilters} clearFilters={clearFilters} />
         </ModalContainer>

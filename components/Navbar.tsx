@@ -1,19 +1,13 @@
 import {useState} from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import {
   Container,
-  Button,
-  Spacer,
   Text,
   Link
 } from '@nextui-org/react';
-
-import SearchIcon from '../assets/search.png'
 import {setFocusedIds} from '../components/map/Map';
 import FloorBoxComponent from './FloorBox';
-import logo from '../assets/logo.svg';
+import { event as GA } from "nextjs-google-analytics";
 
 export default function Navbar({showSearch, showFloor, setBarActive, barActive}: any) {
     const [text, setText] = useState('');
@@ -22,8 +16,13 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
         setFocusedIds([Number(text)]);
     }
 
-    const handleInputChange = (e) =>{
+    const handleInputChange = (e: any) =>{
         setText(e.target.value);
+        GA("navbar", {
+          category: "search",
+          label: "deed",
+          value: e.target.value,
+        });
     }
     
     return (
@@ -38,7 +37,8 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
             <div style={{display: 'flex',
                          justifyContent: 'space-between',
                          minWidth: '100vw',
-                         alignItems: 'center'
+                         alignItems: 'center',
+                         paddingRight: 8
             }}>
               <div style={{display: 'flex',
                            justifyContent: 'flex-start',
@@ -59,6 +59,10 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                         href="/"
                         rel="noopener noreferrer"
                         style={{color: '#fff'}}
+                        onClick={() => GA("navbar", {
+                          category: "search",
+                          label: "openland",
+                        })}
                     >
                       OpenLand
                     </Link>                
@@ -85,7 +89,7 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                          onKeyPress={event => {
                              if (event.key === 'Enter') {
                                  goToMapObj()
-                             }
+                             }                            
                          }}
                   />
                   <div className="shine-wrap">
@@ -94,8 +98,13 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                         onClick={()=>{goToMapObj()}}
                         width='20'
                         height='20'
-                        style={{width:20, height:20, zIndex:10,
-                                cursor:'pointer'}} src={'/search.png'} />
+                        style={{
+                          width:20,
+                          height:20,
+                          zIndex:10,
+                          cursor:'pointer'
+                        }}
+                        src={'/search.png'} />
                   </div>
                 </div>}
               </div>
@@ -107,6 +116,10 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{color: '#fff', marginRight: 12}}
+                    onClick={() => GA("navbar", {
+                      category: "search",
+                      label: "discord",
+                    })}
                 >
                   Discord
                 </Link>
@@ -116,6 +129,10 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{color: '#fff', marginRight: 12}}
+                    onClick={() => GA("navbar", {
+                      category: "search",
+                      label: "instagram",
+                    })}
                 >
                   Instagram
                 </Link>
@@ -133,6 +150,10 @@ export default function Navbar({showSearch, showFloor, setBarActive, barActive}:
                     href="/about"
                     rel="noopener noreferrer"
                     style={{color: '#fff', marginRight: 12}}
+                    onClick={() => GA("navbar", {
+                      category: "search",
+                      label: "about",
+                    })}
                 >
                   About
                 </Link>

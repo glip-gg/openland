@@ -261,7 +261,7 @@ export default function Home() {
         return (
             <Whisper
                 key={`filter-header-item-${index}`}
-                trigger="click"
+                trigger="hover"
                 placement={placement}
                 controlId={`control-id-${placement}`}
                 enterable
@@ -373,7 +373,7 @@ export default function Home() {
                 <div style={{background: '#000',
                              borderBottomWidth: 1,
                              display:'flex',
-                             borderColor: 'rgba(44, 44, 44, 1)',
+                             borderBottom: '1px solid rgba(44, 44, 44, 1)',
                              //    position: 'fixed',
                              //    zIndex: 12                           
                 }}>

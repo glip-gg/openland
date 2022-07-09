@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import FilterCard from '../ui/filterCard';
 
 import globalApeFilter from '../../utils/globalFilter';
+import { applyFilterGlobal } from '../../utils/util';
 
 
 function useForceUpdate(){
@@ -30,6 +31,7 @@ export default function ExcludeIncludeFilterCard(
             globalApeFilter.removeFilter(name, [1], excludeIncludeType);
         }
         forceUpdate();
+        applyFilterGlobal();
     };
 
     const checkIfActive = (title:any, exclInclType:string)=>{
