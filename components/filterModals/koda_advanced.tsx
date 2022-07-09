@@ -77,6 +77,11 @@ const KodaAdvancedItemDiv = styled.div`
   flex-direction: row;
 `
 
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+}
+
 function addKodaAdvancedFilter(
     name:string, val:string, selected:boolean){
     let currKodaAdvancedFilters = globalApeFilter.getFilterValue(
@@ -106,7 +111,6 @@ function addKodaAdvancedFilter(
 
 const DecoratedRow = (currentList:any) =>{
     //let active = (Math.random() < 0.5);
-    let active = false;
     
     const applyFilter = (index:number) => {
         let val = currentList[index].name;
@@ -116,34 +120,59 @@ const DecoratedRow = (currentList:any) =>{
         applyFilterGlobal();
     }
     
-    const gg = ({ index, style }:any) => (
-        <KodaAdvancedItemDiv
-            onClick={()=>{addKodaAdvancedFilter(
-                currentList[index].category,
-                currentList[index].name,
-                !active
-            )}}
-            className='hover border-hover'
-            active={active}
-            style={{
-                ...style, marginBottom:4, height:62,
-                paddingLeft: 16,
-                marginTop:4}}>
-            <div style={{
-                display:'flex',
-                flexDirection:'column',
-                marginLeft:10
-            }}
-            >
-                <KodaAdvancedTitle>
-                    {currentList[index].name}
-                </KodaAdvancedTitle>
-                <KodaAdvancedSubTitle>
-                    {currentList[index].category}
-                </KodaAdvancedSubTitle>
-            </div>
-        </KodaAdvancedItemDiv>
-    );
+    const gg = ({ index, style }:any) => {
+        
+        let active =  false;
+        const checkActive = () =>{
+            let active = false;
+            let currKodaAdvancedFilters = globalApeFilter.getFilterValue(
+                'KodaAdvanced', 'or'
+            );
+            for(let currKodaAdvancedFilter of currKodaAdvancedFilters as any[]){
+                if(currentList[index].category === currKodaAdvancedFilter.name){
+                    if(currKodaAdvancedFilter.valArr.includes(currentList[index].name)){
+                        active = true;
+                    }
+                    
+                }
+            }
+            return active;
+        }
+        active= checkActive();
+        const forceUpdate = useForceUpdate();
+        return (
+            <KodaAdvancedItemDiv
+                onClick={()=>{addKodaAdvancedFilter(
+                    currentList[index].category,
+                    currentList[index].name,
+                    !active
+                );
+                    forceUpdate();
+                }
+                
+                }
+                className='hover border-hover'
+                active={active}
+                style={{
+                    ...style, marginBottom:4, height:62,
+                    paddingLeft: 16,
+                    marginTop:4}}>
+                <div style={{
+                    display:'flex',
+                    flexDirection:'column',
+                    marginLeft:10
+                }}
+                >
+                    <KodaAdvancedTitle>
+                        {currentList[index].name}
+                    </KodaAdvancedTitle>
+                    <KodaAdvancedSubTitle>
+                        {currentList[index].category}
+                    </KodaAdvancedSubTitle>
+                </div>
+            </KodaAdvancedItemDiv>
+        );
+    }
     return gg;
 }
 
