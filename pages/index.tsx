@@ -261,7 +261,7 @@ export default function Home() {
         return (
             <Whisper
                 key={`filter-header-item-${index}`}
-                trigger="click"
+                trigger="hover"
                 placement={placement}
                 controlId={`control-id-${placement}`}
                 enterable
