@@ -13,6 +13,7 @@ export default function ModalContainer(props: any) {
         <div style={{
             overflow: 'scroll',
             maxWidth: 584,
+            minWidth: 200,
             maxHeight: '70vh',
             display: 'flex',
             justifyContent: 'flex-start',
@@ -22,7 +23,7 @@ export default function ModalContainer(props: any) {
             paddingTop: 0,
             paddingBottom: 75,
         }}>
-          {props.children}
+            {props.children}
         </div>
     );
 }

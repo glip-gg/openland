@@ -4,20 +4,16 @@ import { Spacer } from '@nextui-org/react';
 import ModalContainer from './ModalContainer';
 import FilterSectionTitle from '../ui/FilterSectionTitle';
 import FlexWrapWrapper from '../ui/FlexWrapWrapper';
-import Chip from '../ui/chip';
+
 import FilterCard from '../ui/filterCard';
 import FilterBottomTab from '../ui/FilterBottomTab';
 import ExcludeIncludeFilterCard from '../ui/excludeIncludeFilterCard';
-import {
-    Input, 
-} from '@nextui-org/react';
+
 import globalApeFilter from '../../utils/globalFilter';
 import eventBus from '../../utils/eventBus';
+import KodaAdvancedFilterModal from './koda_advanced';
 
-const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon', 'ID'];
-const koda_properties_chips = koda_properties_data.map((item: any, index: any) => <Chip key={`koda_properties_chips-chip-${index}`} title={item} active={false}/>);
-const koda_data: Array<any> = [{title: 'Mega koda', subtitle: '40.34Ξ (30,000)'}, {title: 'Weapon Koda', subtitle: '40.34Ξ (30,000)'}];
-const koda_chips = koda_data.map((item: any, index: any) => <FilterCard key={`koda_chips-${index}`} title={item.title} subtitle={item.subtitle} active={false}/>);
+
 
 const CardDesign = styled.div`
     display: flex;
@@ -113,70 +109,53 @@ export default function KodaFilterModal(props: any) {
 
     return (
         <ModalContainer>
+            {false && (<>
+            <FilterSectionTitle>Koda</FilterSectionTitle>
 
-          <FilterSectionTitle>Koda</FilterSectionTitle>
-
-          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-            <ExcludeIncludeFilterCard
-                mainElemName="Koda"
-                title="Kodas"
-                showExclude={true}
-        >
-            </ExcludeIncludeFilterCard>
-          </div>
-          <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-            <ExcludeIncludeFilterCard
-                mainElemName="Koda"
-                title="Mega"
-            >
-            </ExcludeIncludeFilterCard>
-            <ExcludeIncludeFilterCard
-                mainElemName="Koda"
-                title="Weapons"
-            >
-            </ExcludeIncludeFilterCard>
-            <ExcludeIncludeFilterCard
-                mainElemName="Koda"
-                title="Clothing"
-            >
-            </ExcludeIncludeFilterCard>
-          </div>
-          {/*
-              <div style={{display: 'flex', marginTop: 8, marginBottom: 8, 
-              alignItems:'center', justifyContent:'center', width: '100%'}}>
-              <button className="big-button" style={{
-              marginBottom:20,
-              background:'transparent',
-              
-              }}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <Title>&#8595;&nbsp;&nbsp;&nbsp;&nbsp;Koda properties filters&nbsp;&nbsp;&nbsp;&nbsp;&#8595;</Title>
-              </button
-              </div>>*/}
-          
-          {true && <>
-            
-
-
-            <Spacer y={1} />
-
-            <Input
-                clearable
-                contentRightStyling={false}
-                placeholder="Search"                
-            />           
-
-            <FilterSectionTitle>Type</FilterSectionTitle>
-            <FlexWrapWrapper type={'chip'}>
-              {koda_properties_chips}                
-            </FlexWrapWrapper>
-          </>
-          }
-
-          <FilterBottomTab clearFilters={clearFilters}/>
+            <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+                <ExcludeIncludeFilterCard
+                    mainElemName="Koda"
+                    title="Kodas"
+                    showExclude={true}
+                >
+                </ExcludeIncludeFilterCard>
+            </div>
+            <div style={{display: 'flex', marginTop: 8, marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+                <ExcludeIncludeFilterCard
+                    mainElemName="Koda"
+                    title="Mega"
+                >
+                </ExcludeIncludeFilterCard>
+                <ExcludeIncludeFilterCard
+                    mainElemName="Koda"
+                    title="Weapons"
+                >
+                </ExcludeIncludeFilterCard>
+                <ExcludeIncludeFilterCard
+                    mainElemName="Koda"
+                    title="Clothing"
+                >
+                </ExcludeIncludeFilterCard>
+            </div>
+            {/*
+                <div style={{display: 'flex', marginTop: 8, marginBottom: 8, 
+                alignItems:'center', justifyContent:'center', width: '100%'}}>
+                <button className="big-button" style={{
+                marginBottom:20,
+                background:'transparent',
+                
+                }}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <Title>&#8595;&nbsp;&nbsp;&nbsp;&nbsp;Koda properties filters&nbsp;&nbsp;&nbsp;&nbsp;&#8595;</Title>
+                </button
+                </div>>*/}
+                </>
+            )}
+            <KodaAdvancedFilterModal/>
+            <FilterBottomTab clearFilters={clearFilters}/>
 
 
         </ModalContainer>
