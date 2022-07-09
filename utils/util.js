@@ -1,4 +1,5 @@
-// import d3 from 'd3';
+import globalApeFilter from './globalFilter';
+import eventBus from './eventBus';
 
 export const distance = (x1, y1, x2, y2) => {
     const dx = x1 - x2,
@@ -22,3 +23,9 @@ export const distance = (x1, y1, x2, y2) => {
   
   export const iterateElements = (selector, fn) =>
     [].forEach.call(document.querySelectorAll(selector), fn);
+
+
+    export const applyFilterGlobal = () => {
+      globalApeFilter.applyFilter();
+      eventBus.dispatch('filter-applied',{});
+    }

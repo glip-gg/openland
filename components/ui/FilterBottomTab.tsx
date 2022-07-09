@@ -110,22 +110,22 @@ export default function FilterBottomTab(props: any) {
 
     return (
         <Card>
-        <Title className='hover' onClick={() => clearFilters()}>
-        
-        {showLoaderClear && (<Bars height={21} />)}
-        {!showLoaderClear && (
-            <>Clear filters</>
-        )}
-        
-        </Title>
-        <Button className='hover' onClick={() => applyFilters()}>
-        <>
-        {showLoader && (<Bars height={21} />)}
-        {!showLoader && (
-            <>Apply filter</>
-        )}
-        </>
-                </Button>
+            <Title className='hover' onClick={() => clearFilters()}>
+            
+            {showLoaderClear && (<Bars height={21} />)}
+            {!showLoaderClear && (
+                <>Clear filters</>
+            )}
+            
+            </Title>
+            {props.dontShowApply && <Button className='hover' onClick={() => applyFilters()}>
+                <>
+                {showLoader && (<Bars height={21} />)}
+                {!showLoader && (
+                    <>Apply filter</>
+                )}
+                </>
+            </Button>}
         </Card>
     );
 }

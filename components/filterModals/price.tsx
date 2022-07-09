@@ -7,8 +7,10 @@ import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import Chip from '../ui/chip';
 import Slider from '../ui/slider';
 import FilterBottomTab from '../ui/FilterBottomTab';
-
 import globalApeFilter from '../../utils/globalFilter';
+import eventBus from '../../utils/eventBus';
+import { event } from "nextjs-google-analytics";
+import { applyFilterGlobal } from '../../utils/util';
 
 const currency_data: Array<String> = ['All', 'ETH', 'wETH', 'APE'];
 const currency_chips = currency_data.map((item: any, index: any) => <Chip key={`sediment-tier-chip-${index}`} title={item} active={false}/>);
@@ -41,7 +43,7 @@ export default function PriceFilterModal(props: any) {
     const forceUpdate = useForceUpdate();
     let initValue = [0, 1000];
     let filterValue:any = globalApeFilter.getFilterValue('currentListPrice', 'range');
-    if(filterValue.length>0){
+    if(filterValue.length > 0){
         initValue = filterValue;
     }
     const [value, setValue] = useState(initValue);
@@ -52,13 +54,30 @@ export default function PriceFilterModal(props: any) {
         forceUpdate();
     };
 
+    const setValueWrapper = (data: any) => {
+        console.log(data, 'value chagnedssss');
+        setValue([data[0], data[1]]);
+        console.log(value);
+        applyFilter();
+    }
+
 
     
     const applyFilter = () => {
+        console.log(value[0], value[1])
+        console.log(value);
         globalApeFilter.clearFilter('currentListPrice', 'range')
         globalApeFilter.addFilter('currentListPrice', [
             Number(value[0]), Number(value[1])], 'range');
         forceUpdate();
+        
+        applyFilterGlobal();
+        
+        event("filter_bottom_tab", {
+            category: "filter",
+            label: 'apply_filter',
+        });
+        
     }
 
 
@@ -68,7 +87,7 @@ export default function PriceFilterModal(props: any) {
           <FilterSectionTitle>Price</FilterSectionTitle>
           
           <Slider start={value[0]} end={value[1]}
-                  setValue={setValue} min={0}
+                  setValue={setValue} setValueWrapper={setValueWrapper} min={0}
                   max={10000}/>
           {/*
               <FilterSectionTitle>Currency</FilterSectionTitle>
@@ -82,7 +101,7 @@ export default function PriceFilterModal(props: any) {
               </FlexWrapWrapper>
             */}
 
-          <FilterBottomTab clearFilters={clearFilters} applyFilters={applyFilter} />
+          <FilterBottomTab clearFilters={clearFilters} applyFilters={applyFilter} dontShowApply={false} />
 
 
         </ModalContainer>

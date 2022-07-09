@@ -3,6 +3,7 @@ import Chip from '../ui/chip';;
 import { event } from "nextjs-google-analytics";
 
 import globalApeFilter from '../../utils/globalFilter';
+import { applyFilterGlobal } from '../../utils/util';
 
 
 function useForceUpdate(){
@@ -10,7 +11,7 @@ function useForceUpdate(){
     return () => setValue(value => value + 1); // update the state to force render
 }
 
-export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
+export default function ChipList({ mainElemName, data, setFiltersCB, applyFilters}: any ) {
     const forceUpdate = useForceUpdate();
     
     const setFilters = (name:string, val:string|number, active:boolean) => {
@@ -36,6 +37,9 @@ export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
             setFiltersCB(name, val, active);
         }
         forceUpdate();
+
+        applyFilterGlobal();
+
         event(`chip_clicked_${mainElemName}`, {
             category: name,
             label: `${val}`,
@@ -54,12 +58,14 @@ export default function ChipList({ mainElemName, data, setFiltersCB}: any ) {
     
     const listComp = data.map((item: any, index: any) => {
         const isActive = checkIfActive(item);
-        return(       
+
+        return ( 
             <Chip key={`${mainElemName}-${index}`}
                   title={item} onChange={setFilters}
                   mainElemName={mainElemName}
-                  active={isActive} />)}
-    )
+                  active={isActive} />
+        )}
+        )
 
     return (<>{listComp}</>);
 }

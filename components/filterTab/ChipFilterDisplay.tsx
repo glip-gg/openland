@@ -192,7 +192,8 @@ export default function ChipFilterDisplay({filters}: any) {
                 background: '#191919',
                 color: '#fff',
                 padding: '8px 26px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                paddingRight: 32
             }} size="lg"
             onClick={(ev:any)=>{console.log(ev)}}
             key={`sortingdropdown-${index}`} closable
@@ -208,7 +209,6 @@ export default function ChipFilterDisplay({filters}: any) {
           }
         </Tag> ));
               
-              console.log('chip items', chipItems);
     return (
         <div style={{display: 'flex', flexGrow: 'grow'}}>
           {chipItems}
