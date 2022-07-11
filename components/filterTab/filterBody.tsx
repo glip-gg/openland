@@ -174,21 +174,6 @@ export default function FilterBody({ }: any) {
             >
                 {Cell}
             </Grid>
-            
-            {/* <PaginatedList
-                list={cards}
-                itemsPerPage={12}
-                loopAround={true}
-                renderList={(list) => (
-                    <PaginatedListContainer>
-                        {list.map((item, id) => {
-                            return (
-                                <OtherCard key={`othercard-${id}`} data={item} />
-                            );
-                        })}
-                    </PaginatedListContainer>
-                )}
-            /> */}
           </div>
           <Spacer y={4} />
         </div>

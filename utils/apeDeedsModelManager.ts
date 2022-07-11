@@ -22,8 +22,7 @@ function addApePriceRankData(apeDeeds:any,apePriceData:any){
         }
         let mega= undefined;
         if(obj.Koda && Number(obj.Koda)>= 9901){
-            mega = true
-            console.log('mega true')
+            mega = true;
         }
         return {
             ...obj,

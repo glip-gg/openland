@@ -158,7 +158,8 @@ export default function KodaFilterModal(props: any) {
                         title="Clothed Koda"
                     >
                     </ExcludeIncludeFilterCard>
-                    <AdvancedCard className='hover border-hover' onClick={()=> setShowAdvanced(true)} >
+                    <AdvancedCard className='hover border-hover'
+                                  onClick={()=> setShowAdvanced(true)} >
                         <Title style={{marginTop: 0}}>
                             Advanced Filter
                         </Title>
