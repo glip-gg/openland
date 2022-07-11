@@ -20,6 +20,11 @@ function addApePriceRankData(apeDeeds:any,apePriceData:any){
         if(currPriceObj && currPriceObj.currentListCurrency){
             currentListCurrency = currPriceObj.currentListCurrency.name;
         }
+        let mega= undefined;
+        if(obj.Koda && Number(obj.Koda)>= 9901){
+            mega = true
+            console.log('mega true')
+        }
         return {
             ...obj,
             Plot: Number(obj['Plot']),
@@ -27,6 +32,7 @@ function addApePriceRankData(apeDeeds:any,apePriceData:any){
             currentListCurrency: currentListCurrency,
             rank: Number(currPriceObj.rank),
             score: Number(currPriceObj.score),
+            Mega: mega
         }
     });
     apeDeeds.sort((a:any,b:any) => a.Plot - b.Plot);

@@ -17,7 +17,7 @@ function getOpposite(excludeIncludeType:string){
 }
 
 export default function ExcludeIncludeFilterCard(
-    { mainElemName, showExclude, image, title}: any) {    
+    { mainElemName, showExclude, image, title, eTitle}: any) {    
     const forceUpdate = useForceUpdate();
     
     
@@ -45,11 +45,12 @@ export default function ExcludeIncludeFilterCard(
 
     const isActiveInclude = checkIfActive(mainElemName, 'include');
     const isActiveExclude = checkIfActive(mainElemName, 'exclude');
+    
     return (
         <>
           <FilterCard 
               key={`${mainElemName}-include`}
-              title={`${title} Only`}
+              title={`${title}`}
             //   subtitle={'4.34 (4,000)'}
               subtitle={''}
               icon={image}
@@ -61,7 +62,7 @@ export default function ExcludeIncludeFilterCard(
           {showExclude && (
               <FilterCard 
                   key={`${mainElemName}-exclude`}
-                  title={`Exclude ${title}`}
+                  title={`${eTitle}`}
                 //   subtitle={'4.34 (4,000)'}
                   subtitle={''}
                   icon={image}

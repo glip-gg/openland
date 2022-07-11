@@ -87,7 +87,7 @@ function useForceUpdate(){
     return () => setValue(value => value + 1); // update the state to force render
 }
 
-export default function FilterBody({filters, }: any) {
+export default function FilterBody({ }: any) {
     const forceUpdate = useForceUpdate();
     const [cards, setCards] = useState([] as any[]);
     const sortingOption = useRef(DEFAULT_SORTING_OPTION);
@@ -98,18 +98,6 @@ export default function FilterBody({filters, }: any) {
         forceUpdate();
     }
     
-    function rowRenderer({key, // Unique key within array of rows
-    index, // Index of row within collection
-    isScrolling, // The List is currently being scrolled
-    isVisible, // This row is visible within the List (eg it is not an overscanned row)
-    style}: any) {
-        return <OtherCard key={`othercard-${key}`} data={cards[index]} />;
-            if (columnIndex === 0) {
-              return <OtherCard key={`othercard-${key}`} data={cards[rowIndex * 2]} />;
-            } else {
-              return <OtherCard key={`othercard-${key}`} data={cards[rowIndex * 2 + 1]} />;
-            }
-          }
 
     const Cell = ({ columnIndex, rowIndex, style }: any) => (
         <div style={style}>
@@ -160,7 +148,7 @@ export default function FilterBody({filters, }: any) {
             <SortingDropDown  sortingOption={sortingOption.current} setSortingOption={sortingOptionChanged} />
           </div>
           <Spacer />
-          <ChipFilterDisplay rounded filters={filters} />
+          <ChipFilterDisplay rounded />
           <div style={{}}>
             {/* <List
                 width={550}

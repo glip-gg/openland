@@ -157,8 +157,10 @@ const replaceAt = (str:string, index:number, replacement:string) => {
     return str.substring(0, index) + replacement + str.substring(index + replacement.length);
 }
 
-export default function OtherCard({data}: any) {   
-
+export default function OtherCard({data}: any) {
+    if(!data){
+        return (<></>);
+    }
     const focusInMap = ()=>{
         console.log('focusing plot', data.Plot)
         setFocusedIds([data.Plot]);

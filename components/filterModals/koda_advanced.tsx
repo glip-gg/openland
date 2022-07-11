@@ -13,6 +13,8 @@ import FlexWrapWrapper from '../ui/FlexWrapWrapper';
 import ChipList from '../ui/chipList';
 import globalApeFilter from '../../utils/globalFilter';
 import { applyFilterGlobal } from '../../utils/util';
+import CrossIcon from '../../assets/cross_icon.svg'
+import Image from 'next/image';
 
 const FilterTitle = styled.div`
   font-family: 'Chakra Petch';
@@ -109,6 +111,14 @@ function addKodaAdvancedFilter(
     applyFilterGlobal();
 }
 
+const Icon = ({icon, onClick}: any) => {
+    return (
+        <div style={{cursor:'pointer'}} onClick={onClick}>
+            <Image alt='' src={icon}  title="Back to Koda basic"/>
+        </div>
+    );
+}
+
 const DecoratedRow = (currentList:any) =>{
     //let active = (Math.random() < 0.5);
     
@@ -178,6 +188,7 @@ const DecoratedRow = (currentList:any) =>{
 
 const koda_properties_data: Array<String> = ['All', 'Clothing', 'Core', 'Eyes', 'Head', 'Weapon'];
 
+
 export default function KodaAdvancedFilterModal(props: any) {
     
     const name = useRef('');
@@ -189,12 +200,12 @@ export default function KodaAdvancedFilterModal(props: any) {
     const [currPropertyList, setCurrPropertyList] = useState(
         PROCESSED_KODA_DATA);
 
-    useEffect(()=>{
+    useEffect(() => {
         kodaPropertySelectionChange();
     },[]);
     
     const clearFilters = () => {
-
+        
     };
 
     const applyTextFilter = (elemList:any[]) => {
@@ -229,9 +240,20 @@ export default function KodaAdvancedFilterModal(props: any) {
     return (
         <div style={{display: 'flex',
                      justifyContent: 'flex-start',
-                     flexDirection: 'column',}}>
+                     flexDirection: 'column',
+                     marginTop:24
+        }}>
             <>
-                <Title style={{marginTop:24}}>Koda Properties</Title>
+                <div style={{display:'flex',
+                             justifyContent:'space-between',
+                             alignItems: 'center'
+                }}>
+                    <Title>
+                        Advanced Koda Properties</Title>
+                    <Icon icon={CrossIcon} onClick={()=>{
+                        console.log('set show advanced clicked');
+                        props.setShowAdvanced(false)} }/>
+                </div>
                 <Spacer y={1} />
                 
                 <Input

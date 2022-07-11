@@ -147,35 +147,36 @@ export default function ArtifactFilterModal(props: any) {
 
     return (
         <ModalContainer>
-          <FilterSectionTitle>Artifacts</FilterSectionTitle>
-          <Input
-              clearable
-              onChange={textFilter}
-              value={name}
-              contentRightStyling={false}
-              placeholder="Search"
-          />
+            <FilterSectionTitle>Artifacts</FilterSectionTitle>
+            <Input
+                clearable
+                onChange={textFilter}
+                value={name}
+                contentRightStyling={false}
+                placeholder="Search"
+            />
 
-          <div style={{
-              display: 'flex', marginTop: 8,
-              marginBottom: 8, marginLeft: -6, marginRight: -6}}>
-            <ExcludeIncludeFilterCard
-                mainElemName="Artifact"
-                title="Artifacts"
-                showExclude={true}
-            >
-            </ExcludeIncludeFilterCard>
-          </div>
-
-
-          <FlexWrapWrapper type={'card'}>
-
-            <ChipList data={filteredCards}
-                      mainElemName="Artifact"></ChipList>
-          </FlexWrapWrapper>
+            <div style={{
+                display: 'flex', marginTop: 8,
+                marginBottom: 8, marginLeft: -6, marginRight: -6}}>
+                <ExcludeIncludeFilterCard
+                    mainElemName="Artifact"
+                    title="Artifacts Only"
+                    eTitle="Exclude Artifacts"
+                    showExclude={true}
+                >
+                </ExcludeIncludeFilterCard>
+            </div>
 
 
-          <FilterBottomTab clearFilters={clearFilters} />
+            <FlexWrapWrapper type={'card'}>
+
+                <ChipList data={filteredCards}
+                          mainElemName="Artifact"></ChipList>
+            </FlexWrapWrapper>
+
+
+            <FilterBottomTab clearFilters={clearFilters} />
 
 
         </ModalContainer>

@@ -381,7 +381,7 @@ export default function Home() {
                 </div>
                 <div style={{background: 'rgba(0, 0, 0, 1)', height: '100%', overflow: 'hidden'}}>
                   <div style={{background: 'black', padding: 32, paddingRight: 0,}}>
-                    <FilterBody filters={[]} />
+                    <FilterBody />
                   </div>
                 </div>
               </div>

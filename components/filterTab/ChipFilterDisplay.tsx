@@ -32,7 +32,10 @@ const Clear = styled.div`
 
 const LAND_FILTERS = ["Sediment Tier", "Sediment", "Category", "Environment Tier", "Environment"];
 const ARTIFACT_FILTERS = ["Artifact"];
-const KODA_FILTERS = ["Koda"];
+const KODA_FILTERS = [
+    "Koda", "KodaAdvanced", "Mega",
+    "Weapon", "Clothing"
+];
 const RESOURCE_FILTERS = [
     'Eastern Resource Tier', 'Eastern Resource',
     'Northern Resource Tier', 'Northern Resource',
@@ -56,7 +59,7 @@ const DISPLAY_NAME_DICT:any = {
     priceFilters: 'Price Filters'
 };
 
-export default function ChipFilterDisplay({filters}: any) {    
+export default function ChipFilterDisplay({}: any) {    
 
     const [appliedFilters, setAppliedFilters] = useState({} as any);
     const [filterBeingRemoved, setFilterBeingRemoved] = useState('');
@@ -103,6 +106,7 @@ export default function ChipFilterDisplay({filters}: any) {
             priceFilters: priceFilters            
         });
     }
+    
     const clearAllFilters = ()=>{
         setFilterBeingRemoved('All');
         clearLandFilters();

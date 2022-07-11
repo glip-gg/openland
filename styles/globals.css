@@ -353,21 +353,22 @@ input[type=number]::-webkit-outer-spin-button {
   width: 28px;
 }
 
- .big-button {
-     position: relative;
-     display: inline-block;
-     padding: 30px 61px;
-     border-radius: 4px;
-     color: #03e9f4;
-     text-decoration: none;
-     text-transform: uppercase;
-     overflow: hidden;
-     margin: 25px;
-     font-family: "Roboto&#34;, sans-serif";
-     filter: hue-rotate(0deg);
-     border: 2px solid #d2bdff;
-     transition: all 0.1s linear;
- }
+.big-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 10px;
+    border-radius: 4px;
+    color: #03e9f4;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    font-family: "Roboto&#34;, sans-serif";
+    filter: hue-rotate(0deg);
+    border: 2px solid white;
+    transition: all 0.1s linear;
+    width: 100%;
+}
+
  .big-button:hover {
      border: 1px solid transparent;
  }
