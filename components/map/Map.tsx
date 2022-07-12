@@ -15,7 +15,7 @@ let RarityColorLegend = styled.div`
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
     border-radius: 12px;
     width: 356px;
-    height: 40px;
+    height: 60px;
     margin-right: 14px;
     margin-bottom: 18px;
 `;
@@ -63,8 +63,8 @@ export default function Map(props: any) {
       <h4 id='map-land-label' style={{ color: 'white', position: 'absolute', cursor: 'pointer', pointerEvents: 'none' }}></h4>
 
       <RarityColorLegend style={{position: 'absolute', bottom: '0px', right: '0px'}}>
-        {/* <p style={{padding: '4px', marginLeft: '8px', fontFamily: 'Chakra Petch', fontSize: '14px', color: 'rgba(255, 255, 255, 0.4)' , fontWeight: 400}}>RARITY LEGEND</p> */}
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '10px'}}>
+        <p style={{padding: '4px', marginLeft: '8px', fontFamily: 'Chakra Petch', fontSize: '14px', color: 'rgba(255, 255, 255, 0.4)' , fontWeight: 400}}>RARITY LEGEND</p>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <RarityColorCircle style={{background: pointColors[1]}}/>
           <RarityColorText>0-1%</RarityColorText>
 
