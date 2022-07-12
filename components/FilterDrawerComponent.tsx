@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import {useEffect, useCallback} from 'react';
 const Drawer = dynamic(import('@mui/material/Drawer').then(mod => mod), { ssr: false }) // disable ssr
 //import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
@@ -67,7 +68,14 @@ const FilterHeaderItemImage = ({active, imageType}) => {
 
 export default function FilterDrawerComponent(props:any){
     const classes = useStyles();
-    const [activeFilterHeaderItem, setActiveFilterHeaderItem] = useState('');
+    const [activeFilterHeaderItem,
+           setActiveFilterHeaderItem] = useState('');
+    
+    const selectFilterHeadItem = (filterType: any) => {
+        // setActiveFilterHeaderItem(filterType);
+        //TODO add other stuff to handle filter selection
+    }
+
     const [filterTypes, setFilterTypes] = useState([
         {type: 'land', label: 'Land type'},
         {type: 'artifact', label: 'Artifact'},
@@ -98,7 +106,7 @@ export default function FilterDrawerComponent(props:any){
                 )}
             >
                 <FilterHeaderItem
-                    onClick={() => selectFilterHeadItem(item.type)}
+                    //onClick={() => selectFilterHeadItem(item.type)}
                     className='hover filter-header-item'
                     active={activeFilterHeaderItem == item.type}
                     style={{minWidth: 104}}
@@ -113,6 +121,29 @@ export default function FilterDrawerComponent(props:any){
         );
     });
 
+    const [y, setY] = useState(window.scrollY);
+    
+    const handleNavigation = useCallback(
+        (e:any) => {
+            const window = e.currentTarget;
+            if (y > window.scrollY) {
+                console.log("scrolling up");
+            } else if (y < window.scrollY) {
+                console.log("scrolling down");
+            }
+            setY(window.scrollY);
+        }, [y]
+    );
+    
+    useEffect(() => {
+        setY(window.scrollY);
+        console.log('adding scroll listener');
+        window.addEventListener("scroll", handleNavigation);
+        
+        return () => {
+            window.removeEventListener("scroll", handleNavigation);
+        };
+    }, [handleNavigation]);
     
     return (
         <Drawer anchor={'left'}

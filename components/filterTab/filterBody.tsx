@@ -143,39 +143,42 @@ export default function FilterBody({ }: any) {
     
     return (
         <div style={{display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', }}>
-          <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row',}}>
-            <FilterTitle>{lands} LANDS</FilterTitle>
-            <SortingDropDown  sortingOption={sortingOption.current} setSortingOption={sortingOptionChanged} />
-          </div>
-          <Spacer />
-          <ChipFilterDisplay rounded />
-          <div style={{}}>
-            {/* <List
-                width={550}
-                height={1509}
-                rowCount={cards.length}
-                columnCount={2}
-                rowHeight={509}
-                columnWidth={260}
-                rowRenderer={rowRenderer}
-                // cellRenderer={rowRenderer}
-                
-                // fixedColumnCount={2}
+            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row',}}>
+                <FilterTitle>{lands} LANDS</FilterTitle>
+                <SortingDropDown  sortingOption={sortingOption.current} setSortingOption={sortingOptionChanged} />
+            </div>
+            <Spacer />
+            <ChipFilterDisplay rounded />
+            <div style={{}}>
+                {/* <List
+                    width={550}
+                    height={1509}
+                    rowCount={cards.length}
+                    columnCount={2}
+                    rowHeight={509}
+                    columnWidth={260}
+                    rowRenderer={rowRenderer}
+                    // cellRenderer={rowRenderer}
+                    
+                    // fixedColumnCount={2}
 
-            /> */}
+                    /> */}
 
-            <Grid
-                columnCount={2}
-                columnWidth={280}
-                height={1509}
-                rowCount={cards.length}
-                rowHeight={609}
-                width={590}
-            >
-                {Cell}
-            </Grid>
-          </div>
-          <Spacer y={4} />
+                <Grid
+                    columnCount={2}
+                    columnWidth={280}
+                    height={1509}
+                    rowCount={cards.length}
+                    rowHeight={609}
+                    width={590}
+                    onScroll={(a:any) => {
+                        console.log(a);
+                    }}
+                >
+                    {Cell}
+                </Grid>
+            </div>
+            <Spacer y={4} />
         </div>
     );
 }

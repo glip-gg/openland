@@ -162,7 +162,6 @@ export default function OtherCard({data}: any) {
         return (<></>);
     }
     const focusInMap = ()=>{
-        console.log('focusing plot', data.Plot)
         setFocusedIds([data.Plot]);
     }
     const getRankPercentage = (rank:any)=>{
@@ -173,7 +172,6 @@ export default function OtherCard({data}: any) {
         else{
             rankPercentage = 1;
         }
-        console.log(data.Plot, rankPercentage);
         let rankPercentageString = '';
         if(rankPercentage){
             let rankStr = rankPercentage.toString();
@@ -181,7 +179,6 @@ export default function OtherCard({data}: any) {
             let res;
             if(rankStr.length >1){
                 let unitStringPos = rankStr.length-1;
-                console.log(unitStringPos, rankStr);
                 res = replaceAt(rankStr, unitStringPos, '0');
             }
             else

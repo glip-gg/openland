@@ -24,12 +24,16 @@ function addApePriceRankData(apeDeeds:any,apePriceData:any){
         if(obj.Koda && Number(obj.Koda)>= 9901){
             mega = true;
         }
+        let rank = -1;
+        if(Number(currPriceObj.rank)){
+            rank = Number(currPriceObj.rank)
+        }
         return {
             ...obj,
             Plot: Number(obj['Plot']),
             currentListPrice: Number(currPriceObj.currentListPrice),
             currentListCurrency: currentListCurrency,
-            rank: Number(currPriceObj.rank),
+            rank: rank,
             score: Number(currPriceObj.score),
             Mega: mega
         }
