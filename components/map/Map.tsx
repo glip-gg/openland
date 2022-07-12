@@ -428,7 +428,7 @@ export function setFocusedIds(ids: number[]) {
   if (selectedDataPoint == undefined) return
   onLandUnselectedCallback()
   scatterplot.set({
-    cameraDistance: 5,
+    cameraDistance: 10,
     cameraTarget: [selectedDataPoint.x, selectedDataPoint.y]
   })
   scatterplot.select(ids, {
