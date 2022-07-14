@@ -53,7 +53,7 @@ export default function RankFilterModal(props: any) {
         forceUpdate();
     };
     
-    const applyFilter = () => {
+    const applyFilter = (value:any) => {
         globalApeFilter.clearFilter('rank', 'range')
         globalApeFilter.addFilter('rank', [
             Number(value[0]), Number(value[1])], 'range');
@@ -68,10 +68,8 @@ export default function RankFilterModal(props: any) {
     }
 
     const setValueWrapper = (data: any) => {
-        console.log(data, 'value chagnedssss');
         setValue([data[0], data[1]]);
-        console.log(value);
-        applyFilter();
+        applyFilter([data[0], data[1]]);
     }
 
     return (

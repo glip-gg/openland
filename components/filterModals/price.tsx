@@ -60,8 +60,6 @@ export default function PriceFilterModal(props: any) {
         console.log(value);
         applyFilter([data[0], data[1]]);
     }
-
-
     
     const applyFilter = (value:any) => {
         console.log('vals', value[0], value[1])
