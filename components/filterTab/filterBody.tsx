@@ -171,9 +171,6 @@ export default function FilterBody({ }: any) {
                     rowCount={cards.length}
                     rowHeight={609}
                     width={590}
-                    onScroll={(a:any) => {
-                        console.log(a);
-                    }}
                 >
                     {Cell}
                 </Grid>

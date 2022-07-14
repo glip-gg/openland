@@ -58,19 +58,18 @@ export default function PriceFilterModal(props: any) {
         console.log(data, 'value chagnedssss');
         setValue([data[0], data[1]]);
         console.log(value);
-        applyFilter();
+        applyFilter([data[0], data[1]]);
     }
 
 
     
-    const applyFilter = () => {
-        console.log(value[0], value[1])
+    const applyFilter = (value:any) => {
+        console.log('vals', value[0], value[1])
         console.log(value);
         globalApeFilter.clearFilter('currentListPrice', 'range')
         globalApeFilter.addFilter('currentListPrice', [
             Number(value[0]), Number(value[1])], 'range');
         forceUpdate();
-        
         applyFilterGlobal();
         
         event("filter_bottom_tab", {
@@ -84,23 +83,11 @@ export default function PriceFilterModal(props: any) {
     return (
         <ModalContainer>
 
-          <FilterSectionTitle>Price</FilterSectionTitle>
-          
+          <FilterSectionTitle>Price</FilterSectionTitle>          
           <Slider start={value[0]} end={value[1]}
-                  setValue={setValue} setValueWrapper={setValueWrapper} min={0}
-                  max={10000}/>
-          {/*
-              <FilterSectionTitle>Currency</FilterSectionTitle>
-              <FlexWrapWrapper type={'chip'}>
-              {currency_chips}
-              </FlexWrapWrapper>
-
-              <FilterSectionTitle>Status</FilterSectionTitle>
-              <FlexWrapWrapper type={'chip'}>
-              {status_chips}
-              </FlexWrapWrapper>
-            */}
-
+                  setValue={setValue}
+                  setValueWrapper={setValueWrapper} min={0}
+                  max={500}/>
           <FilterBottomTab clearFilters={clearFilters} applyFilters={applyFilter} dontShowApply={false} />
 
 

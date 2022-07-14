@@ -29,6 +29,7 @@ export default function Slider({start, end, min, max, setValue, setValueWrapper}
                 defaultValue={[start, end]}                
                 constraint={([start, end]) => start >= min && end <= max}
                 onChangeCommitted={value => {
+                    console.log('wow value', value)
                     setValueWrapper(value);
                 }}
                 onChange={value => {
@@ -44,10 +45,10 @@ export default function Slider({start, end, min, max, setValue, setValueWrapper}
                     max={max}
                     value={start}
                     onChange={nextValue => {
-                    if (nextValue > end) {
-                        return;
-                    }
-                    setValue([nextValue, end]);
+                        if (nextValue > end) {
+                            return;
+                        }
+                        setValueWrapper([nextValue, end]);
                     }}
                 />
                 <InputGroup.Addon className='rs-theme-dark'>-</InputGroup.Addon>
@@ -57,10 +58,10 @@ export default function Slider({start, end, min, max, setValue, setValueWrapper}
                     max={max}
                     value={end}
                     onChange={nextValue => {
-                    if (start > nextValue) {
-                        return;
-                    }
-                    setValue([start, nextValue]);
+                        if (start > nextValue) {
+                            return;
+                        }
+                        setValueWrapper([start, nextValue]);
                     }}
                 />
             </InputGroup>
