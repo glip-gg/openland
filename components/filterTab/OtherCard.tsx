@@ -165,9 +165,15 @@ export default function OtherCard({data}: any) {
         setFocusedIds([data.Plot]);
     }
     const getRankPercentage = (rank:any)=>{
-        let rankPercentage = Number(rank) *100/100000;
-        if(rankPercentage>1){
-            rankPercentage = Math.floor( rankPercentage );
+
+        let rankPercentage = Number(rank)/1000;
+        console.log('rankPercentage', rankPercentage)
+
+        if(rankPercentage>1 && rankPercentage<10){
+            rankPercentage = Math.ceil( rankPercentage );
+        }
+        else if(rankPercentage>1){
+            rankPercentage = Math.ceil( rankPercentage/10 )*10;
         }
         else{
             rankPercentage = 1;
@@ -183,7 +189,12 @@ export default function OtherCard({data}: any) {
             }
             else
                 res = rankStr;
-            rankPercentageString = `Top ${res}%`
+            if(res === '100'){
+                rankPercentageString = ``
+            }
+            else{
+                rankPercentageString = `-Top ${res}%`
+            }
         }
         return rankPercentageString;         
     }
@@ -237,7 +248,7 @@ export default function OtherCard({data}: any) {
 
               <div style={{display: 'flex', justifyContent: 'flex-start',  marginBottom: 25}}>
                 <Rank>RANK</Rank>
-                <OtherRank>{data.rank}-{rankPercentageString}</OtherRank>
+                <OtherRank>{data.rank}{rankPercentageString}</OtherRank>
               </div>
 
               <div style={{display: 'flex',
