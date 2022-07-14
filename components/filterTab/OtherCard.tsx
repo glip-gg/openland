@@ -167,8 +167,6 @@ export default function OtherCard({data}: any) {
     const getRankPercentage = (rank:any)=>{
 
         let rankPercentage = Number(rank)/1000;
-        console.log('rankPercentage', rankPercentage)
-
         if(rankPercentage>1 && rankPercentage<10){
             rankPercentage = Math.ceil( rankPercentage );
         }
