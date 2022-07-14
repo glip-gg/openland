@@ -24,6 +24,7 @@ import {getLandData} from '../utils/apeDeedsModelManager';
 import { fetchApeDeedsData, fetchApeDeedsPriceData, fetchApeDeedsFloorData } from '../utils/dataFetcherHelper';
 import { addApeDeeds } from '../utils/apeDeedsModelManager';
 import logo from '../assets/logo.svg';
+import eventBus from '../utils/eventBus';
 
 
 
@@ -172,6 +173,9 @@ export default function Home() {
             setFloor(data.data.floorPrice);
         }
         getFloorPrice();
+        const landUnSelectedCB = ()=>{onLandUnselected()};
+        eventBus.on('filter-applied', landUnSelectedCB)
+        return eventBus.remove('filter-applied', landUnSelectedCB);
     }, []);
 
     const selectFilterHeadItem = (filterType: any) => {
